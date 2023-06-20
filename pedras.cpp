@@ -111,7 +111,7 @@ int main(int argc, char const *argv[])
     if (a>-1) answer.insert(a);
     
     for (const auto& element : answer) {
-        std::cout << element << endl;
+        cout << element << endl;
     }
     
     return 0;
