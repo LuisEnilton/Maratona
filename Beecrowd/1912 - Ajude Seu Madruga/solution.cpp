@@ -27,7 +27,7 @@
 #define MAXN 1010010
 #define MAXL 23
 #define endl '\n'
-
+#define EPS 0.000000001
 using namespace std;
 using namespace __gnu_pbds;
 
@@ -37,46 +37,51 @@ using namespace std;
 int N = 1, A = 1;
 vi tiras;
 
+ld calcula_area(ld altura_corte) {
+    ld area = 0;
+    for (auto tira: tiras) {
+        if (tira > altura_corte) {
+            area += tira - altura_corte;
+        }
+    }
+
+    return area;
+}
+
 
 int main() {
     optimize;
-    while (N != 0 && A != 0) {
-        cin >> N >> A;
+    while ((cin >> N >> A) && (N != 0 || A != 0)) {
         tiras.resize(N);
-        int soma = 0;
+        ll soma = 0;
         for (auto &tira: tiras) {
             cin >> tira;
             soma += tira;
+        }
+
+        if (soma < A) {
+            cout << "-.-" << endl;
+            continue;
         }
         if (soma == A) {
             cout << ":D" << endl;
             continue;
         }
+
         sort(ALL(tiras));
+        ld l = 0, r = tiras[N - 1], m;
+        while ((abs(r - l) > EPS)) {
+            m = (l + r) / 2.0;
+            ld area = calcula_area(m);
 
-        int left = 0;
-        int right = tiras[N - 1];
-        int area = 0;
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-
-            area = 0;
-            for (auto &tira: tiras) {
-                if (tira > mid)
-                    area += tira-mid;
-            }
-            if (area == A) {
-                cout << fixed << setprecision(4) << static_cast<double>(mid) << endl;
-                break;
-            } else if (area > A) {
-                left = mid + 1; // Continue searching in the right half
+            if (area >= A) {
+                l = m;
             } else {
-                right = mid - 1; // Continue searching in the left half
+                r = m;
             }
+
         }
-        if(area!=A){
-            cout<<"-.-"<<endl;
-        }
+        cout << setprecision(4) << fixed << m << endl;
     }
 
 }
