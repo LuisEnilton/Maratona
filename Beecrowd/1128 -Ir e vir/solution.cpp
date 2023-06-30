@@ -1,3 +1,6 @@
+//
+// Created by Luis on 30/06/2023.
+//
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -48,17 +51,18 @@ void busca(int origem,vector<bool> &visitados){
     fila.push(origem);
     while(!fila.empty()){
         int atual = fila.front();
-        
-        
+
         fila.pop();
-        
-        if(visitados[atual])
-            continue; //n processa o msm cara 2 vezes
-        
+
+        if(visitados[atual] == true){
+            continue; //não processa o msm cara 2 vezes
+
+        }
+
         visitados[atual] = true;
         /*
          calcula o que precisa
-        
+
         */
 
         for (auto proximo: grafo[atual])
@@ -67,26 +71,25 @@ void busca(int origem,vector<bool> &visitados){
                 fila.push(proximo);
             }
         }
-        
+
     }
 }
 
 
 bool solve(){
-    for (size_t i = 0; i < N; i++)
+    for (size_t i = 1; i <= N; i++)
     {
         vector<bool> visitados(N+1, 0);
         busca(i,visitados);
 
-        for (size_t j = 0; j < N; j++)
+        for (size_t j = 1; j <=N; j++)
         {
-            if(!visitados[j])
+            if(visitados[j] == false)
                 return false;
         }
-        
+
     }
-    
-    
+
     return true;
 }
 
@@ -95,17 +98,17 @@ bool solve(){
 int main()
 {
     while((cin >> N >> M) && (N!=0 || M!=0)){
-        
-        for(int i = 0; i < N; i++)
+
+        for(int i = 1; i <= N; i++)
             grafo[i].clear();
-        
-        
+
+
         for (size_t i = 0; i < M; i++)
         {
-            
-            
+
+
             int v, w, p;
-            
+
             cin >> v >> w >> p;
 
             if (p == 1)
@@ -121,7 +124,7 @@ int main()
         cout << solve() <<endl;
     }
 
-    
+
 
 
     return 0;
