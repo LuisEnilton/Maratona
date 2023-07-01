@@ -19,12 +19,14 @@
 #define pii pair<int, int>
 #define vi vector<int>
 #define vii vector<pii>
+#define psi pair<string,int>
+#define pis pair<int,string>
 #define os_type int
 #define PB push_back
 #define EB emplace_back
 #define MOD 1000000007
 #define PRIME 101
-#define MAXN 101010
+#define MAXN 1010100
 #define MAXL 23
 #define endl '\n'
 
@@ -45,28 +47,22 @@ using namespace std;
 
 int N, M;
 
-vector<pii > grafo[MAXN];
+map<string,vector<psi>> grafo;
 
 
-int to_int(string s) {
-    int soma = 0;
-    for (char c: s) {
-        soma += int(c);
-    }
-    return soma;
-}
 
-vector<int> dijkstra(int origem) {
+
+
+map<string,int> dijkstra(string origem) {
     //fila.top () = (distancia, vertice)
-    priority_queue<pii, vector<pii >, greater<pii>> fila;
+    priority_queue<pis, vector<pis >,greater<pis>> fila;
 
-    vector<int> distancias(MAXN, INF);
+    map<string,int> distancias;
 
     distancias[origem] = 0;
+    fila.push({0,origem});
 
-    fila.push({0, origem});
-
-    vector<bool> visitados(MAXN, 0);
+    map<string,bool> visitados;
 
     while (!fila.empty()) {
         auto [dist, atual] = fila.top();
@@ -77,11 +73,13 @@ vector<int> dijkstra(int origem) {
 
         visitados[atual] = true;
 
-        for (auto [vizinho, custo]: grafo[atual]) {
-            if (distancias[vizinho] > dist + custo) {
+        for (auto [vizinho,custo]: grafo[atual]) {
+
+
+            if ( distancias.find(vizinho) == distancias.end() ||distancias[vizinho] > dist + custo) {
                 distancias[vizinho] = dist + custo;
                 //o msm vertice pode ser inserido mais de uma vez na fila, mas como ele já foi visitado, não será processado novamente
-                fila.push({distancias[vizinho], vizinho});
+                fila.push({distancias[vizinho],vizinho,});
             }
         }
     }
@@ -92,29 +90,22 @@ vector<int> dijkstra(int origem) {
 int main(int argc, char const *argv[]) {
     optimize;
     cin >> N >> M;
-    int inicio;
-    int final;
     for (size_t i = 0; i < M; i++) {
         string u, v;
 
         cin >> u >> v;
         cin.ignore();
-        if (u == "Entrada") {
-            inicio = to_int(v);
-            continue;
-        }
-        if (v == "Saida") {
-            final = to_int(u);
-            continue;
-        }
-        grafo[to_int(u)].EB(to_int(v), 1);
-        grafo[to_int(v)].EB(to_int(u), 1);
+        grafo[u].EB(v,1);
+        grafo[v].EB(u,1);
+
     }
 
-    auto distancias_inicio = dijkstra(inicio);
-    auto distancias_queijo = dijkstra(to_int("*"));
+    map<string,int> dist = dijkstra("Entrada");
+    map<string,int> dist2 = dijkstra("*");
 
-    cout << distancias_inicio[to_int("*")] + distancias_queijo[final] + 2 << endl;
+    int ans = dist["*"] + dist2["Saida"];
+
+    cout<<ans<<endl;
 
     return 0;
 }
