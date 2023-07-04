@@ -1,12 +1,10 @@
-//
-// Created by Luis on 30/06/2023.
-//
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
 #include <string>
 #include <algorithm>
 #include <set>
+
 #define optimize                 \
     ios::sync_with_stdio(false); \
     cin.tie(NULL);               \
@@ -42,89 +40,116 @@ DFS : PILHA (stack) conectividade
 
 */
 
-vector<int> grafo[MAXN];
-int N, M;
 
-void busca(int origem,vector<bool> &visitados){
-    queue<int> fila;
 
-    fila.push(origem);
-    while(!fila.empty()){
-        int atual = fila.front();
 
-        fila.pop();
 
-        if(visitados[atual] == true){
-            continue; //não processa o msm cara 2 vezes
 
+struct Grafo {
+
+    vector<vector<pii>> grafo;
+    int N;
+
+    // construtor
+    Grafo(int N) {
+        grafo.resize(N + 1);
+
+        for (auto curr: grafo) {
+            curr.clear();
         }
+    }
 
-        visitados[atual] = true;
-        /*
-         calcula o que precisa
+    vector<bool> dfs(int origem) {
+        queue<int> fila;
+        vector<bool> visitados(N + 1, false);
+        fila.push(origem);
 
-        */
 
-        for (auto proximo: grafo[atual])
-        {
-            if(!visitados[proximo]){
-                fila.push(proximo);
+        while (!fila.empty()) {
+            int atual = fila.front();
+
+            fila.pop();
+
+            if (visitados[atual]) {
+                continue; //não processa o msm cara 2 vezes
+
             }
+
+            visitados[atual] = true;
+            /*
+             calcula o que precisa
+
+            */
+
+            for (auto proximo: grafo[atual]) {
+                if (!visitados[proximo.first]) {
+                    fila.push(proximo.first);
+                }
+            }
+
         }
+        return visitados;
+    }
+
+
+
+    void add_aresta(int origem, int destino) {
+
+            grafo[origem].EB(destino, 1);
 
     }
-}
+};
+
+int N, M;
 
 
-bool solve(){
-    for (size_t i = 1; i <= N; i++)
-    {
-        vector<bool> visitados(N+1, 0);
-        busca(i,visitados);
 
-        for (size_t j = 1; j <=N; j++)
-        {
-            if(visitados[j] == false)
-                return false;
-        }
 
+
+
+
+//Para virar dfs é só trocar a fila por uma pilha
+
+
+
+bool solve(Grafo normal , Grafo rev) {
+    vector<bool> visitados = normal.dfs(1);
+    vector<bool> visitados_rev = rev.dfs(1);
+
+
+    for (size_t j = 1; j <= N; j++) {
+        if (visitados[j] == false || visitados_rev[j] == false)
+            return false;
     }
 
     return true;
 }
 
 
-
-int main()
-{
-    while((cin >> N >> M) && (N!=0 || M!=0)){
-
-        for(int i = 1; i <= N; i++)
-            grafo[i].clear();
+int main() {
+    while ((cin >> N >> M) && (N != 0 || M != 0)) {
+        Grafo grafo(N), grafo_rev(N);
 
 
-        for (size_t i = 0; i < M; i++)
-        {
+        for (size_t i = 0; i < M; i++) {
 
 
             int v, w, p;
 
             cin >> v >> w >> p;
 
-            if (p == 1)
-            {
-                grafo[v].push_back(w);
-            }
-            else
-            {
-                grafo[v].push_back(w);
-                grafo[w].push_back(v);
+            if (p == 1) {
+                grafo.add_aresta(v,w);
+                grafo_rev.add_aresta(w,v);
+            } else {
+                grafo.add_aresta(v,w);
+                grafo_rev.add_aresta(w,v);
+                grafo.add_aresta(w,v);
+                grafo_rev.add_aresta(v,w);
             }
         }
-        cout << solve() <<endl;
+        cout << solve(grafo,grafo_rev) << endl;
     }
-
-
 
 
     return 0;

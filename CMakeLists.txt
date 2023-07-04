@@ -19,4 +19,4 @@ add_executable(Maratona
         Extens�o/proteina.cpp
         Extens�o/sequencia.cpp
         Extens�o/subseq.cpp
-        Extens�o/troco.cpp Beecrowd/2446-Troco/main.cpp "Beecrowd/1912 - Ajude Seu Madruga/solution.cpp" "Beecrowd/3424- Achando os Monótonos Não-Triviais Maximais/solution.cpp" "Neps Academy/Drone de entrega/solution.cpp")
+        Extens�o/troco.cpp Beecrowd/2446-Troco/main.cpp "Beecrowd/1912 - Ajude Seu Madruga/solution.cpp" "Beecrowd/3424- Achando os Monótonos Não-Triviais Maximais/solution.cpp" "Neps Academy/Drone de entrega/solution.cpp" "Neps Academy/Toca do Saci/solution.cpp" "Neps Academy/Gincana/solution.cpp" "Beecrowd/1907 - Coloração de Cenários de Jogos/solution.cpp")
