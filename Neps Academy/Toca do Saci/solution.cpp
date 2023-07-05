@@ -27,7 +27,7 @@
 #define EB emplace_back
 #define MOD 1000000007
 #define PRIME 101
-#define MAXN 101010
+#define MAXN 10101000
 #define MAXL 23
 #define endl '\n'
 
@@ -48,27 +48,28 @@ using namespace std;
 
 int N, M;
 
-map<int, int> grafo;
+vector<int> grafo(MAXN);
 
-vii vizinhos(int vertice) {
-    vii vizi;
-    if (vertice % N != 1) {//esquerda
-        if (grafo[vertice - 1] != 0)
-            vizi.PB({vertice - 1, 1});
+vector<int> vizinhos(int origem) {
+    vector<int> vizinhos;
+    if (origem / M != 0) {
+        if (grafo[origem - M] != 0)
+            vizinhos.emplace_back(origem - M);//cima
     }
-    if (vertice % N != 0) {//Direita
-        if (grafo[vertice + 1] != 0)
-        vizi.EB(vertice + 1, 1);
+
+    if (origem % M != 1) {
+        if (grafo[origem - 1] != 0)
+            vizinhos.EB(origem - 1);//esquerda
     }
-    if (vertice - M > 0) {//Cima
-        if (grafo[vertice - N] != 0)
-        vizi.EB(vertice - M, 1);
+    if ((origem-1) / M < N - 1) {
+        if (grafo[origem + M] != 0)
+            vizinhos.emplace_back(origem + M);//baixo
     }
-    if (vertice + M < (M * N)  ) {
-        if (grafo[vertice + M] != 0)
-        vizi.EB(vertice + M, 1);
+    if (origem % M != 0) {
+        if (grafo[origem + 1] != 0)
+            vizinhos.EB(origem + 1);//direita
     }
-    return vizi;
+    return vizinhos;
 }
 
 
@@ -76,13 +77,13 @@ vector<int> dijkstra(int origem) {
     //fila.top () = (distancia, vertice)
     priority_queue<pii, vector<pii >, greater<pii>> fila;
 
-    vector<int> distancias(N *M +1, INF);
+    vector<int> distancias(N * M + 10, INF);
 
     distancias[origem] = 0;
 
     fila.push({0, origem});
 
-    vector<bool> visitados(N + M +1, false);
+    vector<bool> visitados(N * M + 10, false);
 
     while (!fila.empty()) {
         auto [dist, atual] = fila.top();
@@ -93,10 +94,10 @@ vector<int> dijkstra(int origem) {
 
         visitados[atual] = true;
 
-        for (auto [vizinho, custo]: vizinhos(atual)) {
-            if (distancias[vizinho] > dist + custo) {
+        for (auto vizinho: vizinhos(atual)) {
+            if (distancias[vizinho] > dist + 1) {
 
-                distancias[vizinho] = dist + custo;
+                distancias[vizinho] = dist + 1;
                 //o msm vertice pode ser inserido mais de uma vez na fila, mas como ele já foi visitado, não será processado novamente
                 fila.push({distancias[vizinho], vizinho});
             }
@@ -122,7 +123,7 @@ int main(int argc, char const *argv[]) {
 
     auto distancias = dijkstra(inicio);
 
-    cout << distancias[final] << endl;
+    cout << distancias[final]+1 << endl;
 
 
     return 0;
