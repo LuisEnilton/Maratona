@@ -27,7 +27,7 @@
 #define EB emplace_back
 #define MOD 1000000007
 #define PRIME 101
-#define MAXN 101010
+#define MAXN 110010
 #define MAXL 23
 #define endl '\n'
 
@@ -38,41 +38,41 @@ using namespace __gnu_pbds;
 using namespace std;
 int N, M;
 
-map<pii, char> pixels;
+vector<char> pixels(MAXN);
 int cont = 0;
 
-vector<pii > vizinhos(pii origem) {
-    vector<pii > vizinhos;
-    if (origem.first != 0) {
-        if (pixels[origem] == 'o')
-            vizinhos.emplace_back(origem.first - 1, origem.second);//cima
+vector<int> vizinhos(int origem) {
+    vector<int> vizinhos;
+    if (origem / M != 0) {
+        if (pixels[origem] == '.')
+            vizinhos.emplace_back(origem - M);//cima
     }
 
-    if (origem.second != 0) {
-        if (pixels[origem] == 'o')
-            vizinhos.EB(origem.first, origem.second - 1);//esquerda
+    if (origem % M != 1) {
+        if (pixels[origem] == '.')
+            vizinhos.EB(origem - 1);//esquerda
     }
-    if (origem.first != N - 1) {
-        if (pixels[origem] == 'o')
-            vizinhos.emplace_back(origem.first + 1, origem.second);//baixo
+    if (origem / M < N - 1) {
+        if (pixels[origem] == '.')
+            vizinhos.emplace_back(origem+M);//baixo
     }
-    if (origem.second != M - 1) {
-        if (pixels[origem] == 'o')
-            vizinhos.EB(origem.first, origem.second + 1);//direita
+    if (origem % M != 0) {
+        if (pixels[origem] == '.')
+            vizinhos.EB(origem + 1);//direita
     }
     return vizinhos;
 }
 
 
-void dfs(pii origem, map<pii, bool> &visitados) {
+void dfs(int origem, vector<bool> &visitados) {
     cont++;
-    queue<pii > fila;
+    queue<int> fila;
 
     fila.push(origem);
 
 
     while (!fila.empty()) {
-        pii atual = fila.front();
+        int atual = fila.front();
 
         fila.pop();
 
@@ -99,15 +99,11 @@ void dfs(pii origem, map<pii, bool> &visitados) {
 
 
 int solve() {
-    map<pii, bool> visitados;
+    vector<bool> visitados(N * M + 1, false);
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < M; j++) {
-            visitados[{i,j}] = false;
-        }
-    }for (int i = 0; i < N; i++) {
-        for (int j = 0; j < M; j++) {
-           if(visitados[{i,j}] == true) continue;
-           dfs({i,j},visitados);
+            if (visitados[M * i + j + 1] == true || pixels[M * i + j + 1] == 'o') continue;
+            dfs(M * i + j + 1, visitados);
         }
     }
 }
@@ -118,9 +114,10 @@ int main() {
         for (int j = 0; j < M; j++) {
             char s;
             cin >> s;
-            pixels[{i, j}] = s;
+            pixels[i * M + j + 1] = s;
         }
     }
+    solve();
     cout << cont << endl;
 
 
