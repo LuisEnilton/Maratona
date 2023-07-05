@@ -48,20 +48,15 @@ DFS : PILHA (stack) conectividade
 struct Grafo {
 
     vector<vector<pii>> grafo;
-    int N;
 
     // construtor
     Grafo(int N) {
         grafo.resize(N + 1);
 
-        for (auto curr: grafo) {
-            curr.clear();
-        }
     }
 
-    vector<bool> dfs(int origem) {
+    vector<bool> dfs(int origem,vector<bool> &visitados) {
         queue<int> fila;
-        vector<bool> visitados(N + 1, false);
         fila.push(origem);
 
 
@@ -113,9 +108,12 @@ int N, M;
 
 
 bool solve(Grafo normal , Grafo rev) {
-    vector<bool> visitados = normal.dfs(1);
-    vector<bool> visitados_rev = rev.dfs(1);
+    vector<bool> visitados(N+1)  ;
+    vector<bool> visitados_rev(N+1);
 
+    normal.dfs(1,visitados);
+
+    rev.dfs(1,visitados_rev);
 
     for (size_t j = 1; j <= N; j++) {
         if (visitados[j] == false || visitados_rev[j] == false)

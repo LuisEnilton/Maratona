@@ -53,12 +53,8 @@ struct Grafo
     // construtor
     Grafo(int N)
     {
-        grafo.resize(N + 10);
+        grafo.resize(N + 1);
 
-        for (auto curr : grafo)
-        {
-            curr.clear();
-        }
     }
 
     vector<int> dijkstra(int origem)
