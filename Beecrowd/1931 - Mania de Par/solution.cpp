@@ -59,7 +59,7 @@ vector<vi> dijkstra(int origem){
     vector<vi> distancias(N+1,vi(2,INF));
     //distancias[u][0]
     distancias[origem][0] = 0;
-    //A distância par começa em 0 a impar não
+    //A - Alice, Bob and Chocolate distância par começa em 0 a impar não
     fila.push({0,{0,origem}});
 
     vector<vector<bool>> visitados(N+1,vector<bool>(2,false));
