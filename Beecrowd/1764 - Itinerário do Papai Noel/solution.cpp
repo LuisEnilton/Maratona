@@ -1,27 +1,21 @@
 //
-// Created by luise on 04/07/2023.
+// Created by Luis on 06/07/2023.
 //
-//
-// Created by luise on 04/07/2023.
-//
+//By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-#include <string>
-#include <algorithm>
-#include <set>
-#define optimize                 \
-    ios::sync_with_stdio(false); \
-    cin.tie(NULL);               \
-    cout.tie(NULL)
-#define INF 100000010
+
+#define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
+#define INF 1000000010
+#define INFLL 1000000000000000010LL
 #define ALL(x) x.begin(), x.end()
 #define UNIQUE(c) (c).resize(unique(ALL(c)) - (c).begin())
-#define REP(i, a, b) for (int i = (a); i <= (b); i++)
+#define REP(i, a, b) for(int i = (a); i <= (b); i++)
 #define POS(n, x) (lower_bound(ALL(n), x) - (n).begin())
 #define ll long long
 #define ld long double
-#define pii pair<int, int>
+#define pii pair<int,int>
 #define vi vector<int>
 #define vii vector<pii>
 #define os_type int
@@ -29,37 +23,15 @@
 #define EB emplace_back
 #define MOD 1000000007
 #define PRIME 101
-#define MAXN 101010
+#define MAXN 1010101
 #define MAXL 23
+#define EPS 1e-9
 #define endl '\n'
 
 using namespace std;
 using namespace __gnu_pbds;
 
-#define ordered_set tree<os_type, null_type, less<os_type>, rb_tree_tag, tree_order_statistics_node_update>
-using namespace std;
-
-/*
-    Arvore geradora minima
-    Kruskal
-    Complexidade: O(M log N)
-    O algoritmo consiste em ordenar as arestas e ir adicionando as arestas
-    de menor peso que não formem ciclo.
-
-    Union find
-    Complexidade: O(log N)
-    O algoritmo consiste em agrupar os vertices em conjuntos disjuntos
-    e verificar se dois vertices pertencem ao mesmo conjunto.
-
-
-
-*/
-
-int N,M;
-//Lista de adjacencia
-vector<pii> grafo[MAXN];
-//Lista de arestas
-vector<pair<int,pii>> arestas;
+#define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
 struct Aresta{
     int u,v,peso;
@@ -81,17 +53,16 @@ struct Aresta{
 struct Grafo{
     vector<Aresta> arestas;
     vector<int> pai;
-    vector<int> altura;
+
     Grafo(int n){
         pai.resize(n);
         for(int i=0;i<n;i++){
             pai[i] = i;
-            altura[i] = 1;
         }
     }
 
     bool tem_ciclo(int u,int v){
-
+        //Se elas tiverem o msm pai
         return find(u) == find(v);
     }
     void addAresta(int u,int v,int peso){
@@ -101,15 +72,8 @@ struct Grafo{
     void join(int u,int v){
         u = find(u);
         v = find(v);
-        if(u == v)  return;
-        //compressão de altura
-        if(altura[u] > altura[v]){
-            swap(u,v);
-        //gruda a menor na maior
-        pai[u] = v;
 
-        if(altura[u] == altura[v]) altura[v]++;
-        }
+        pai[u] = v;
     }
 
     int find(int u){
@@ -126,7 +90,7 @@ struct Grafo{
             int peso = aresta.peso;
 
             if(!tem_ciclo(u,v)){
-                
+
                 join(u,v);
                 //adiciona a aresta na arvore
                 arvore.push_back(aresta);
@@ -134,38 +98,32 @@ struct Grafo{
 
 
         }
-    return arvore;
+        return arvore;
     }
 
 };
 
-int main(int argc, char const *argv[])
-{
+int N, M;
+
+int main(int argc, char **argv) {
     optimize;
-    while((cin>>N>>M) && (N!=0 || M!=0)){
+    while((cin >> N >> M) && (N!=0 || M!=0)){
 
-    Grafo g(N);
-
-    ll total = 0;
-
-    for(int i=0;i<M;i++){
-        int u,v,peso;
-        cin>>u>>v>>peso;
-        g.addAresta(u,v,peso);
-        total += peso;
+    Grafo rotas(N);
+    for (int i = 0; i < M; i++) {
+        int u, v, c;
+        cin >> u >> v >> c;
+        rotas.addAresta(u, v, c);
     }
 
-
-    auto mst = g.Kruskal();
-    int soma =0;
-    for(auto &aresta: mst){
-        soma+= aresta.peso;
+    auto arvore = rotas.Kruskal();
+    int soma = 0;
+    for (auto aresta: arvore) {
+        soma += aresta.peso;
+    }
+    cout << soma << endl;
     }
 
-
-        cout<<total - soma <<endl;
-
-    }
 
     return 0;
 }
