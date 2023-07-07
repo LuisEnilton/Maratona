@@ -75,7 +75,6 @@ int main(int argc, char **argv) {
             pai[v] = v;
         }
         join(u,v);
-        cout << u << " " << r << " " << v << endl;
     }
 
     set <string> pais;
