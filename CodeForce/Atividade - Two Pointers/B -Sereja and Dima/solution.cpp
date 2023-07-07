@@ -1,8 +1,7 @@
-
 //
-// Created by luise on 07/07/2023.
+// Created by Luis on 07/07/2023.
 //
-//By eduardocesb
+//Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -40,24 +39,33 @@ int main(int argc, char **argv) {
     optimize;
     cin >> N;
     vi nums(N);
-    for (auto &x: nums){
-        cin >> x;
+    for (auto &x: nums) cin >> x;
 
-    }
+    int i = 0, j = N - 1, somaS = 0, somaD = 0;
 
-    int A = 0, B = N-1, tempoA = 0, tempoB = 0;
-    while(A <= B) {
-
-        if(tempoA <= tempoB){
-            tempoA+= nums[A];
-            A++;
+    bool vez = true;
+    while (i <= j) {
+        if (vez) {
+            if (nums[i] > nums[j]) {
+                somaS += nums[i];
+                i++;
+            }else{
+                somaS += nums[j];
+                j--;
+            }
+            vez = false;
         }else{
-            tempoB += nums[B];
-            B--;
+            if (nums[i] > nums[j]) {
+                somaD += nums[i];
+                i++;
+            }else{
+                somaD += nums[j];
+                j--;
+            }
+            vez = true;
         }
-
-
     }
-    cout << A << " " << (N - A) << endl;
+
+    cout << somaS << " " <<somaD <<endl;
     return 0;
 }
