@@ -119,6 +119,7 @@ struct Grafo{
 
     vector<Aresta> Kruskal(){
         sort(ALL(arestas));
+
         vector<Aresta> arvore;
         for(auto &aresta: arestas){
             int u = aresta.u;

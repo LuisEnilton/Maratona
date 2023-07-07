@@ -1,6 +1,7 @@
 //
-// Created by Luis on 06/07/2023.
+// Created by luise on 07/07/2023.
 //
+//By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -34,50 +35,55 @@ using namespace __gnu_pbds;
 
 int N, M;
 
-int pai[MAXN];
-int tamanho[MAXN];
+map<string, string> pai;
+map<string, int> altura;
 
 
-int find(int u) {
-    if (u == pai[u]) return u;
-    return pai[u] = find(pai[u]);
-    //dp para não pesquisar o pai 2 vezes
-
+string find(string s) {
+    if (pai[s] == s) return s;
+    return  pai[s] = find(pai[s]);
 }
 
-void join(int u, int v) {
+string join(string u, string v) {
     u = find(u);
     v = find(v);
-    if(u == v)  return;
 
-    if(tamanho[u] > tamanho[v])
-        swap(u,v);
+    if (altura[u] > altura[v])
+        swap(u, v);
 
     pai[u] = v;
 
-    tamanho[v] += tamanho[u];
+    if (altura[u] == altura[v])
+        altura[v]++;
 }
 
-
-int main() {
+int main(int argc, char **argv) {
     optimize;
-    cin >> N >> M;
-    for (int i = 1; i <= N ; i++) {
-        pai[i] = i;
-        tamanho[i] = 1;
-    }
+    cin >> M >> N;
 
-    for (int i = 0; i < M; i++) {
-        int u, v;
-        cin >> u >> v;
-        join(u,v);
-    }
-    set<int> pais;
-    int cont = 0 ;
-    for (int i = N; i > 0; i--) {
-        int pai2 = find( i);
-            pais.insert(pai2);
-
+    for (int i = 0; i < N; i++) {
+        string u, r, v;
+        cin >> u >> r >> v;
+        cin.ignore();
+        if (altura.count(u) == 0){
+            altura[u] = 1;
+            pai[u] = u;
         }
-    cout<<pais.size()<<endl;
+
+        if (altura.count(v) == 0){
+            altura[v] = 1;
+            pai[v] = v;
+        }
+        join(u,v);
+        cout << u << " " << r << " " << v << endl;
     }
+
+    set <string> pais;
+    for (auto ele: pai) {
+        string s = find(ele.first);
+        pais.insert(s);
+    }
+    cout << pais.size() << endl;
+
+    return 0;
+}
