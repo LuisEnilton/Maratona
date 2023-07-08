@@ -36,43 +36,50 @@ using namespace __gnu_pbds;
 int n, k;
 string s;
 
-int solve( char l) {
+int solve(char l) {
     int m = k; // numero de mudanças disponiveis
 
-    queue<int> inicio;
 
-    inicio.push(0);
+
+
 
     int beauty = 0, ans = 1;
 
-    while (!inicio.empty()) {
-        int i = inicio.front();
-        int j = i;
-        inicio.pop();
 
-        while (i < n) {
+    int j = 0, i = 0;
+    bool i_anda = false;
+//aabb
+    while (i < n && j < n) {
+        //abba
+        while (!i_anda) {
             if (j == n) break;
-
-            if (l == s[j]) {
-                beauty++;
+            if (s[j] == l) {
                 j++;
             } else {
-                if (m > 0) { // se tiver trocas ->troca e coloca o da frente na fila
-                    beauty++;
-                    j++;
-                    m--;
-                    inicio.push(j);
-                } else {
-                    inicio.push(j+1);
-                    break;
-                }
+                m--;
+                if(m == -1) break;
+                j++;
             }
         }
-        if (beauty > ans) ans = beauty;
-        beauty = 0, m = k; //resetar valores
+
+        while (i_anda) {
+            if (s[i] == l)
+                i++;
+            else{
+                m++;
+                i++;
+            }
+            if (m > 0) break;
+        }
+
+        if (!i_anda) {
+            if ((j - i) > ans) ans = (j - i);
+            m++;
+        }
+
+        i_anda = !i_anda;
     }
 
-//aabaabaa
     return ans;
 }
 
@@ -83,7 +90,7 @@ int main(int argc, char **argv) {
 
     cin >> s;
 
-    cout << max(solve('a'),solve('b'));
+    cout << max(solve('a'), solve('b'));
 
 
     return 0;
