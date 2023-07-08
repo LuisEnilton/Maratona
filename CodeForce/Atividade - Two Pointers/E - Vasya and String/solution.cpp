@@ -5,6 +5,7 @@
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
+
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -32,10 +33,58 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
+int n, k;
+string s;
 
-int main(int argc, char** argv)
-{
+int solve( char l) {
+    int m = k; // numero de mudanças disponiveis
+
+    queue<int> inicio;
+
+    inicio.push(0);
+
+    int beauty = 0, ans = 1;
+
+    while (!inicio.empty()) {
+        int i = inicio.front();
+        int j = i;
+        inicio.pop();
+
+        while (i < n) {
+            if (j == n) break;
+
+            if (l == s[j]) {
+                beauty++;
+                j++;
+            } else {
+                if (m > 0) { // se tiver trocas ->troca e coloca o da frente na fila
+                    beauty++;
+                    j++;
+                    m--;
+                    inicio.push(j);
+                } else {
+                    inicio.push(j+1);
+                    break;
+                }
+            }
+        }
+        if (beauty > ans) ans = beauty;
+        beauty = 0, m = k; //resetar valores
+    }
+
+//aabaabaa
+    return ans;
+}
+
+int main(int argc, char **argv) {
     optimize;
+    cin >> n >> k;
+
+
+    cin >> s;
+
+    cout << max(solve('a'),solve('b'));
+
 
     return 0;
 }
