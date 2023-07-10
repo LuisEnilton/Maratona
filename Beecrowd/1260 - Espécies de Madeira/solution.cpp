@@ -1,5 +1,5 @@
 //
-// Created by Luis on 08/07/2023.
+// Created by luise on 10/07/2023.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
@@ -33,64 +33,33 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-int n, k;
-string s;
-
-int solve(char l) {
-    int m = k; // numero de mudanças disponiveis
-
-
-
-
-
-    int beauty = 0, ans = 1;
-
-
-    int j = 0, i = 0;
-    bool i_anda = false;
-    while (i < n && j < n) {
-
-        while (!i_anda) {
-            if (j == n) break;
-            if (s[j] == l) {
-                j++;
-            } else {
-                m--;
-                if(m == -1) break;
-                j++;
-            }
-        }
-
-        while (i_anda) {
-            if (s[i] == l)
-                i++;
-            else{
-                m++;//restaura
-                i++;
-            }
-            if (m > 0) break; // volta a andar com o j
-        }
-
-        if (!i_anda) {
-            if ((j - i) > ans) ans = (j - i);
-            m++;
-        }
-
-        i_anda = !i_anda;
-    }
-
-    return ans;
-}
+int t;
 
 int main(int argc, char **argv) {
     optimize;
-    cin >> n >> k;
+    cin >> t;
 
+    cin.ignore();
+    string s;
+    getline(cin, s );
+    while (t--) {
+       // cout << "opa" << endl;
+        int total = 0;
+        map<string, int> arvores;
 
-    cin >> s;
-
-    cout << max(solve('a'), solve('b'));
-
+        string linha = "asd";
+        while (linha != "") {
+            getline(cin, linha);
+            if (linha == "") break;
+            if (arvores.count(linha) == 0) arvores[linha] = 1;
+            else arvores[linha]++;
+            total++;
+        }
+        for (auto arvore: arvores) {
+            cout << arvore.first << " " << setprecision(4) << fixed << 100 * (double) arvore.second / total << endl;
+        }
+        if(t > 0) cout<<""<<endl;
+    }
 
     return 0;
 }

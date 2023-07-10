@@ -1,5 +1,5 @@
 //
-// Created by Luis on 08/07/2023.
+// Created by luise on 10/07/2023.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
@@ -33,64 +33,31 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-int n, k;
-string s;
 
-int solve(char l) {
-    int m = k; // numero de mudanças disponiveis
+int n, q;
+vi nums;
+vi prefix_sum;
+vii difs;
 
-
-
-
-
-    int beauty = 0, ans = 1;
-
-
-    int j = 0, i = 0;
-    bool i_anda = false;
-    while (i < n && j < n) {
-
-        while (!i_anda) {
-            if (j == n) break;
-            if (s[j] == l) {
-                j++;
-            } else {
-                m--;
-                if(m == -1) break;
-                j++;
-            }
-        }
-
-        while (i_anda) {
-            if (s[i] == l)
-                i++;
-            else{
-                m++;//restaura
-                i++;
-            }
-            if (m > 0) break; // volta a andar com o j
-        }
-
-        if (!i_anda) {
-            if ((j - i) > ans) ans = (j - i);
-            m++;
-        }
-
-        i_anda = !i_anda;
-    }
-
-    return ans;
-}
+// {3, -30}
 
 int main(int argc, char **argv) {
     optimize;
-    cin >> n >> k;
+    cin >> n >> q;
+    nums.resize(n);
+    for(auto &x:nums) cin>>x;
+    //{3,-30}
+    while(q--){
 
+        int op,k,p;
+        cin >> op ;
+        if(op == 0){
+            cin>> k >> p;
+        }else{
+            upper_bound(nums.begin(), nums.end(),)
+            cin >> k;
+        }
 
-    cin >> s;
-
-    cout << max(solve('a'), solve('b'));
-
-
+    }
     return 0;
 }

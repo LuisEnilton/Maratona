@@ -1,11 +1,10 @@
 //
-// Created by Luis on 08/07/2023.
+// Created by luise on 10/07/2023.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -33,64 +32,23 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-int n, k;
-string s;
+int t,n,k;
+vi nums;
 
-int solve(char l) {
-    int m = k; // numero de mudanças disponiveis
-
-
-
-
-
-    int beauty = 0, ans = 1;
-
-
-    int j = 0, i = 0;
-    bool i_anda = false;
-    while (i < n && j < n) {
-
-        while (!i_anda) {
-            if (j == n) break;
-            if (s[j] == l) {
-                j++;
-            } else {
-                m--;
-                if(m == -1) break;
-                j++;
-            }
-        }
-
-        while (i_anda) {
-            if (s[i] == l)
-                i++;
-            else{
-                m++;//restaura
-                i++;
-            }
-            if (m > 0) break; // volta a andar com o j
-        }
-
-        if (!i_anda) {
-            if ((j - i) > ans) ans = (j - i);
-            m++;
-        }
-
-        i_anda = !i_anda;
-    }
-
-    return ans;
-}
-
-int main(int argc, char **argv) {
+int main(int argc, char** argv)
+{
     optimize;
-    cin >> n >> k;
+    cin >>t;
+    while(t--){
+        cin >>n>>k;
+        nums.resize(n);
+        for(auto &x : nums) cin >> x;
+    }
+    int i =0,j=0;
+    int ans = 0 , maior = 0;
+    while(i < n){
 
-
-    cin >> s;
-
-    cout << max(solve('a'), solve('b'));
-
-
+    }
+    //1 2 9 10
     return 0;
 }
