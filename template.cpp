@@ -29,10 +29,32 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-
+int n;
 int main(int argc, char** argv)
 {
     optimize;
-
+    cin >> n ;
+    cin.ignore();
+    vi ans;
+    while(n--){
+        string linha;
+        int answ =0;
+        getline(cin , linha);
+        string rev = string(linha.rbegin(),linha.rend());
+        //cout << rev << endl;
+        stack<char> pilha;
+        for(char c : rev){
+            if(c == '>')
+                pilha.push(c);
+            if(c == '<'){
+                if(!pilha.empty()){
+                    answ++;
+                    pilha.pop();
+                }
+            }
+        }
+        ans.PB(answ);
+    }
+    for(auto x : ans) cout << x << endl;
     return 0;
 }
