@@ -2,6 +2,7 @@
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
+
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -30,9 +31,38 @@ using namespace __gnu_pbds;
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
 int n;
-int main(int argc, char** argv)
-{
-    optimize;
+stack<int> nums;
 
+int main(int argc, char **argv) {
+    optimize;
+    nums.push(INF);
+    cin >> n;
+    stack<ll> pilha;
+    while (n--) {
+        string s;
+        int c;
+        cin >> s;
+        if (s == "PUSH") cin >> c;
+        cin.ignore();
+        if (s == "PUSH") {
+            pilha.push(c);
+            if(c <= nums.top()) nums.push(c);
+        }//
+        if (s == "MIN") {
+            if (pilha.empty())
+                cout << "EMPTY" << endl;
+            else
+                cout << nums.top() << endl;
+        }
+        if (s == "POP") {
+            if (pilha.empty())
+                cout << "EMPTY" << endl;
+            else {
+                if(pilha.top() == nums.top()) nums.pop();
+                pilha.pop();
+            }
+        }
+
+    }
     return 0;
 }

@@ -39,66 +39,45 @@ using namespace __gnu_pbds;
 #define ordered_set tree<os_type, null_type, less<os_type>, rb_tree_tag, tree_order_statistics_node_update>
 
 int T;
-vector<string> linhas;
 
-bool comparar_chave(char c,stack<char> prox_sair){
-    bool resp = false;
-    char prox = prox_sair.top();
-    if(c == '{' && prox == '}')
-        resp = true;
-    if(c == '[' && prox == ']')
-        resp = true;
-    if(c == '(' && prox == ')')
-        resp = true;
-    return resp;
-}
+
 
 
 
 int main(int argc, char const *argv[]) {
     optimize;
     cin >> T;
-    cin.ignore();
-    linhas.resize(T);
-    string linha;
-    for(auto &x:linhas){
-        getline(cin,linha);
-        linhas.PB(linha);
-    }
-
-    for(int i = 0;i < T ; i++){
-        stack<char> chaves;
-
-        for (auto c: linhas[i])
-            chaves.push(c);
-
-        int count_abre = 0;
-        int count_fecha = 0;
-        stack<char> prox_fechar;
-        bool ok = true;
+    stack<char> pilha;
 
 
-        while (!chaves.empty()) {
-            char ch = chaves.top();
-            if (ch == '{' || ch == '[' || ch == '(') {
-                count_abre++;
-                if (!comparar_chave(ch,prox_fechar) || prox_fechar.size() == 0) {
-                    ok = false;
-                } else
-                    prox_fechar.pop();
-            } else {
-                count_fecha++;
-                prox_fechar.push(ch);
+    for(int i = 1;i <= T ; i++){
+        while(!pilha.empty())
+            pilha.pop();
+        string s;
+        cin >> s;
+        bool ans = true;
+        for (auto c: s){
+            if(c == '{' || c == '[' || c == '(' ){
+                pilha.push(c);
+            }else{
+
+                if(pilha.empty()){
+                    ans = false;
+                    break;
+                }
+
+                if(pilha.top() == '(' && c != ')')
+                    ans = false;
+                else if(pilha.top() == '[' && c != ']')
+                    ans = false;
+                else if(pilha.top() == '{' && c != '}')
+                    ans = false;
+                else
+                    pilha.pop();
             }
-            chaves.pop();
         }
-
-        if (count_abre != count_fecha)
-            ok = false;
-        if (ok)
-            cout << "S" << endl;
-        else
-            cout << "N" << endl;
+        if(pilha.size()> 0) ans = false;
+        cout << (ans ? "S" : "N" ) << endl;
     }
 
 
