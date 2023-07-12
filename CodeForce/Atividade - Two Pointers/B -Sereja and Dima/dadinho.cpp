@@ -1,17 +1,9 @@
-//
-// Created by Luis on 08/07/2023.
-//
-//
-// Created by Luis on 07/07/2023.
-//
-//Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
-#define INF 10000000
-#define INFLL 1000000000000000010LL
+#define INF 0x3f3f3f3f
+#define INFLL 0x3f3f3f3f3f3f3f3fLL
 #define ALL(x) x.begin(), x.end()
 #define UNIQUE(c) (c).resize(unique(ALL(c)) - (c).begin())
 #define REP(i, a, b) for(int i = (a); i <= (b); i++)
@@ -26,7 +18,7 @@
 #define EB emplace_back
 #define MOD 1000000007
 #define PRIME 101
-#define MAXN 200110
+#define MAXN 1010101
 #define MAXL 23
 #define EPS 1e-9
 #define endl '\n'
@@ -36,29 +28,36 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-int N;
-vector<ll> nums;
 
-
-int main(int argc, char **argv) {
+int main(int argc, char** argv)
+{
     optimize;
+
+    int N;
+
     cin >> N;
-    nums.resize(N);
-    for (auto &x: nums) cin >> x;
-    int i = 0, j = N - 1;
-    ll sum1 = 0, sum3 = 0,ans = 0;
-    while (i <= j) {
-        if(sum1 <= sum3){
-            sum1 += nums[i];
-            i++;
-        }else{
-            sum3 += nums[j];
-            j--;
+
+    int l = 0, r = N - 1;
+
+    vi nums(N);
+
+    for (int &x : nums) cin >> x;
+
+    int sereja = 0, dima = 0;
+
+    for (int i = 0; i < N; i++)
+    {
+        if (nums[l] > nums[r])
+        {
+            (i & 1 ? dima : sereja) += nums[l++];
         }
-        if(sum1 == sum3 && sum1 > ans)
-            ans = sum1;
+        else
+        {
+            (i & 1 ? dima : sereja) += nums[r--];
+        }
     }
-    cout << ans << endl;
+
+    cout << sereja << " " << dima << endl;
 
     return 0;
 }

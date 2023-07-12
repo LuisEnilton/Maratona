@@ -1,4 +1,4 @@
-"C:\Program Files\JetBrains\CLion 2023.1.4\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=C:/Program Files/JetBrains/CLion 2023.1.4/bin/ninja/win/x64/ninja.exe" -G Ninja -S C:\Users\Luis\Documents\codigos\Maratona -B C:\Users\Luis\Documents\codigos\Maratona\cmake-build-debug
+"C:\Program Files\JetBrains\CLion 2023.1.4\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=C:/Program Files/JetBrains/CLion 2023.1.4/bin/ninja/win/x64/ninja.exe" -G Ninja -S C:\Users\Luis\Documents\Code\Maratona -B C:\Users\Luis\Documents\Code\Maratona\cmake-build-debug
 -- Configuring done
 CMake Error at CMakeLists.txt:11 (add_executable):
   Cannot find source file:

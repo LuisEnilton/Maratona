@@ -43,12 +43,22 @@ int main(int argc, char** argv)
         cin >>n>>k;
         nums.resize(n);
         for(auto &x : nums) cin >> x;
-    }
-    int i =0,j=0;
-    int ans = 0 , maior = 0;
-    while(i < n){
 
+        multiset<int> s;
+        int ans =0;
+        for (int i = 0; i < n; i++) {
+            s.insert(nums[i]);
+
+            if(s.size() > k+2)//apaga a ponta pra poder andar
+                s.erase(s.find(nums[i-k-2]));
+
+            ans = max(ans , *s.rbegin() - *s.begin() );
+            //naquela janela a diferença entre o maior e o menor é o max possivel
+            //então compara com o atual
+
+        }
+
+        cout << ans << endl;
     }
-    //1 2 9 10
     return 0;
 }
