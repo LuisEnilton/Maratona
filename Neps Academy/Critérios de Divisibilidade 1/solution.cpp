@@ -36,10 +36,30 @@ using namespace __gnu_pbds;
 int main(int argc, char** argv)
 {
     optimize;
-    ll n;
-    cin >> n;
-    cout << "NS"[n % 2 == 0] << endl;
-    cout << "NS"[n % 3 == 0] << endl;
-    cout << "NS"[n % 5 == 0] << endl;
-    return 0;
+    string s;
+    cin >> s;
+    unsigned ll n = s.size();
+    ll sum = 0;
+    for(char c : s){
+        sum += (c -'0');
+    }
+
+    if((s[n-1] - '0') %2 == 0){
+        cout << "S" << endl;
+    }else{
+        cout << "N" << endl;
+    }
+
+    if(sum % 3 == 0){
+        cout <<"S" << endl;
+    }else{
+        cout << "N" << endl;
+    }
+
+
+    if((s[n-1] - '0') == 5 || (s[n-1] - '0') == 0){
+        cout << "S" << endl;
+    }else{
+        cout << "N" << endl;
+    }
 }
