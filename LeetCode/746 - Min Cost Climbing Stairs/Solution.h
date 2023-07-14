@@ -1,15 +1,13 @@
 //
-// Created by Luis on 12/07/2023.
+// Created by Luis on 14/07/2023.
 //
-#ifndef MARATONA_SOLUTION_H
-#define MARATONA_SOLUTION_H
-//template by
+//Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
-#define INF 0x3f3f3f3f
-#define INFLL 0x3f3f3f3f3f3f3f3fLL
+#define INF 1000000010
+#define INFLL 1000000000000000010LL
 #define ALL(x) x.begin(), x.end()
 #define UNIQUE(c) (c).resize(unique(ALL(c)) - (c).begin())
 #define REP(i, a, b) for(int i = (a); i <= (b); i++)
@@ -33,31 +31,35 @@ using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
-
+#ifndef MARATONA_SOLUTION_H
+#define MARATONA_SOLUTION_H
 
 
 class Solution {
+    int static dp [1000];
 public:
-    int rob(vector<int>& nums) {
-        // robber and no robber
-        int n = nums.size();
-        int dp[n][2]; // end with i
-        for (auto d : dp) {
-            d[0] = 0;
-            d[1] = 0;
-        }
+    Solution(){
+        memset(dp,-1,sizeof dp);
+    }
+    int solve(int d , vector<int> cost){
+        if(d > cost.size())
+            return INF;// se passou do final não é um caminho possivel
 
-        dp[0][0] = nums[0];
-        // o [1] vai guardar o maximo que eu consigo sem pegar o atual
-        for (int i = 1; i < n; i++) {
-            //se eu roubo eu pego o max sem roubar a passada e roubo essa
-            dp[i][0] = dp[i-1][1] + nums[i];
-            // seu n roubo eu escolho o max entre roubar a passada e m roubar,pq n vai ativar alarme de nenhum jeito
-            dp[i][1] = max(dp[i-1][0], dp[i-1][1]);// max entre pegar e n pegar do passado
-        }
+        if(d == cost.size())
+            return 0;
 
-        return max(dp[n-1][0], dp[n-1][1]);
+        if(dp[d] != -1)
+            return dp[d];
+
+        return dp[d] = min(cost[d] + solve(d+1,cost),cost[d] + solve(d+2,cost));
+    }
+
+    int minCostClimbingStairs(vector<int>& cost) {
+        return min(solve(0,cost),solve(1,cost));
+        //pode começar já pulando 1 por isso min
     }
 };
+
+int Solution::dp[1000];
 
 #endif //MARATONA_SOLUTION_H
