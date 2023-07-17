@@ -35,6 +35,7 @@ int main(int argc, char** argv)
 {
     optimize;
     Solution sol = *new Solution();
-    
+    vi nums{3,4,2};
+    cout << sol.deleteAndEarn(nums) << endl;
     return 0;
 }
