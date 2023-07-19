@@ -2,6 +2,7 @@
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
+
 #define optimize                 \
     ios::sync_with_stdio(false); \
     cin.tie(NULL);               \
@@ -22,7 +23,7 @@
 #define EB emplace_back
 #define MOD 1000000007
 #define PRIME 101
-#define MAXN 501
+#define MAXN 510
 #define MAXL 23
 #define EPS 1e-9
 #define endl '\n'
@@ -34,64 +35,58 @@ using namespace __gnu_pbds;
 
 int dy[] = {-1, -1, -1, 0, 0, 1, 1, 1}; // mexe na altura
 int dx[] = {-1, 0, 1, 1, -1, -1, 0, 1}; // mexe na largura
+int custo[] = {1, 2, 3, 4, 8, 7, 6, 5};
 int N, M, pi, pf, ep;
 
 
-bool check(int x, int y)
-{
-    if (x < 0 || x >= N || y < 0 || y >= M)
-    {
+bool check(int x, int y) {
+    if (x < 0 || x >= N || y < 0 || y >= M) {
         return false;
     }
     return true;
 }
 
-int maior = 0;
-int salas[MAXN][MAXN];
+ll maior = 0;
+ll salas[MAXN][MAXN];
 
-void solve(int l, int c,int ep)
-{
-    ep -= l + c + 2;
-    if(ep < 0) return;
+void solve(int l, int c, int ep) {
+    if (ep < 0) return;
+
     if (salas[l][c] == -1)
         return;
 
-    if (salas[l][c] != 0 )
-    {
+    if (salas[l][c] != 0) { // se a sala tem tesouro
 
-        if (salas[l][c] > maior )
-        {
-            maior = salas[l][c];
+        if (salas[l][c] > maior) {
+            maior = salas[l][c]; // o tesouro é maior?
         }
         salas[l][c] = -1;
         return;
     }
-    salas[l][c] = -1;
-    for (int i = 0; i < 8; i++)
-    {
+    salas[l][c] = -1; // marca como visitado
+
+
+    for (int i = 0; i < 8; i++) {
         int yy = l + dy[i];
         int xx = c + dx[i];
 
         if (check(yy, xx))
-            solve(yy, xx,ep);
+            solve(yy, xx, ep - custo[i]);
     }
-    return;
+
 }
 
 int n;
-int main(int argc, char **argv)
-{
+
+int main(int argc, char **argv) {
     optimize;
     cin >> N >> M >> pi >> pf >> ep;
-    for (size_t i = 0; i < N; i++)
-    {
-        for (size_t j = 0; j < M; j++)
-        {
+    for (size_t i = 0; i < N; i++) {
+        for (size_t j = 0; j < M; j++) {
             cin >> salas[i][j];
         }
     }
-    ep += pi+pf;
-    solve(pi-1, pf-1,ep);
+    solve(pi - 1, pf - 1, ep); // ep é a energia do panda
     cout << maior << endl;
 
     return 0;
