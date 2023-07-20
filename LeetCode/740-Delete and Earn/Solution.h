@@ -39,41 +39,39 @@ using namespace __gnu_pbds;
 
 
 
-int solve(int i, vi &numeros, vi &dp)
+int solve(int i, vi &numeros,vi &dp)
 {
-  if (i >= numeros.size())
-    return 0;
+    if (i > numeros.size()  )
+        return 0;
 
-  if (dp[i] != -1)
-    return -1;
+    if(dp[i] != -1 ) return dp[i];
 
-  int pega = numeros[i] + solve(i + 2, numeros, dp);
-  int npega = 0 + solve(i + 1, numeros, dp);
+    int pega = numeros[i] + solve(i + 2, numeros,dp);
+    int npega = 0 + solve(i + 1, numeros,dp );
 
-  return dp[i] = max(pega, npega);
+    return  dp[i] = max(pega, npega);
 }
 
 class Solution
 {
 public:
-  int deleteAndEarn(vector<int> &nums)
-  {
-    sort(ALL(nums));
-    vi numeros;
-    int anterior = -1;
-    int i = 0;
-    for(auto &x : nums){
-        if(x != anterior){
-            numeros.EB(x);
-            anterior = x;
-
-        }else{
-            numeros[numeros.size() - 1] += x;
+    int deleteAndEarn(vector<int> &nums)
+    {
+        int maior = 0,menor = INF;
+        vi numeros(MAXN);
+        //vi dp(MAXN, -1);
+        for (int n : nums)
+        {
+            if (n > maior)
+                maior = n;
+            if(n < menor)
+                menor = n;
+            numeros[n] += n;
         }
+        numeros.resize(maior);
+        vi dp(maior + 1,-1);
+        return solve(menor, numeros,dp);
     }
-    vi dp(numeros.size(),-1);
-    return solve(0 , numeros,dp);
-  }
 };
 
 #endif // MARATONA_SOLUTION_H

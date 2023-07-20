@@ -40,16 +40,8 @@ int main(int argc, char** argv)
     while((cin >> n >> d) && (n!=0 || d!=0)){
 
         cin >> num;
-        priority_queue<char,vector<char>,greater<char>> pq;
-        for(char c : num)
-            pq.push(c);
-        while(d--){
-            char top = pq.top();
-            num.erase(find(ALL(num),top));
-            pq.pop();
-        }
-        cout << num << endl;
-
+        //123
+        //
     }
     return 0;
 }
