@@ -1,5 +1,7 @@
+//
+// Created by luise on 20/07/2023.
+//
 //Template By eduardocesb
-#include "Solution.h"
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -30,12 +32,24 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-int n;
+int n,d;
 int main(int argc, char** argv)
 {
     optimize;
-    Solution sol = *new Solution();
-    vi nums{3,1};
-    cout << sol.deleteAndEarn(nums) << endl;
+    string num;
+    while((cin >> n >> d) && (n!=0 || d!=0)){
+
+        cin >> num;
+        priority_queue<char,vector<char>,greater<char>> pq;
+        for(char c : num)
+            pq.push(c);
+        while(d--){
+            char top = pq.top();
+            num.erase(find(ALL(num),top));
+            pq.pop();
+        }
+        cout << num << endl;
+
+    }
     return 0;
 }

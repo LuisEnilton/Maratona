@@ -39,16 +39,16 @@ using namespace __gnu_pbds;
 
 
 
-int solve(int i, vi &numeros, vi &dp, int maior)
+int solve(int i, vi &numeros, vi &dp)
 {
-  if (i > maior)
+  if (i >= numeros.size())
     return 0;
 
   if (dp[i] != -1)
     return -1;
 
-  int pega = numeros[i] + solve(i + 2, numeros, dp, maior);
-  int npega = 0 + solve(i + 1, numeros, dp, maior);
+  int pega = numeros[i] + solve(i + 2, numeros, dp);
+  int npega = 0 + solve(i + 1, numeros, dp);
 
   return dp[i] = max(pega, npega);
 }
@@ -58,17 +58,21 @@ class Solution
 public:
   int deleteAndEarn(vector<int> &nums)
   {
-    int maior = 0;
-    vi numeros(MAXN);
-    vi dp(MAXN, -1);
-    for (int n : nums)
-    {
-      if (n > maior)
-        maior = n;
-      numeros[n] += n;
-    }
+    sort(ALL(nums));
+    vi numeros;
+    int anterior = -1;
+    int i = 0;
+    for(auto &x : nums){
+        if(x != anterior){
+            numeros.EB(x);
+            anterior = x;
 
-    return solve(1, numeros, dp, maior);
+        }else{
+            numeros[numeros.size() - 1] += x;
+        }
+    }
+    vi dp(numeros.size(),-1);
+    return solve(0 , numeros,dp);
   }
 };
 

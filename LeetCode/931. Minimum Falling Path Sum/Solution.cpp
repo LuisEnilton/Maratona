@@ -35,7 +35,7 @@ int main(int argc, char** argv)
 {
     optimize;
     Solution sol = *new Solution();
-    vi nums{3,1};
-    cout << sol.deleteAndEarn(nums) << endl;
+    vector<vi> nums{{-19,57},{-40,-5}};
+    cout << sol.minFallingPathSum(nums) << endl;
     return 0;
 }
