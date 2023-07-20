@@ -63,7 +63,6 @@ void solve(int l, int c, int ep) {
         salas[l][c] = -1;
         return;
     }
-    salas[l][c] = -1; // marca como visitado
 
 
     for (int i = 0; i < 8; i++) {
