@@ -19,14 +19,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="37901cdb-fd62-4538-a478-2ff8d24571c9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/LeetCode/409 - Longest Palindrome/Solution.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/LeetCode/409 - Longest Palindrome/Solution.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LeetCode/455 - Assign Cookies/Solution.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LeetCode/455 - Assign Cookies/Solution.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Contest-Boca/Contest 8/G/Panda.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Contest-Boca/Contest 8/G/Panda.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Contest-Boca/Contest 8/G/dadinho.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Contest-Boca/Contest 8/G/dadinho.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/solution.exe" beforeDir="false" afterPath="$PROJECT_DIR$/solution.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/teste.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/teste.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,12 +73,7 @@
       <recent name="C:\Users\Luis\Documents\Code\Maratona\LeetCode\198 - HouseRobber" />
     </key>
   </component>
-  <component name="RunManager" selected="C/C++ File.Solution.cpp">
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="C/C++ File.Solution.cpp (1)">
     <configuration name="Lecture.cpp" type="CppFileRunConfiguration" factoryName="CppFileRunConfiguration" temporary="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Maratona" TARGET_NAME="Lecture.cpp" CONFIG_NAME="Lecture.cpp">
       <option name="sourceFile" value="Contest-Boca\Contest 8\H\Lecture.cpp" />
       <method v="2">
@@ -94,14 +86,14 @@
         <option name="com.jetbrains.cidr.cpp.runfile.CppFileBuildBeforeRunTaskProvider$BasicBuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Solution.cpp" type="CppFileRunConfiguration" factoryName="CppFileRunConfiguration" temporary="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Maratona" TARGET_NAME="Solution.cpp" CONFIG_NAME="Solution.cpp">
-      <option name="sourceFile" value="LeetCode\409 - Longest Palindrome\Solution.cpp" />
+    <configuration name="Solution.cpp (1)" type="CppFileRunConfiguration" factoryName="CppFileRunConfiguration" temporary="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Maratona" TARGET_NAME="Solution.cpp" CONFIG_NAME="Solution.cpp">
+      <option name="sourceFile" value="LeetCode\455 - Assign Cookies\Solution.cpp" />
       <method v="2">
         <option name="com.jetbrains.cidr.cpp.runfile.CppFileBuildBeforeRunTaskProvider$BasicBuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="solution.cpp (3)" type="CppFileRunConfiguration" factoryName="CppFileRunConfiguration" temporary="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Maratona" TARGET_NAME="solution.cpp" CONFIG_NAME="solution.cpp">
-      <option name="sourceFile" value="Neps Academy\Critérios de Divisibilidade 1\solution.cpp" />
+    <configuration name="Solution.cpp" type="CppFileRunConfiguration" factoryName="CppFileRunConfiguration" temporary="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Maratona" TARGET_NAME="Solution.cpp" CONFIG_NAME="Solution.cpp">
+      <option name="sourceFile" value="LeetCode\409 - Longest Palindrome\Solution.cpp" />
       <method v="2">
         <option name="com.jetbrains.cidr.cpp.runfile.CppFileBuildBeforeRunTaskProvider$BasicBuildBeforeRunTask" enabled="true" />
       </method>
@@ -114,11 +106,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="C/C++ File.Solution.cpp (1)" />
         <item itemvalue="C/C++ File.Solution.cpp" />
         <item itemvalue="C/C++ File.Panda.cpp" />
         <item itemvalue="C/C++ File.Lecture.cpp" />
         <item itemvalue="C/C++ File.teste.cpp" />
-        <item itemvalue="C/C++ File.solution.cpp (3)" />
       </list>
     </recent_temporary>
   </component>
@@ -142,7 +134,8 @@
       <workItem from="1689438711754" duration="2000" />
       <workItem from="1689439089689" duration="1000" />
       <workItem from="1689718576402" duration="6810000" />
-      <workItem from="1689805479585" duration="3122000" />
+      <workItem from="1689805479585" duration="5057000" />
+      <workItem from="1689811455953" duration="2000" />
     </task>
     <servers />
   </component>
