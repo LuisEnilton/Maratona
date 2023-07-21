@@ -1,10 +1,11 @@
 //
-// Created by Luis on 20/07/2023.
+// Created by Luis on 21/07/2023.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
+
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -32,33 +33,32 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
+int n;
+vi stones;
 
+ll dp[100100];
 
-vector<ll> get_divisores(ll N)
-{
-    vector<ll> divisores;
+ll solve(int i, int j) {
+    if (j >= stones.size()) return INF;
+    ll valor = abs(stones[j] - stones[i]);
 
-    for (ll i = 1; i * i <= N; i++)
-    {
-        if (N % i != 0) continue;
+    if (j == stones.size() - 1)
+        return valor;
+    //if(dp[i] != -1) return dp[i];
+    ll pequeno =   solve(j, j + 1);
+    ll grande =   solve(j, j + 2);
 
-        divisores.push_back(i);
-
-        if (i * i != N) // pegar o correspondente dps da raiz
-            divisores.push_back(N / i);
-    }
-    sort(ALL(divisores));
-    return divisores;
+    return dp[j] = valor + min(pequeno, grande) ;
 }
 
-int main(int argc, char** argv)
-{
+int main(int argc, char **argv) {
     optimize;
-    int n;
     cin >> n;
-    for(auto x : get_divisores(n)){
-        cout << x << " ";
-    }
-    cout << endl;
+    memset(dp,-1,sizeof dp);
+    stones.resize(n + 1);
+    for (int i = 1; i <= n; i++) cin >> stones[i];
+
+    cout <<solve(1, 1) << endl;
+
     return 0;
 }

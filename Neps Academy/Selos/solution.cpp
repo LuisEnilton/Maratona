@@ -1,5 +1,5 @@
 //
-// Created by Luis on 20/07/2023.
+// Created by Luis on 21/07/2023.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
@@ -32,33 +32,38 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
+ll q;
 
 
-vector<ll> get_divisores(ll N)
+bool crivo(ll N)
 {
-    vector<ll> divisores;
+    vector<int> eh_primo( (int) floor(sqrt(N)) + 1, 1);
 
-    for (ll i = 1; i * i <= N; i++)
+    eh_primo[0] = eh_primo[1] = 0;
+
+    int pos = 1;
+
+    for (ll i = 2; i * i <= N; i++)
     {
-        if (N % i != 0) continue;
+        if (!eh_primo[i]) continue;
 
-        divisores.push_back(i);
+        if(N % i == 0) return false;
 
-        if (i * i != N) // pegar o correspondente dps da raiz
-            divisores.push_back(N / i);
+        // i é primo
+
+        for (ll j = i * i; j <= (int) sqrt(N); j += i)
+            eh_primo[j] = 0;
     }
-    sort(ALL(divisores));
-    return divisores;
+
+    return  true;
 }
 
+ll teste = 10e10;
 int main(int argc, char** argv)
 {
     optimize;
-    int n;
-    cin >> n;
-    for(auto x : get_divisores(n)){
-        cout << x << " ";
-    }
-    cout << endl;
+    cin >> q;
+    cout <<"SN"[crivo(q)] << endl;
+
     return 0;
 }

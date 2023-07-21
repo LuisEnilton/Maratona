@@ -19,9 +19,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="37901cdb-fd62-4538-a478-2ff8d24571c9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Neps Academy/Todos os Divisores/solution.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AtCoder/Frog1/Solution.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neps Academy/Selos/solution.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neps Academy/É primo/solution.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Neps Academy/Todos os Divisores/solution.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Neps Academy/Todos os Divisores/solution.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solution.exe" beforeDir="false" afterPath="$PROJECT_DIR$/solution.exe" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,20 +76,15 @@
       <recent name="C:\Users\Luis\Documents\Code\Maratona\LeetCode\198 - HouseRobber" />
     </key>
   </component>
-  <component name="RunManager" selected="C/C++ File.solution.cpp (3)">
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Solution.cpp (1)" type="CppFileRunConfiguration" factoryName="CppFileRunConfiguration" temporary="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Maratona" TARGET_NAME="Solution.cpp" CONFIG_NAME="Solution.cpp">
-      <option name="sourceFile" value="LeetCode\63. Unique Paths II\Solution.cpp" />
+  <component name="RunManager" selected="C/C++ File.Solution.cpp">
+    <configuration name="Solution.cpp" type="CppFileRunConfiguration" factoryName="CppFileRunConfiguration" temporary="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Maratona" TARGET_NAME="Solution.cpp" CONFIG_NAME="Solution.cpp">
+      <option name="sourceFile" value="AtCoder\Frog1\Solution.cpp" />
       <method v="2">
         <option name="com.jetbrains.cidr.cpp.runfile.CppFileBuildBeforeRunTaskProvider$BasicBuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="caixas.cpp" type="CppFileRunConfiguration" factoryName="CppFileRunConfiguration" temporary="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Maratona" TARGET_NAME="caixas.cpp" CONFIG_NAME="caixas.cpp">
-      <option name="sourceFile" value="Extensão\BIT\caixas.cpp" />
+    <configuration name="solution.cpp (1)" type="CppFileRunConfiguration" factoryName="CppFileRunConfiguration" temporary="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Maratona" TARGET_NAME="solution.cpp" CONFIG_NAME="solution.cpp">
+      <option name="sourceFile" value="Neps Academy\É primo\solution.cpp" />
       <method v="2">
         <option name="com.jetbrains.cidr.cpp.runfile.CppFileBuildBeforeRunTaskProvider$BasicBuildBeforeRunTask" enabled="true" />
       </method>
@@ -103,25 +102,25 @@
       </method>
     </configuration>
     <configuration name="solution.cpp" type="CppFileRunConfiguration" factoryName="CppFileRunConfiguration" temporary="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Maratona" TARGET_NAME="solution.cpp" CONFIG_NAME="solution.cpp">
-      <option name="sourceFile" value="LeetCode\740-Delete and Earn\solution.cpp" />
+      <option name="sourceFile" value="Neps Academy\Selos\solution.cpp" />
       <method v="2">
         <option name="com.jetbrains.cidr.cpp.runfile.CppFileBuildBeforeRunTaskProvider$BasicBuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <list>
+      <item itemvalue="C/C++ File.Solution.cpp" />
+      <item itemvalue="C/C++ File.solution.cpp (1)" />
       <item itemvalue="C/C++ File.solution.cpp (3)" />
-      <item itemvalue="C/C++ File.caixas.cpp" />
       <item itemvalue="C/C++ File.solution.cpp (2)" />
-      <item itemvalue="C/C++ File.Solution.cpp (1)" />
       <item itemvalue="C/C++ File.solution.cpp" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="C/C++ File.Solution.cpp" />
+        <item itemvalue="C/C++ File.solution.cpp" />
+        <item itemvalue="C/C++ File.solution.cpp (1)" />
         <item itemvalue="C/C++ File.solution.cpp (3)" />
         <item itemvalue="C/C++ File.solution.cpp (2)" />
-        <item itemvalue="C/C++ File.caixas.cpp" />
-        <item itemvalue="C/C++ File.Solution.cpp (1)" />
-        <item itemvalue="C/C++ File.solution.cpp" />
       </list>
     </recent_temporary>
   </component>
@@ -151,7 +150,10 @@
       <workItem from="1689873125108" duration="3391000" />
       <workItem from="1689889460399" duration="4000" />
       <workItem from="1689890798207" duration="5721000" />
-      <workItem from="1689901205047" duration="28000" />
+      <workItem from="1689901205047" duration="465000" />
+      <workItem from="1689943894815" duration="5952000" />
+      <workItem from="1689953423966" duration="1067000" />
+      <workItem from="1689956034455" duration="374000" />
     </task>
     <servers />
   </component>
@@ -197,6 +199,21 @@
           <url>file://$PROJECT_DIR$/LeetCode/63. Unique Paths II/Solution.h</url>
           <line>43</line>
           <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/Neps Academy/Todos os Divisores/solution.cpp</url>
+          <line>38</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/Neps Academy/É primo/solution.cpp</url>
+          <line>48</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/AtCoder/Frog1/Solution.cpp</url>
+          <line>61</line>
+          <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
