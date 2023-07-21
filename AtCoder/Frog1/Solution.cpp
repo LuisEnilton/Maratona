@@ -38,17 +38,21 @@ vi stones;
 
 ll dp[100100];
 
-ll solve(int i, int j) {
+ll solve( int j) {
     if (j >= stones.size()) return INF;
-    ll valor = abs(stones[j] - stones[i]);
 
     if (j == stones.size() - 1)
-        return valor;
-    //if(dp[i] != -1) return dp[i];
-    ll pequeno =   solve(j, j + 1);
-    ll grande =   solve(j, j + 2);
+        return 0;
+    if(dp[j] != -1) return dp[j];
 
-    return dp[j] = valor + min(pequeno, grande) ;
+    ll pequeno = INF;
+    ll grande = INF;
+    if(j < stones.size() -1)
+         pequeno =  abs(stones[j+1] - stones[j])+  solve( j + 1);
+    if(j < stones.size() - 2)
+        grande =  abs(stones[j+2] - stones[j]) + solve( j + 2);
+
+    return dp[j] =   min(pequeno, grande) ;
 }
 
 int main(int argc, char **argv) {
@@ -58,7 +62,7 @@ int main(int argc, char **argv) {
     stones.resize(n + 1);
     for (int i = 1; i <= n; i++) cin >> stones[i];
 
-    cout <<solve(1, 1) << endl;
+    cout <<solve(1) << endl;
 
     return 0;
 }

@@ -19,12 +19,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="37901cdb-fd62-4538-a478-2ff8d24571c9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/AtCoder/Frog1/Solution.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Neps Academy/Selos/solution.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Neps Academy/É primo/solution.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Neps Academy/Todos os Divisores/solution.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Neps Academy/Todos os Divisores/solution.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AtCoder/Frog1/Solution.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/AtCoder/Frog1/Solution.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/solution.exe" beforeDir="false" afterPath="$PROJECT_DIR$/solution.exe" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -153,7 +149,9 @@
       <workItem from="1689901205047" duration="465000" />
       <workItem from="1689943894815" duration="5952000" />
       <workItem from="1689953423966" duration="1067000" />
-      <workItem from="1689956034455" duration="374000" />
+      <workItem from="1689956034455" duration="573000" />
+      <workItem from="1689977780542" duration="960000" />
+      <workItem from="1689978765233" duration="2000" />
     </task>
     <servers />
   </component>
@@ -209,11 +207,6 @@
           <url>file://$PROJECT_DIR$/Neps Academy/É primo/solution.cpp</url>
           <line>48</line>
           <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/AtCoder/Frog1/Solution.cpp</url>
-          <line>61</line>
-          <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
