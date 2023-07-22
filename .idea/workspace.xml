@@ -20,8 +20,11 @@
   <component name="ChangeListManager">
     <list default="true" id="37901cdb-fd62-4538-a478-2ff8d24571c9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< Updated upstream
       <change beforePath="$PROJECT_DIR$/AtCoder/Frog1/Solution.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/AtCoder/Frog1/Solution.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/solution.exe" beforeDir="false" afterPath="$PROJECT_DIR$/solution.exe" afterDir="false" />
+=======
+>>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,6 +147,7 @@
       <workItem from="1689859604502" duration="2734000" />
       <workItem from="1689867233301" duration="4846000" />
       <workItem from="1689873125108" duration="3391000" />
+<<<<<<< Updated upstream
       <workItem from="1689889460399" duration="4000" />
       <workItem from="1689890798207" duration="5721000" />
       <workItem from="1689901205047" duration="465000" />
@@ -152,6 +156,10 @@
       <workItem from="1689956034455" duration="573000" />
       <workItem from="1689977780542" duration="960000" />
       <workItem from="1689978765233" duration="2000" />
+=======
+      <workItem from="1689889460399" duration="133000" />
+      <workItem from="1689985022737" duration="5000" />
+>>>>>>> Stashed changes
     </task>
     <servers />
   </component>
