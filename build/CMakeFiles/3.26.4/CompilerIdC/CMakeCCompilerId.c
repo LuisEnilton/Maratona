@@ -1,12 +1,12 @@
 #ifdef __cplusplus
-# error "A C++ compiler has been selected for C."
+# error "A C - XOR++ compiler has been selected for C - XOR."
 #endif
 
 #if defined(__18CXX)
 # define ID_VOID_MAIN
 #endif
 #if defined(__CLASSIC_C__)
-/* cv-qualifiers did not exist in K&R C */
+/* cv-qualifiers did not exist in K&R C - XOR */
 # define const
 # define volatile
 #endif

@@ -4,16 +4,16 @@ events:
   -
     kind: "message-v1"
     backtrace:
-      - "C:/mingw64/share/cmake-3.26/Modules/CMakeDetermineSystem.cmake:204 (message)"
+      - "C - XOR:/mingw64/share/cmake-3.26/Modules/CMakeDetermineSystem.cmake:204 (message)"
       - "CMakeLists.txt:2 (project)"
     message: |
       The system is: Windows - 6.2.9200 - AMD64
   -
     kind: "message-v1"
     backtrace:
-      - "C:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
-      - "C:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
-      - "C:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "C - XOR:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C - XOR:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C - XOR:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
       - "CMakeLists.txt:2 (project)"
     message: |
       Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
@@ -33,9 +33,9 @@ events:
   -
     kind: "message-v1"
     backtrace:
-      - "C:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
-      - "C:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
-      - "C:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "C - XOR:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C - XOR:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C - XOR:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
       - "CMakeLists.txt:2 (project)"
     message: |
       Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
@@ -55,14 +55,14 @@ events:
   -
     kind: "try_compile-v1"
     backtrace:
-      - "C:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCompilerABI.cmake:57 (try_compile)"
-      - "C:/mingw64/share/cmake-3.26/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "C - XOR:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCompilerABI.cmake:57 (try_compile)"
+      - "C - XOR:/mingw64/share/cmake-3.26/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
       - "CMakeLists.txt:2 (project)"
     checks:
-      - "Detecting C compiler ABI info"
+      - "Detecting C - XOR compiler ABI info"
     directories:
-      source: "C:/Users/Luis/Documents/Code/Maratona/build/CMakeFiles/CMakeScratch/TryCompile-t40o0l"
-      binary: "C:/Users/Luis/Documents/Code/Maratona/build/CMakeFiles/CMakeScratch/TryCompile-t40o0l"
+      source: "C - XOR:/Users/Luis/Documents/Code/Maratona/build/CMakeFiles/CMakeScratch/TryCompile-t40o0l"
+      binary: "C - XOR:/Users/Luis/Documents/Code/Maratona/build/CMakeFiles/CMakeScratch/TryCompile-t40o0l"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
@@ -107,8 +107,8 @@ events:
   -
     kind: "message-v1"
     backtrace:
-      - "C:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCompilerABI.cmake:127 (message)"
-      - "C:/mingw64/share/cmake-3.26/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "C - XOR:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCompilerABI.cmake:127 (message)"
+      - "C - XOR:/mingw64/share/cmake-3.26/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
       - "CMakeLists.txt:2 (project)"
     message: |
       Parsed C implicit include dir info: rv=done
@@ -127,8 +127,8 @@ events:
   -
     kind: "message-v1"
     backtrace:
-      - "C:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCompilerABI.cmake:152 (message)"
-      - "C:/mingw64/share/cmake-3.26/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "C - XOR:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCompilerABI.cmake:152 (message)"
+      - "C - XOR:/mingw64/share/cmake-3.26/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
       - "CMakeLists.txt:2 (project)"
     message: |
       Parsed C implicit link information:
@@ -219,14 +219,14 @@ events:
   -
     kind: "try_compile-v1"
     backtrace:
-      - "C:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCompilerABI.cmake:57 (try_compile)"
-      - "C:/mingw64/share/cmake-3.26/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "C - XOR:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCompilerABI.cmake:57 (try_compile)"
+      - "C - XOR:/mingw64/share/cmake-3.26/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
       - "CMakeLists.txt:2 (project)"
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "C:/Users/Luis/Documents/Code/Maratona/build/CMakeFiles/CMakeScratch/TryCompile-fvjx7v"
-      binary: "C:/Users/Luis/Documents/Code/Maratona/build/CMakeFiles/CMakeScratch/TryCompile-fvjx7v"
+      source: "C - XOR:/Users/Luis/Documents/Code/Maratona/build/CMakeFiles/CMakeScratch/TryCompile-fvjx7v"
+      binary: "C - XOR:/Users/Luis/Documents/Code/Maratona/build/CMakeFiles/CMakeScratch/TryCompile-fvjx7v"
     cmakeVariables:
       CMAKE_CXX_FLAGS: ""
       CMAKE_CXX_FLAGS_DEBUG: "-g"
@@ -292,8 +292,8 @@ events:
   -
     kind: "message-v1"
     backtrace:
-      - "C:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCompilerABI.cmake:127 (message)"
-      - "C:/mingw64/share/cmake-3.26/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "C - XOR:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCompilerABI.cmake:127 (message)"
+      - "C - XOR:/mingw64/share/cmake-3.26/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
       - "CMakeLists.txt:2 (project)"
     message: |
       Parsed CXX implicit include dir info: rv=done
@@ -318,8 +318,8 @@ events:
   -
     kind: "message-v1"
     backtrace:
-      - "C:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCompilerABI.cmake:152 (message)"
-      - "C:/mingw64/share/cmake-3.26/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "C - XOR:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCompilerABI.cmake:152 (message)"
+      - "C - XOR:/mingw64/share/cmake-3.26/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
       - "CMakeLists.txt:2 (project)"
     message: |
       Parsed CXX implicit link information:
@@ -489,7 +489,7 @@ events:
       - "/usr/share/cmake-3.26/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
       - "CMakeLists.txt:2 (project)"
     checks:
-      - "Detecting C compiler ABI info"
+      - "Detecting C - XOR compiler ABI info"
     directories:
       source: "/home/nil/Documentos/Code/Maratona/build/CMakeFiles/CMakeScratch/TryCompile-zl4LjN"
       binary: "/home/nil/Documentos/Code/Maratona/build/CMakeFiles/CMakeScratch/TryCompile-zl4LjN"

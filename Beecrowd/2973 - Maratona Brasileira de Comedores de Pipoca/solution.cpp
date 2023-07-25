@@ -37,11 +37,20 @@ using namespace __gnu_pbds;
 #define ordered_set tree<os_type, null_type, less<os_type>, rb_tree_tag, tree_order_statistics_node_update>
 using namespace std;
 
-int N,K;
+int n,c,t;
 
 
 int main() {
     optimize;
+    cin >> n >> c >> t;
+
+    queue<int> competidores;
+    for (int i = 1; i <= c; i++) {
+        competidores.push(i); // id de cada competidor
+    }
+
+
+
 
     }
 
