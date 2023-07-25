@@ -34,7 +34,7 @@ int main(){
     int n, q;
     cin >> n >> q;
 
-    for(int i=0;i<n;i++){
+    for(int i = 0;i<n;i++){
         ll v;
         cin >> v;
         arr[i] = v;

@@ -1,5 +1,5 @@
 //
-// Created by Luis on 24/07/2023.
+// Created by luise on 21/07/2023.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
@@ -23,7 +23,7 @@
 #define EB emplace_back
 #define MOD 1000000007
 #define PRIME 101
-#define MAXN 1010101
+#define MAXN 100101
 #define MAXL 23
 #define EPS 1e-9
 #define endl '\n'
@@ -32,59 +32,48 @@ using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
+ll bit[MAXN];
+int n;
+int arr[MAXN];
 
-
-ll inversion_count(vector<ll> &v) {
-
-    ll inv = 0;
-
-    if (v.size() == 1) return 0;
-
-    vector<ll> u1, u2;
-    for (int i = 0; i < v.size() / 2; i++) {
-        u1.PB(v[i]);
+void update(int x, int val) {
+    while (x < MAXN) {
+        bit[x] += val;
+        x += (x & -x);
     }
-
-    for (int i = v.size() / 2; i < v.size(); i++) {
-        u2.PB(v[i]);
-    }
-
-    inv += inversion_count(u1);
-    inv += inversion_count(u2);
-
-    u1.PB(INT_MAX);
-    u2.PB(INT_MAX);
-
-    int inicio1 = 0, inicio2 = 0;
-
-    for (int i = 0; i < v.size(); i++) {
-
-        if (u1[inicio1] <= u2[inicio2]) {
-            v[i] = u1[inicio1++];
-        }else{
-            v[i] = u2[inicio2++];
-            inv += u1.size() - inicio1 - 1;
-        }
-
-    }
-
-    return inv;
-
 }
 
-vector<ll> nums;
+ll query(int x) {
+    ll ret;
+    while (x > 0) {
+        ret += bit[x];
+        x -= (x & -x);
+    }
+    return ret;
+}
+
 int main(int argc, char **argv) {
     optimize;
-    int n,q;
-    cin >> q;
-    cin.ignore();
-    while(q--){
     cin >> n;
-    nums.clear();
-    nums.resize(n);
-    for(auto &x : nums) cin >> x;
-    cout << inversion_count(nums) << endl;
-    cin.ignore();
+    for (int i = 1; i <= n; i++) {
+        int v;
+        cin >> v;
+        update(i, v);
+        arr[i] = v;
     }
+    string op = "a";
+    int pos = 1;
+    while ((cin >> op >> pos && (op !="0" && pos !=0))) {
+        if (op == "a") {
+            update(pos, -arr[pos]);
+            arr[pos] = 0;
+        } else {
+            if(pos > 1)
+                cout << query(pos - 1) << endl;
+            else
+                cout << 0 << endl;
+        }
+    }
+
     return 0;
 }
