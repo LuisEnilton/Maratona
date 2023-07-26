@@ -50,6 +50,8 @@ ll query(int pos){
 
 
 
+
+
 int main(int argc, char** argv)
 {
     optimize;

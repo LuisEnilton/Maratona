@@ -1,13 +1,12 @@
 //
 // Created by Luis on 25/07/2023.
 //
-//Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
-#define INF 1000000010
-#define INFLL 1000000000000000010LL
+#define INF 0x3f3f3f3f
+#define INFLL 0x3f3f3f3f3f3f3f3fLL
 #define ALL(x) x.begin(), x.end()
 #define UNIQUE(c) (c).resize(unique(ALL(c)) - (c).begin())
 #define REP(i, a, b) for(int i = (a); i <= (b); i++)
@@ -22,6 +21,7 @@
 #define EB emplace_back
 #define MOD 1000000007
 #define PRIME 101
+#define MAXN 200020
 #define MAXL 23
 #define EPS 1e-9
 #define endl '\n'
@@ -31,39 +31,22 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-int n;
-const int MAXN = 10e5+10;
+ll seg[4 * MAXN], nums[MAXN];
 
-struct Node{
-    int freq[30];
+ll NEUTRO = INFLL;
 
-    Node(){
-        memset(freq, 0, sizeof freq);
-    }
-};
-
-Node seg[4*MAXN];
-
-Node join(Node a, Node b)
+ll join(ll a, ll b)
 {
-   Node ans;
-
-        for(int i = 0; i < 30; i++)
-            ans.freq[i] = a.freq[i] + b.freq[i];
-
-        return ans;
+    // return a + b;
+    return min(a, b);
 }
-
-string s;
 
 void build(int no, int l, int r)
 {
     // estamos buildando um folha
     if (l == r)
     {
-        int c = s[l];
-        Node curr;
-        curr.freq[c - 'a']++;
+        seg[no] = nums[l];
         return;
     }
 
@@ -120,5 +103,27 @@ ll query(int no, int l, int r, int a, int b)
 int main(int argc, char** argv)
 {
     optimize;
+
+    int N, Q;
+
+    cin >> N >> Q;
+
+    for (int i = 1; i <= N; i++)
+        cin >> nums[i];
+
+    build(1, 1, N);
+
+    int op, a, b;
+
+    while (Q--)
+    {
+        cin >> op >> a >> b;
+
+        if (op == 1)
+            update(1, 1, N, a, b);
+        else
+            cout << query(1, 1, N, a, b) << endl;
+    }
+
     return 0;
 }

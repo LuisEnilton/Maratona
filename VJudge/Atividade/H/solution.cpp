@@ -1,13 +1,12 @@
 //
 // Created by Luis on 25/07/2023.
 //
-//Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
-#define INF 1000000010
-#define INFLL 1000000000000000010LL
+#define INF 0x3f3f3f3f
+#define INFLL 0x3f3f3f3f3f3f3f3fLL
 #define ALL(x) x.begin(), x.end()
 #define UNIQUE(c) (c).resize(unique(ALL(c)) - (c).begin())
 #define REP(i, a, b) for(int i = (a); i <= (b); i++)
@@ -22,6 +21,8 @@
 #define EB emplace_back
 #define MOD 1000000007
 #define PRIME 101
+#define MAXN 200020
+// #define MAXN 10000010
 #define MAXL 23
 #define EPS 1e-9
 #define endl '\n'
@@ -31,39 +32,33 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-int n;
-const int MAXN = 10e5+10;
+pii seg[4 * MAXN];
+int nums[MAXN];
 
-struct Node{
-    int freq[30];
+pii NEUTRO = pii(0, 0);
 
-    Node(){
-        memset(freq, 0, sizeof freq);
-    }
-};
-
-Node seg[4*MAXN];
-
-Node join(Node a, Node b)
+pii join(pii a, pii b)
 {
-   Node ans;
+    pii ans = pii(0, 0);
 
-        for(int i = 0; i < 30; i++)
-            ans.freq[i] = a.freq[i] + b.freq[i];
+    int gcd = __gcd(a.first, b.first);
 
-        return ans;
+    ans.first = gcd;
+
+    if (gcd == a.first)
+        ans.second += a.second;
+
+    if (gcd == b.first)
+        ans.second += b.second;
+
+    return ans;
 }
-
-string s;
 
 void build(int no, int l, int r)
 {
-    // estamos buildando um folha
     if (l == r)
     {
-        int c = s[l];
-        Node curr;
-        curr.freq[c - 'a']++;
+        seg[no] = pii(nums[l], 1);
         return;
     }
 
@@ -77,28 +72,7 @@ void build(int no, int l, int r)
     seg[no] = join(seg[e], seg[d]);
 }
 
-void update(int no, int l, int r, int pos, int v)
-{
-    // chegou na posicao que cê quer mudar
-    if (l == r)
-    {
-        seg[no] = v;
-        return;
-    }
-
-    int e = 2 * no;
-    int d = e + 1;
-    int m = (l + r) / 2;
-
-    if (pos <= m)
-        update(e, l, m, pos, v);
-    else
-        update(d, m + 1, r, pos, v);
-
-    seg[no] = join(seg[e], seg[d]);
-}
-
-ll query(int no, int l, int r, int a, int b)
+pii query(int no, int l, int r, int a, int b)
 {
     //totalmente fora
     if (r < a || b < l)
@@ -114,11 +88,36 @@ ll query(int no, int l, int r, int a, int b)
     int m = (l + r) / 2;
 
     return join(query(e, l, m, a, b), query(d, m + 1, r, a, b));
-
 }
+
 
 int main(int argc, char** argv)
 {
     optimize;
+
+    int N, Q;
+
+    cin >> N;
+
+    for (int i = 1; i <= N; i++)
+        cin >> nums[i];
+
+    build(1, 1, N);
+
+    cin >> Q;
+
+    int l, r;
+
+    while(Q--)
+    {
+        cin >> l >> r;
+
+        int cnt = r - l + 1;
+
+        auto [gcd, freq] = query(1, 1, N, l, r);
+
+        cout << cnt - freq << endl;
+    }
+
     return 0;
 }

@@ -65,6 +65,17 @@ void update(int no, int l, int r, int pos, ll v)
     seg[no] = min(seg[e], seg[d]);
 }
 
+void build(int no , int l ,int r){
+    if(l == r){
+        seg[no] = arr[l];
+        return;
+    }
+    int m = (l+r)/2, e = no*2, d = no*2+1;
+    build(e,l,m);
+    build(d,m+1,r);
+    seg[no] = min(seg[e],seg[d]);
+}
+
 int main(int argc, char **argv)
 {
     optimize;

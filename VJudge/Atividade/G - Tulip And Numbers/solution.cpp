@@ -1,10 +1,3 @@
-//
-// Created by Luis on 25/07/2023.
-//
-//
-// Created by Luis on 25/07/2023.
-//
-//
 // Created by Luis on 24/07/2023.
 //
 //Template By eduardocesb
@@ -43,7 +36,7 @@ using namespace __gnu_pbds;
 int n,q;
 const int MAXN = 10e5+10;
 ll BIT[MAXN];
-void update( int x, int v){
+void update( ll x, int v){
     for(; x <= n; x += x&-x) BIT[x] += v;
 }
 
@@ -71,15 +64,20 @@ void count(vector<ll> &v) {
     converter(v);
 
 
-     // 1 indexado
+
 
     for(int i = 0; i <= n; i++) BIT[i] = 0;
     ll valAtual =0;
     for(int i = 0; i < n; i++){
-        if(i > 0) valAtual =   query(v[i-1]);
+        if(i >= 1){
+            if(v[i] != v[i-1])
+                update( v[i], 1);
 
-        update( v[i], -valAtual);
-        update( v[i], 1);
+        }
+        else
+            update(v[i],1);
+
+
     }
 
 
@@ -90,17 +88,21 @@ void count(vector<ll> &v) {
 vector<ll> nums;
 int main(int argc, char **argv) {
     optimize;
-    cin >> n >> q;
+    int t;
+    cin >> t;
+    for (int i = 1; i <= t; i++) {
+        cin.ignore();
+        cin >> n >> q;
 
-    nums.resize(n);
-    for(auto &x:nums) cin >> x;
-    count(nums);
-    while(q--){
-        int l ,r;
-        cin >> l >> r;
-        l--,r--;
-        cout << query(r) - query(l) << endl;
+        nums.resize(n);
+        for(auto &x:nums) cin >> x;
+        count(nums);
+        cout << "Case " << i <<":" << endl;
+        while(q--){
+            int l ,r;
+            cin >> l >> r;
+            cout << query(r) - query(l-1)  << endl;
+        }
     }
-
     return 0;
 }
