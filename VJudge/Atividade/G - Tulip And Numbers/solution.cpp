@@ -88,21 +88,19 @@ void count(vector<ll> &v) {
 vector<ll> nums;
 int main(int argc, char **argv) {
     optimize;
-    int t;
-    cin >> t;
-    for (int i = 1; i <= t; i++) {
-        cin.ignore();
-        cin >> n >> q;
 
+
+
+        cin >> n ;
         nums.resize(n);
         for(auto &x:nums) cin >> x;
         count(nums);
-        cout << "Case " << i <<":" << endl;
+        cin >> q;
         while(q--){
             int l ,r;
             cin >> l >> r;
             cout << query(r) - query(l-1)  << endl;
         }
-    }
+
     return 0;
 }

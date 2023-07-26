@@ -1,7 +1,7 @@
 "C:\Program Files\JetBrains\CLion 2023.1.4\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" -S C:\Users\Luis\Documents\Code\Maratona -B C:\Users\Luis\Documents\Code\Maratona\cmake-build-debug
-CMake Error at CMakeLists.txt:25:
+CMake Error at CMakeLists.txt:24:
   Parse error.  Expected a command name, got unquoted argument with text
-  "=======".
+  "Extens�o/troco.cpp".
 
 
 -- Configuring incomplete, errors occurred!
