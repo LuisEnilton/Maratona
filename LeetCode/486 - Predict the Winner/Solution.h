@@ -39,25 +39,18 @@ using namespace __gnu_pbds;
 
 class Solution {
 public:
-    int solve(int l, int r, vi nums, bool vez1) {
-        int pega_esq = 0, pega_dir = 0;
+    int solve(int l, int r, vi nums,vector<vi> &dp) {
         if (l > r) return 0;
-        if (vez1) {
-            pega_esq = solve(l + 1, r, nums, false);
-            pega_dir = solve(l, r - 1, nums, false);
-        } else {
-            pega_esq = nums[l] + solve(l + 1, r, nums, true);
-            pega_dir = nums[r] + solve(l, r - 1, nums, true);
-        }
-        return max(pega_dir, pega_esq);
+        if(dp[l][r] != -1 ){
+            //cout << "opa" << endl;
+            return dp[l][r];
+        } //subtrae pq ta mudando de jogador e ele vai tirar o maximo possivel da tua resposta
+        return dp[l][r] = max(nums[l] - solve(l + 1,r,nums,dp), nums[r] - solve(l,r-1,nums,dp));
     }
 
     bool PredictTheWinner(vector<int> &nums) {
-        int sum = 0;
-        for (auto x: nums) sum += x;
-        int valor = solve(0, nums.size() - 1, nums, true);
-        cout << valor << " " << sum << endl;
-        return valor <= sum -valor;
+        vector<vi> dp(1000,vi(1000,-1));
+        return solve(0,nums.size()-1,nums,dp) >= 0;
     }
 };
 
