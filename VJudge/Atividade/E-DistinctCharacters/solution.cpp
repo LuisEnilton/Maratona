@@ -34,24 +34,14 @@ using namespace __gnu_pbds;
 int n;
 const int MAXN = 10e5+10;
 
-struct Node{
-    int freq[30];
 
-    Node(){
-        memset(freq, 0, sizeof freq);
-    }
-};
 
-Node seg[4*MAXN];
+int seg[4*MAXN];
 
-Node join(Node a, Node b)
+int join(int a, int b)
 {
-   Node ans;
+   return a|b;
 
-        for(int i = 0; i < 30; i++)
-            ans.freq[i] = a.freq[i] + b.freq[i];
-
-        return ans;
 }
 
 string s;

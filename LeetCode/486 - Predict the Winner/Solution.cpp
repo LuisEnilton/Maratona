@@ -1,3 +1,8 @@
+//
+// Created by Luis on 27/07/2023.
+//
+
+#include "Solution.h"
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -33,6 +38,8 @@ using namespace __gnu_pbds;
 int main(int argc, char** argv)
 {
     optimize;
-
+    Solution sol = *new Solution();
+    vi nums{1,5,233,7};
+    cout << sol.PredictTheWinner(nums) << endl;
     return 0;
 }

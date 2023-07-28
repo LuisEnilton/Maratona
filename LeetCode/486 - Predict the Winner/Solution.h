@@ -1,7 +1,14 @@
+//
+// Created by Luis on 27/07/2023.
+//
+
+#ifndef MARATONA_SOLUTION_H
+#define MARATONA_SOLUTION_H
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
+
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -30,9 +37,29 @@ using namespace __gnu_pbds;
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
 
-int main(int argc, char** argv)
-{
-    optimize;
+class Solution {
+public:
+    int solve(int l, int r, vi nums, bool vez1) {
+        int pega_esq = 0, pega_dir = 0;
+        if (l > r) return 0;
+        if (vez1) {
+            pega_esq = solve(l + 1, r, nums, false);
+            pega_dir = solve(l, r - 1, nums, false);
+        } else {
+            pega_esq = nums[l] + solve(l + 1, r, nums, true);
+            pega_dir = nums[r] + solve(l, r - 1, nums, true);
+        }
+        return max(pega_dir, pega_esq);
+    }
 
-    return 0;
-}
+    bool PredictTheWinner(vector<int> &nums) {
+        int sum = 0;
+        for (auto x: nums) sum += x;
+        int valor = solve(0, nums.size() - 1, nums, true);
+        cout << valor << " " << sum << endl;
+        return valor <= sum -valor;
+    }
+};
+
+
+#endif //MARATONA_SOLUTION_H

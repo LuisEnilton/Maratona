@@ -1,3 +1,6 @@
+//
+// Created by Luis on 26/07/2023.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -30,9 +33,48 @@ using namespace __gnu_pbds;
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
 
+//vector<ll> primos;
+
+vector<ll> crivo(ll N)
+{
+    vector<ll> eh_primo(N + 1, 1);
+
+    eh_primo[0] = eh_primo[1] = 0;
+
+    ll pos = 1;
+
+    // O(N * log N)
+    for (ll i = 2; i <= N; i++)
+    {
+        if (!eh_primo[i]) continue;
+
+        eh_primo[i] = pos++;
+
+        // i é primo
+        //primos.push_back(i);
+
+        for (ll j = i * i; j <= N; j += i)
+            eh_primo[j] = 0;
+    }
+
+    return eh_primo;
+}
+
+
 int main(int argc, char** argv)
 {
     optimize;
-
+    int t;
+    cin >> t;
+    while(t--){
+        ll ini , final;
+        cin >> ini >> final;
+        vector<ll> primos = crivo(final);
+        for(ll i = ini; i <=final;i++){
+            if(primos[i])
+                cout << i << endl;
+        }
+        cout << endl;
+    }
     return 0;
 }

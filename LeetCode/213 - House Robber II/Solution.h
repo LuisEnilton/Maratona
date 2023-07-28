@@ -1,7 +1,14 @@
+//
+// Created by Luis on 26/07/2023.
+//
+
+#ifndef MARATONA_SOLUTION_H
+#define MARATONA_SOLUTION_H
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
+
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -29,10 +36,34 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
+class Solution {
+public:
+    int solve(int i, vi nums, int n, bool primeiro, vector<vi> &dp) {
+        if (i >= n)
+            return 0;
 
-int main(int argc, char** argv)
-{
-    optimize;
+        int pega = 0, n_pega = 0;
 
-    return 0;
-}
+        if (dp[primeiro][i] != -1) return dp[primeiro][i];
+
+        if (i == 0) {
+            pega = nums[i] + solve(i + 2, nums, n, true, dp);
+            n_pega = solve(i + 1, nums, n, false, dp);
+        } else {
+            if ((i != n - 1) || !primeiro)
+                pega = nums[i] + solve(i + 2, nums, n, primeiro, dp);
+            n_pega = solve(i + 1, nums, n, primeiro, dp);
+        }
+
+        return dp[primeiro][i] = max(pega, n_pega);
+    }
+
+
+    int rob(vector<int> &nums) {
+        vector<vi> dp(2,vi(nums.size(),-1));
+        return solve(0, nums, nums.size(), false, dp);
+    }
+};
+
+
+#endif //MARATONA_SOLUTION_H

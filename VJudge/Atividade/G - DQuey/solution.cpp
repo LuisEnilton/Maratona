@@ -33,59 +33,66 @@ using namespace __gnu_pbds;
 
 
 
-int n,q;
-const int MAXN = 10e5+10;
-ll BIT[MAXN];
-void update( ll x, int v){
-    for(; x <= n; x += x&-x) BIT[x] += v;
-}
+int n;
+const int MAXN = 30010;
+set<int> seg[4 * MAXN];
+int NEUTRO =0;
 
-ll query( int x){
-    if(x == 0) return 0;
-    ll sum = 0;
-    for(; x > 0; x -= x&-x) sum += BIT[x];
-    return sum;
+set<int> join(set<int> &a, set<int> &b)
+{
+    a.insert(ALL(b));
+    return a;
 }
 
 
-void converter(vector<ll> &v){
-    //compressão de coordenadas
-    vector<ll> temp(n);
+vector<ll> nums;
+void build(int no, int l, int r)
+{
+    if (l == r)
+    {
+        seg[no].insert(nums[l]);
+        return;
+    }
 
-    for(int i = 0; i < n; i++) temp[i] = v[i];
-    sort(ALL(temp));
+    int e = 2 * no;
+    int d = e + 1;
+    int m = (l + r) / 2;
 
-    for(int i = 0; i < n; i++) v[i] = POS(temp, v[i]) + 1;
+    build(e, l, m);
+    build(d, m + 1, r);
+
+    seg[no].insert(ALL(seg[e]));
+    seg[no].insert(ALL(seg[d]));
 }
 
 
-void count(vector<ll> &v) {
-
-    converter(v);
-
-
-
-
-    for(int i = 0; i <= n; i++) BIT[i] = 0;
-    ll valAtual =0;
-    for(int i = 0; i < n; i++){
-        if(i >= 1){
-            if(v[i] != v[i-1])
-                update( v[i], 1);
-
-        }
-        else
-            update(v[i],1);
-
-
+set<int> query(int no, int l, int r, int a, int b)
+{
+    if (l > b || r < a){
+        set<int> vazio;
+        return vazio;
     }
 
 
+    if (l >= a && r <= b)
+    {
+        return seg[no];
+    }
 
+    int e = 2 * no;
+    int d = e + 1;
+    int m = (l + r) / 2;
 
+    set<int> esq = query(e, l, m, a, b);
+    set<int> dir = query(d, m + 1, r, a, b);
+    return join(esq, dir);
 }
 
-vector<ll> nums;
+
+
+
+
+int q;
 int main(int argc, char **argv) {
     optimize;
 
@@ -94,12 +101,13 @@ int main(int argc, char **argv) {
         cin >> n ;
         nums.resize(n);
         for(auto &x:nums) cin >> x;
-        count(nums);
+        build(1,0,n-1);
         cin >> q;
         while(q--){
             int l ,r;
             cin >> l >> r;
-            cout << query(r) - query(l-1)  << endl;
+            l--,r--;
+            cout <<  query(1,0,n-1,l-1,r).size() << endl;
         }
 
     return 0;

@@ -1,3 +1,8 @@
+//
+// Created by Luis on 26/07/2023.
+//
+
+#include "Solution.h"
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -29,10 +34,12 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-
+int n;
 int main(int argc, char** argv)
 {
     optimize;
-
+    Solution sol = *new Solution();
+    vi nums{2,3,2};
+    cout << sol.rob(nums) << endl;
     return 0;
 }

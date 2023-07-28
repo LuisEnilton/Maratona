@@ -58,9 +58,9 @@ void build(int no, int l, int r)
 {
     if (l == r)
     {
-        int c = S[l] - 'a';
+        int c = S[l] - 'a'; // c é qual bit eu vou mexer
 
-        seg[no] |= (1 << c);
+        seg[no] |= (1 << c); // ativa o bit
         return;
     }
 
@@ -79,7 +79,7 @@ void update(int no, int l, int r, int pos)
     // chegou na posicao que cê quer mudar
     if (l == r)
     {
-        int c = S[l] - 'a';
+        int c = S[l] - 'a'; // bit que eu vou mudar
 
         seg[no] ^= (1 << c);
 
@@ -125,7 +125,7 @@ int main(int argc, char** argv)
 
     int N = S.size();
 
-    S = "$" + S;
+    S = "$" + S; // coloca $ pra ser o indice 0
 
 
     build(1, 1, N);
@@ -155,7 +155,7 @@ int main(int argc, char** argv)
 
             auto freq = query(1, 1, N, l, r);
 
-            int ans = __builtin_popcount(freq);
+            int ans = __builtin_popcount(freq); // conta os 1 no inteiro
 
             cout << ans << endl;
         }
