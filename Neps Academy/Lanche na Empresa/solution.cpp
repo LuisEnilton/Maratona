@@ -32,44 +32,51 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-int n ,t;
+int n ,c;
+
+vector<vii> grafo;
+
+vi dijkstra(int s){
+    vi dist(n+1,INF);
+    dist[s] = 0;
+    priority_queue<pii, vii, greater<pii>> pq;
+    pq.push({0,s});
+
+    while(!pq.empty()){
+        int u = pq.top().second;
+        int d = pq.top().first;
+        pq.pop();
+
+        if(d > dist[u]) continue;
+
+        for(auto &it : grafo[u]){
+            int v = it.first;
+            int w = it.second;
+
+            if(dist[v] > dist[u] + w){
+                dist[v] = dist[u] + w;
+                pq.push({dist[v],v});
+            }
+        }
+    }
+    return dist;
+}
+
+int solve(){
+    
+}
+
+
 int main(int argc, char** argv)
 {
     optimize;
-    cin >> n >> t;
-    vii cartas(n+1);
-
-    for(int i =1;i <=n;i++) {
-        cin >> cartas[i].first;
+    cin >> n >> c;
+    grafo.resize(n+1);
+    while(c--){
+        int u ,v , custo;
+        cin >> u >> v >> custo;
+        grafo[u].EB(v,custo);
+        grafo[v].EB(u,custo);
     }
-
-    for(int i =1;i <=n;i++) {
-        cin >> cartas[i].second;
-    }
-    vi mudancas(n+2,0);
-
-    while(t--){
-        int l ,r;
-        cin >> l >> r;
-        mudancas[l]+= 1;
-        mudancas[r + 1] -= 1;
-    }
-
-    int prefix_sum[n+1];
-    prefix_sum[0] =0;
-
-    for(int i =1;i <=n;i++){
-        prefix_sum[i] = prefix_sum[i-1] + mudancas[i];
-    }
-
-    for(int i =1;i<=n;i++){
-        if(prefix_sum[i] % 2 == 0){
-            cout << cartas[i].first << " ";
-        }else{
-            cout << cartas[i].second << " ";
-        }
-    }
-    cout << endl;
-
     return 0;
 }

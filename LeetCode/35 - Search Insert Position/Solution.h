@@ -1,10 +1,14 @@
 //
-// Created by Luis on 28/07/2023.
+// Created by Luis on 29/07/2023.
 //
+
+#ifndef MARATONA_SOLUTION_H
+#define MARATONA_SOLUTION_H
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
+
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -32,44 +36,23 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-int n ,t;
-int main(int argc, char** argv)
-{
-    optimize;
-    cin >> n >> t;
-    vii cartas(n+1);
-
-    for(int i =1;i <=n;i++) {
-        cin >> cartas[i].first;
-    }
-
-    for(int i =1;i <=n;i++) {
-        cin >> cartas[i].second;
-    }
-    vi mudancas(n+2,0);
-
-    while(t--){
-        int l ,r;
-        cin >> l >> r;
-        mudancas[l]+= 1;
-        mudancas[r + 1] -= 1;
-    }
-
-    int prefix_sum[n+1];
-    prefix_sum[0] =0;
-
-    for(int i =1;i <=n;i++){
-        prefix_sum[i] = prefix_sum[i-1] + mudancas[i];
-    }
-
-    for(int i =1;i<=n;i++){
-        if(prefix_sum[i] % 2 == 0){
-            cout << cartas[i].first << " ";
-        }else{
-            cout << cartas[i].second << " ";
+class Solution {
+public:
+    int searchInsert(vector<int> &nums, int target) {
+        int left = 0, right = nums.size() - 1;
+        int mid,ans = nums.size();
+        while (left <= right) {
+            mid = (left + right) / 2;
+            if(nums[mid] >= target){
+                ans = mid;
+                right = mid - 1;
+            }else{
+                left = mid + 1;
+            }
         }
+        return ans;
     }
-    cout << endl;
+};
 
-    return 0;
-}
+
+#endif //MARATONA_SOLUTION_H

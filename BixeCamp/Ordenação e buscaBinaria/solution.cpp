@@ -1,10 +1,11 @@
 //
-// Created by Luis on 28/07/2023.
+// Created by Luis on 29/07/2023.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
+
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -32,44 +33,37 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-int n ,t;
-int main(int argc, char** argv)
-{
-    optimize;
-    cin >> n >> t;
-    vii cartas(n+1);
 
-    for(int i =1;i <=n;i++) {
-        cin >> cartas[i].first;
-    }
+vector<ll> nums;
+int n, q;
 
-    for(int i =1;i <=n;i++) {
-        cin >> cartas[i].second;
-    }
-    vi mudancas(n+2,0);
-
-    while(t--){
-        int l ,r;
-        cin >> l >> r;
-        mudancas[l]+= 1;
-        mudancas[r + 1] -= 1;
-    }
-
-    int prefix_sum[n+1];
-    prefix_sum[0] =0;
-
-    for(int i =1;i <=n;i++){
-        prefix_sum[i] = prefix_sum[i-1] + mudancas[i];
-    }
-
-    for(int i =1;i<=n;i++){
-        if(prefix_sum[i] % 2 == 0){
-            cout << cartas[i].first << " ";
+int binary_search(ll target) {
+    int ans = -1;
+    int left = 0, right = n - 1;
+    while (left <= right) {
+        int mid = (left + right) / 2;
+        if (nums[mid] == target ){
+            ans = mid;
+            right = mid -1;
+        }else if(nums[mid] > target){
+            right = mid -1;
         }else{
-            cout << cartas[i].second << " ";
+            left = mid + 1;
         }
     }
-    cout << endl;
+    return ans;
+}
 
+int main(int argc, char **argv) {
+    optimize;
+    cin >> n >> q;
+    nums.resize(n);
+    for (auto &x: nums) cin >> x;
+    while (q--) {
+        int v;
+        cin >> v;
+        cout << binary_search(v) << endl;
+
+    }
     return 0;
 }

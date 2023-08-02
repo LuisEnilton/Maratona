@@ -1,5 +1,7 @@
-
-//This struct  was made by Malhe1ros
+//
+// Created by Luis on 01/08/2023.
+//
+//Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -28,51 +30,60 @@ using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
+const ll MOD=1e9+9;//big prime number
+const ll base=153;//random number larger than the size of the alphabet
 
-
-
-const ll MOD =1e9+9;//big prime number
-const int base=153;//random number larger than the size of the alphabet
-
-string s;
-const int maxn=1e5+10;
-int expBase[maxn];
+const ll maxn=1e5+2;
+ll expBase[maxn];
 
 void precalc(){
     expBase[0]=1;
-    for (int i=1;i<maxn;i++){
+    for (ll i=1;i<maxn;i++){
         expBase[i]=(expBase[i-1]*base)%MOD;
     }
 }
 
 struct StringHash{
-    vector<int> hsh;
+    vector<ll> hsh;
     //REMEMBER TO RUN PRECALC
     StringHash(string& _s){
-        hsh=vector<int>(_s.length()+1,0);
-        for (int i=0;i<_s.length();i++){
+        hsh=vector<ll>(_s.length()+1,0);
+        for (ll i=0;i<_s.length();i++){
             hsh[i+1]=((hsh[i]*base)%MOD + _s[i])%MOD;
         }
     }
 
     //interval =  [a,b] closed
-    int get_value(int a,int b){ //0 indexado
-//        cout << s.substr(a,b-a) << endl;
+    ll get_value(ll a,ll b){
         return (MOD + hsh[b+1] - (hsh[a]*expBase[b-a+1])%MOD)%MOD;
     }
 
 
 };
-
-
-int main(){
+int n ,m , q;
+int main(int argc, char** argv)
+{
+    optimize;
     precalc();
-     s="abcabc";
-    StringHash shs(s);
-    int l = 1 , r = 1;
-    while((cin >> l >> r) && (l != -1 || r != -1)){
-        cout << shs.get_value(l,r) << endl;
-        cout <<(shs.get_value(l,r) == shs.get_value(1,2)?"S":"N") << endl;
-    }
+    cin >> n >> m;
+    string dna , proteina;
+    cin >> dna >> proteina;
+    StringHash hsh1(dna);
+    StringHash hsh2(proteina);
+    cin >> q;
+    while(q--){
+        int l,r;
+        cin >> l >> r; // l e r são 1 indexados , o hash é 0 indexado
+        int comp = r-l;
+        ll sub = hsh2.get_value(l-1,r-1);
 
+        int ans = 0;
+        for(int i = 0; i + comp  < n;i++){
+
+            if(hsh1.get_value(i,i+comp) == sub) ans++;
+        }
+        cout << ans << endl;
+    }
+    return 0;
 }
+

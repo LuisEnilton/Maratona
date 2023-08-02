@@ -37,12 +37,25 @@ using namespace __gnu_pbds;
 
 class Solution {
 public:
-    int solve(int i , int j ,int d){
+    int solve(int i , int j , vector<vector<char>> &matrix,vector<vi> &dp ){
+        if(i < 0 || j < 0)
+            return INF;
+        if(matrix[i][j] == 0 || (i == 0 && j == 0))
+            return 0;
 
+        if(dp[i][j] != -1)
+            return dp[i][j];
+
+        int esq = solve(i,j-1,matrix,dp);
+        int cima = solve(i - 1,j,matrix,dp);
+        int diag = solve(i-1,j-1,matrix,dp);
+
+        return dp[i][j] = 1 + min(min(esq,cima),diag);
     }
 
     int maximalSquare(vector<vector<char>>& matrix) {
-
+        vector<vi> dp (matrix.size(),vi(matrix[0].size(),-1));
+        return solve(matrix.size()-1,matrix[0].size()-1,matrix,dp);
     }
 };
 

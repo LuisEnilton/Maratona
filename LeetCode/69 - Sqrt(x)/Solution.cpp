@@ -1,6 +1,8 @@
 //
-// Created by Luis on 28/07/2023.
+// Created by Luis on 29/07/2023.
 //
+
+#include "Solution.h"
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -32,44 +34,11 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-int n ,t;
+
 int main(int argc, char** argv)
 {
     optimize;
-    cin >> n >> t;
-    vii cartas(n+1);
-
-    for(int i =1;i <=n;i++) {
-        cin >> cartas[i].first;
-    }
-
-    for(int i =1;i <=n;i++) {
-        cin >> cartas[i].second;
-    }
-    vi mudancas(n+2,0);
-
-    while(t--){
-        int l ,r;
-        cin >> l >> r;
-        mudancas[l]+= 1;
-        mudancas[r + 1] -= 1;
-    }
-
-    int prefix_sum[n+1];
-    prefix_sum[0] =0;
-
-    for(int i =1;i <=n;i++){
-        prefix_sum[i] = prefix_sum[i-1] + mudancas[i];
-    }
-
-    for(int i =1;i<=n;i++){
-        if(prefix_sum[i] % 2 == 0){
-            cout << cartas[i].first << " ";
-        }else{
-            cout << cartas[i].second << " ";
-        }
-    }
-    cout << endl;
-
+    Solution sol;
+    cout << sol.mySqrt(10) << endl;
     return 0;
 }
