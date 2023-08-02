@@ -2,6 +2,7 @@ vscode/
 build/
 *.exe
 *.bin
+*.cmake
 # Default ignored files
 /shelf/
 /workspace.xml

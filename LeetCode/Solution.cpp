@@ -39,7 +39,8 @@ int main(int argc, char** argv)
 {
     optimize;
     Solution sol;
-    cout << sol.isPalindrome(10) << endl;
+    cout << sol.isPalindrome("A man, a plan, a canal: Panama") << endl;
     return 0;
 }
+
 

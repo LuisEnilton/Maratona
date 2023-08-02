@@ -36,7 +36,7 @@ using namespace __gnu_pbds;
 const ll MOD=1e9+9;//big prime number
 const ll base=153;//random number larger than the size of the alphabet
 
-const ll maxn=20;
+const ll maxn=2e5+10;
 ll expBase[maxn];
 
 void precalc(){
@@ -64,15 +64,28 @@ struct StringHash{
 
 };
 
+
 class Solution {
 public:
-    bool isPalindrome(int x) {
-        string s = to_string(x);
-        ll n = s.size();
+    bool isPalindrome(string s) {
+        int n = s.size();
+        for(int i =0 ;i < n;i++){
+            if(!isalnum(s[i])){
+                s.erase(i,1);
+                n--;
+                i--;
+                cout << n << endl;
+            }else{
+                if(isupper(s[i]))
+                    s[i]+= 32;
+            }
+        }
+        cout << s << endl;
+        cout << s.size() << endl;
         StringHash hsh(s);
         reverse(ALL(s));
         StringHash revHsh(s);
-        return (hsh.get_value(0,n-1) == revHsh.get_value(0,n-1));
+        return hsh.get_value(0,n-1) == revHsh.get_value(0,n-1);
     }
 };
 
