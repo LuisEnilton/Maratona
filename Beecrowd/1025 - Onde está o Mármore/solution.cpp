@@ -42,38 +42,32 @@ vi cons;
 
 int main() {
     optimize;
-
-    while (  (N != 0 || Q != 0)) {
-        (cin >> N >> Q);
+    int j =0;
+    while (cin >> N >> Q && (N != 0 || Q != 0)) {
+        j++;
+        cout << "CASE# " << j <<":" << endl;
+        optimize;
         marm.resize(N);
-        cons.resize(Q);
 
         for (auto &x: marm) {
             cin >> x;
         }
         sort(ALL(marm));
 
-        for (auto &x: cons) {
-            cin >> x;
-        }
-        int i = 1;
-        /*for (auto palp: cons) {
-            int left = 0;
-            int right = N - 1;
-            cout << "CASE# " << i << " : " << endl;
-            while (left != right) {
-                int mid = (left + right) / 2;
-                if (marm[mid] == palp) {
-                    cout << palp << "found at" << mid << endl;
-                    break;
-                } else if (marm[mid] > palp) {
-                    right = mid - 1;
-                }else{
-                    left = mid+1;
+        for(int i = 1;i <=Q;i++){
+            int x; cin >> x;
+            int pos = POS(marm,x);
+            if(pos >=N){
+                cout << x <<"not found" << endl;
+                continue;
+            }else{
+                if(marm[pos] != x){
+                    cout << x <<" not found" << endl;
+                    continue;
                 }
+                cout << x << " found at " << pos+1 << endl;
             }
-            cout<<palp<<"not found"<<endl;
-        }*/
+        }
 
     }
     return 0;
