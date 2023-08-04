@@ -115,12 +115,13 @@ int main(int argc, char **argv) {
         sz = n - r - 1;
        // cerr << sz << endl;
 
-        l = z[r]; //eu começo a procurar depois do prefixo inicial
+        l = 1; //eu começo a procurar depois do prefixo inicial
 
         bool ok = false;
-        while (l + sz < r) {
+        while (l < r) {
             if (sfx == hsh.get_value(l, l + sz)) { //compara substring do meio com o sufixo
                 ok = true;
+
                 break;
             }
             l++;
