@@ -37,25 +37,43 @@ using namespace __gnu_pbds;
 
 class Solution {
 public:
-    int static dp [2500][2500];
+    int static dp [2501];
 
     Solution(){
         memset(dp,-1,sizeof dp);
     }
 
-    int solve(int q , int i,int maior, vi nums){
+    int solve(int q , int i,int maior, vi &nums){
         if(i >= nums.size())
-            return q;
-        if(nums[i] <= maior)
-            return q;
+            return q ;
 
+        if(dp[i]!=-1) return dp[i];
+
+
+        int novo_maior = maior;
+
+        int n_pega;
+
+        int pega = -1;
+
+        if(nums[i] <= maior){
+            q--;
+            n_pega = (solve(q,i+1,maior,nums));
+        }else{
+            n_pega = (solve(q,i+1,maior,nums));
+            pega = 1 + solve(q  , i+1 , nums[i],nums );
+        }
+
+
+        return  dp[i] = max(pega,n_pega);
 
     }
 
     int lengthOfLIS(vector<int>& nums) {
-        solve(0,0,0, nums);
+        return solve(0,0,-1, nums);
     }
 };
 
+int Solution::dp[2501];
 
 #endif //MARATONA_SOLUTION_H

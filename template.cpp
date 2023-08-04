@@ -33,7 +33,9 @@ using namespace __gnu_pbds;
 int main(int argc, char** argv)
 {
     optimize;
-
+    pii a{1,2};
+    pii b{1,2};
+    if(a == b) cout <<"s" << endl;
     return 0;
 }
 

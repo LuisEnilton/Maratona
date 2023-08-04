@@ -51,22 +51,23 @@ int main() {
     for(auto &x:valores) cin >>x;
 
     ll ans = 0,soma = 0;
-    map<ll,int> freq;
-    freq[0] = 1;
-    //vi prefix_sum;
-   // prefix_sum.PB(0);
+
+    vi prefix_sum;
+
+    prefix_sum.PB(0);
+
+    int i = 0;
     for(auto x:valores){
-        soma += x;
+        soma+=x;
 
+        ll falta = soma - K;
+        //subtrae quantos são maiores de cada quantos são maiores ou iguais e acha os iguais
+        ll qtd = upper_bound(ALL(prefix_sum),falta) - lower_bound(ALL(prefix_sum),falta);
 
-        ll falta = soma -K;
+        ans +=qtd;
+        // adiciona pra evitar o caso 0 0 que contaria 2 somas . porém é só uma
+        prefix_sum.PB(soma);
 
-        int qtd = freq[falta];
-        //upperbound retorna um ponteiro para o primeiro maior
-        // usa em array estatico , vector , deque
-        //lower bound retorna um ponteiro para o primeiro maior=
-        freq[soma]++;
-        ans+=qtd;
     }
 
     cout<< ans <<endl;
