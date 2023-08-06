@@ -1,4 +1,10 @@
 //
+// Created by Luis on 05/08/2023.
+//
+
+#ifndef MARATONA_SOLUTION_H
+#define MARATONA_SOLUTION_H
+//
 // Created by Luis on 04/08/2023.
 //
 //Template By eduardocesb
@@ -60,43 +66,25 @@ vi manacher(string &st) {
     return p;
 }
 
-int main(int argc, char **argv) {
-    optimize;
-    string s;
-    cin >> s;
-
-    int n = s.size();
-    vi p = manacher(s);
-
-    
-
-    int max = 0;
-    int indice;
-
-    for (int i = 1; i <= 2*n; i++) {
-        if (p[i] > max) {
-            max = p[i];
-            indice = i - 1;
+class Solution {
+public:
+    vector<vector<int>> palindromePairs(vector<string>& words) {
+        int n = words.size();
+        for(int i =0;i < n;i++){
+            for(int j =i+1;j < n;j++){
+                int sz1 = words[i].size();
+                int sz2 = words[j].size();
+                 string copy = words[i];
+                 copy += words[j];
+                 vi p = manacher(copy);
+                //$_a_b_c_# 2 + n-1
+                string copy2 = words[j];
+                copy2 += words[i];
+                vi p2 = manacher(copy2);
+            }
         }
     }
+};
 
 
-    cout << s.substr((indice/2)   - (max/2) , max ) << endl;
-    // indice/2 acha o meio na string original , agr é necessário diminuir max/2 pra voltar ao inicio da string
-    return 0;
-}
-
-/*
-
- *aba -> palindromo impar
-  $ _ a _ b _ a _  #
- -1 0 1 0 3 0 1 0 -1
- letras unicas tem o palindromo de pelo menos 1 (a propria)
-
- *abccba -> palindromo par
-  $ _ a _ b _ c _ c _ b _ a _  #
- -1 0 1 0 1 0 1 6 1 0 1 0 1 0 -1
-
- & _ a _ y _ b _ a _ b _ t _ u
- */
-
+#endif //MARATONA_SOLUTION_H

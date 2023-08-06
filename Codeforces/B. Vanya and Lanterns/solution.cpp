@@ -5,6 +5,7 @@
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
+
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -34,10 +35,23 @@ using namespace __gnu_pbds;
 
 ll l;
 int n;
-int main(int argc, char** argv)
-{
+
+int main(int argc, char **argv) {
     optimize;
     cin >> n >> l;
+    vector<double> lanterns(n);
+    for (auto &x: lanterns) cin >> x;
+    sort(ALL(lanterns));
+    double di = lanterns[0] - 0;
+    double df = abs(l - lanterns[n - 1]);
+    double dif = 0;
+    //cerr << di << " " << df << endl;
+    for (int i = 1; i < n; i++) {
+        dif = max(dif,  (lanterns[i] - lanterns[i - 1])/2);
+    }
+   // cerr << dif << endl;
+    double ans = max(max(di, df), dif);
+    cout << setprecision(10) << fixed << ans << endl;
     return 0;
 }
 
