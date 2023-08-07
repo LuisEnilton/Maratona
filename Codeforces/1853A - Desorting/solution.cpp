@@ -1,3 +1,6 @@
+//
+// Created by Luis on 07/08/2023.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -29,10 +32,41 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
+int n;
 
 int main(int argc, char** argv)
 {
     optimize;
+    int t;
+    cin >> t;
+    while(t--){
+
+        cin >> n ;
+        ll menor = INFLL;
+        ll passado;
+        for(int i =0;i < n;i++){
+            if(i == 0){
+                cin >> passado;
+            }else{
+                ll num; cin >> num;
+               menor = min(menor,num-passado);
+               passado = num;
+            }
+        }
+        if(menor < 0){
+            cout << 0 << endl;
+            continue;
+        }
+        cout << (menor/2) + 1 <<endl;
+
+    }
     return 0;
 }
+/* 1 10
+    2 9
+    3 8
+    4 7
+    5 6
+    6 5
+ */
 

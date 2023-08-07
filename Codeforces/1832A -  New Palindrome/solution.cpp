@@ -1,7 +1,11 @@
+//
+// Created by Luis on 07/08/2023.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
+
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -30,9 +34,38 @@ using namespace __gnu_pbds;
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
 
-int main(int argc, char** argv)
-{
+int main(int argc, char **argv) {
     optimize;
+    int t;
+    cin >> t;
+    while(t--){
+        vi freq(26);
+        string s;
+        cin >> s;
+        for (auto c: s) {
+            freq[c - 'a']++;
+        }
+        int n_par = 0, freq_impar = 0;
+        for (auto x: freq) {
+            if (x % 2 == 1) {
+                freq_impar = x;
+            } else {
+                if (x > 0) n_par++;
+            }
+        }
+        if (freq_impar <= 1) {
+            if (n_par > 1) {
+                cout << "YES" << endl;
+                continue;
+            }
+        } else {
+            if (n_par > 0) {
+                cout << "YES" << endl;
+                continue;
+            }
+        }
+        cout << "NO" << endl;
+    }
     return 0;
 }
 
