@@ -1,6 +1,9 @@
 //
-// Created by Luis on 26/07/2023.
+// Created by Luis on 08/08/2023.
 //
+
+#ifndef MARATONA_SOLUTION_H
+#define MARATONA_SOLUTION_H
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -27,54 +30,27 @@
 #define EPS 1e-9
 #define endl '\n'
 
-using namespace std;
+//using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
 
-//vector<ll> primos;
-ll ini , final;
-vector<bool> crivo(ll N)
-{
-    vector<bool> eh_primo(N + 1, true);
 
-    eh_primo[0] = eh_primo[1] = false;
+class Solution {
+public:
+    int reverse(int x) {
+        std::string s;
+        s = std::to_string(abs( x));
 
-    ll pos = 1;
+        std::reverse(ALL(s));
+        int ans = stoi(s);
+        if(x < 0){
+            return -1 * ans;
 
-    // O(N * log N)
-    for (ll i = 2; i <= N; i++)
-    {
-        if (!eh_primo[i]) continue;
-
-       // eh_primo[i] = true;
-
-        // i é primo
-        //primos.push_back(i);
-
-        for (ll j = i * i; j <= N; j += i)
-            eh_primo[j] = false;
+        }else
+            return ans;
     }
+};
 
-    return eh_primo;
-}
-
-
-int main(int argc, char** argv)
-{
-    optimize;
-    int t;
-    cin >> t;
-    while(t--){
-         ini , final;
-        cin >> ini >> final;
-        vector<bool> primos = crivo(final);
-        for(ll i = ini; i <=final;i++){
-            if(primos[i])
-                cout << i << endl;
-        }
-        cout << endl;
-    }
-    return 0;
-}
+#endif //MARATONA_SOLUTION_H

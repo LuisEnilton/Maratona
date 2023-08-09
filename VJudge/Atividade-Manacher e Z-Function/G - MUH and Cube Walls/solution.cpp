@@ -67,7 +67,6 @@ int main(int argc, char **argv) {
     vector<ll> ele(w);
     vector<ll> difsB(n - 1);
     vector<ll> difsE(w - 1);
-
     for (int i = 0; i < n; i++) {
         cin >> bears[i];
         if (i != 0)

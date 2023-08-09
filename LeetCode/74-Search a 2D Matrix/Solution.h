@@ -1,7 +1,14 @@
+//
+// Created by Luis on 08/08/2023.
+//
+
+#ifndef MARATONA_SOLUTION_H
+#define MARATONA_SOLUTION_H
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
+
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -29,44 +36,35 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-vi Zfunction(string &s) {
-    int n = s.size();
-    vi z(n);
 
-    for (int i = 1, l = 0, r = 0; i < n; i++) {
-        if (i <= r) z[i] = min(z[i - l], r - i + 1);
+class Solution {
+public:
 
-        while (z[i] + i < n && s[z[i]] == s[i + z[i]]) z[i]++;
-
-        if (r < i + z[i] - 1) l = i, r = i + z[i] - 1;
+    pair<int, int> converte(int i, int n, int m) {
+        int y = (i - 1) % m;
+        int x = (i - 1) / m;
+        return pair(x, y);
     }
 
-    return z;
-}
-
-int main(int argc, char** argv)
-{
-    optimize;
-    string s,t;
-    while(getline(cin,s),getline(cin,t) ){
-        int sz1= s.size(),sz2 = t.size();
-        int ans = 0;
-        for(int i =0;i < sz2;i++){
-            string copia = t.substr(i,sz2-i);
-            copia+=s;
-           // cerr << copia << endl;
-            vi prefs = Zfunction(copia);
-          //  for(auto x : prefs) cerr << x <<" ";
-           // cerr << endl;
-            for(int j = sz2 - i; j < sz1 + sz2 - i;j++) {
-                int val = min(sz2-i,prefs[j]);
-                ans = max(ans,val);
-
+    bool searchMatrix(vector<vector<int>> &matrix, int target) {
+        int n = matrix.size();
+        int m = matrix[0].size();
+        int l = 0;
+        int r = n * m;
+        while (l <= r) {
+            int mid = (l+r)/2;
+            auto [x,y] = converte(mid,n,m);
+            if(matrix[x][y] == target){
+                return true;
+            }else if(matrix[x][y] > target){
+                    r = mid-1;
+            }else{
+                l = mid +1;
             }
         }
-        cout << min(ans,sz2) << endl;
+        return false;
     }
-    return 0;
-}
+};
 
 
+#endif //MARATONA_SOLUTION_H
