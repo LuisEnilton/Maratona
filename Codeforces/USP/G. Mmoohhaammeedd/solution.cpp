@@ -1,10 +1,10 @@
 //
-// Created by Luis on 04/08/2023.
+// Created by luise on 09/08/2023.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -33,56 +33,43 @@ using namespace __gnu_pbds;
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
 
-vi manacher(string &st) {
-    string s = "$_";
-    for (auto c: st) {
-        s += c;
-        s += "_";
-    }
-    s += "#";
-
-    int n = s.size() - 2;
-    vi p(n + 2);
-
-    int r = 1, l = 1;
-    for (int i = 1; i <= n; i++) {
-        p[i] = max(0, min(r - i, p[l + r - i]));
-
-        while (s[i - p[i]] == s[i + p[i]]) p[i]++;
-
-        if (i + p[i] > r) {
-            r = i + p[i];
-            l = i - p[i];
+int main(int argc, char** argv)
+{
+    optimize;
+    int q;
+    cin >> q;
+    while(q--){
+        string s;
+        cin >> s;
+        int n = s.size();
+        string ans ="";
+        if(n == 1){
+            cout <<s << s << endl;
+            continue;
         }
-    }
-    for(auto &x : p) x--;
-    return p;
-}
-
-int main(int argc, char **argv) {
-    //optimize;
-    string s;
-    getline(cin,s);
-    vi p = manacher(s);
-    //for(auto x : p) cerr << x << " ";
-    //cout << endl;
-    ll ans = 0;
-    for(auto x : p){
-        if(x > 0){
-            if(x % 2 == 1)
-                ans += x / 2 + 1;
-            else
-                ans+=x/2;
+        if(s[0]!= s[1]){
+            ans+=s[0];
+            ans+=s[0];
+        }else{
+            ans+=s[0];
         }
-
+        for(int i = 1 ; i < n-1;i++){
+            if(s[i] != s[i-1] && s[i]!=s[i+1]){
+                ans+=s[i];
+                ans+=s[i];
+            }else{
+                ans+=s[i];
+            }
+        }
+        if(s[n-1]!=s[n-2]){
+            ans+=s[n-1];
+            ans+=s[n-1];
+        }else{
+            ans+=s[n-1];
+        }
+    cout << ans << endl;
     }
-    cout << ans  << endl;
     return 0;
 }
 
-/*
-   a_b_b_a_b_a_b
-   1 121 2 3 2 1
-   abcba
-  */
 

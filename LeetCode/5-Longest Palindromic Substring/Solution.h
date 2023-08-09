@@ -1,10 +1,13 @@
 //
-// Created by Luis on 04/08/2023.
+// Created by luise on 09/08/2023.
+//
+
+#ifndef MARATONA_SOLUTION_H
+#define MARATONA_SOLUTION_H
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -40,49 +43,44 @@ vi manacher(string &st) {
         s += "_";
     }
     s += "#";
-
-    int n = s.size() - 2;
+    int n = s.size() - 2; //elimina o '$' e o '#'
     vi p(n + 2);
-
-    int r = 1, l = 1;
+    int l = 1, r = 1;// r marca o palindromo que chegou mais longe
     for (int i = 1; i <= n; i++) {
         p[i] = max(0, min(r - i, p[l + r - i]));
 
-        while (s[i - p[i]] == s[i + p[i]]) p[i]++;
+        while (s[i - p[i]] == s[i + p[i]])//tenta crescer pros 2 lados
+            p[i]++;
 
         if (i + p[i] > r) {
-            r = i + p[i];
             l = i - p[i];
+            r = i + p[i];
         }
     }
-    for(auto &x : p) x--;
+
+    for (auto &x: p) x--;
     return p;
 }
 
-int main(int argc, char **argv) {
-    //optimize;
-    string s;
-    getline(cin,s);
-    vi p = manacher(s);
-    //for(auto x : p) cerr << x << " ";
-    //cout << endl;
-    ll ans = 0;
-    for(auto x : p){
-        if(x > 0){
-            if(x % 2 == 1)
-                ans += x / 2 + 1;
-            else
-                ans+=x/2;
+
+
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        vi p = manacher(s);
+        pii ans = {0,0};
+        for(int i = 0; i < p .size();i++){
+            cout << p[i] << " ";
+            if(p[i] > ans.first){
+                ans = {p[i],i};
+            }
         }
-
+        cout << endl ;
+        cout << ans.first << " " << ans.second << endl;
+        cout << s.substr(ans.second/2 - ans.first/2,ans.first);
+        return "";
     }
-    cout << ans  << endl;
-    return 0;
-}
+};
 
-/*
-   a_b_b_a_b_a_b
-   1 121 2 3 2 1
-   abcba
-  */
 
+#endif //MARATONA_SOLUTION_H
