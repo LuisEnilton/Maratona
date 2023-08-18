@@ -57,8 +57,6 @@ struct StringHash{
     ll get_value(ll a,ll b){
         return (MOD + hsh[b+1] - (hsh[a]*expBase[b-a+1])%MOD)%MOD;
     }
-
-
 };
 int n ,m , q;
 int main(int argc, char** argv)
