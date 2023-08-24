@@ -34,12 +34,12 @@ using namespace __gnu_pbds;
 
 
 //vector<ll> primos;
-
-vector<ll> crivo(ll N)
+ll ini , final;
+vector<bool> crivo(ll N)
 {
-    vector<ll> eh_primo(N + 1, 1);
+    vector<bool> eh_primo(N + 1, true);
 
-    eh_primo[0] = eh_primo[1] = 0;
+    eh_primo[0] = eh_primo[1] = false;
 
     ll pos = 1;
 
@@ -48,13 +48,13 @@ vector<ll> crivo(ll N)
     {
         if (!eh_primo[i]) continue;
 
-        eh_primo[i] = pos++;
+       // eh_primo[i] = true;
 
         // i é primo
         //primos.push_back(i);
 
         for (ll j = i * i; j <= N; j += i)
-            eh_primo[j] = 0;
+            eh_primo[j] = false;
     }
 
     return eh_primo;
@@ -67,9 +67,9 @@ int main(int argc, char** argv)
     int t;
     cin >> t;
     while(t--){
-        ll ini , final;
+         ini , final;
         cin >> ini >> final;
-        vector<ll> primos = crivo(final);
+        vector<bool> primos = crivo(final);
         for(ll i = ini; i <=final;i++){
             if(primos[i])
                 cout << i << endl;
