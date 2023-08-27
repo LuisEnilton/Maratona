@@ -1,5 +1,5 @@
 //
-// Created by Luis on 26/08/2023.
+// Created by Luis on 27/08/2023.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
@@ -31,28 +31,29 @@ using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
-vi nums;
-int n;
-
-
 
 
 int main(int argc, char** argv)
 {
     optimize;
-
-    cin >> n;
-    bitset<1000> b;
-    b.flip();
-    nums.resize(n);
-    int menor =INF;
-    for(auto &x: nums) {
-        cin >> x;
-        b.reset(x - 1);
-        menor = min(menor,x);
+    int m; cin >> m;
+    vi ps(m + 1);
+    ps[0] = 0;
+    for(int i = 1;i <= m;i++){
+        int val; cin >> val;
+        ps[i] = ps[i-1] + val;
     }
+    //cerr << ps[m] << endl;
+    int mid = (ps[m]+1)/2;
 
-    cout << b._Find_next(menor - 1) + 1 << endl;
+    //cerr << mid << endl;
+    int month = lower_bound(ALL(ps),mid) - ps.begin();
+   // cerr << month  << endl;
+    //cerr << ps[month] << endl;
+    //cerr << ps[month] - mid << endl;
+    int dif = ps[month] - mid;
+    int ans = (ps[month] - ps[month-1]) - dif;
+    cout <<  month << " " << ans << endl;
     return 0;
 }
 

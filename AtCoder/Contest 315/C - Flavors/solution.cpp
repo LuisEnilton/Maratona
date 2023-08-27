@@ -1,5 +1,5 @@
 //
-// Created by Luis on 26/08/2023.
+// Created by Luis on 27/08/2023.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
@@ -31,28 +31,34 @@ using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
-vi nums;
-int n;
-
-
 
 
 int main(int argc, char** argv)
 {
     optimize;
-
-    cin >> n;
-    bitset<1000> b;
-    b.flip();
-    nums.resize(n);
-    int menor =INF;
-    for(auto &x: nums) {
-        cin >> x;
-        b.reset(x - 1);
-        menor = min(menor,x);
+    int n; cin >> n;
+    vector<pair<ll,int>> cups(n);
+    for(int i =0;i < n;i++){
+        int f; cin >> f;
+        ll s; cin >> s;
+        cups[i].first = s;
+        cups[i].second = f;
     }
+    sort(ALL(cups));
+    int r = n-1;
+    ll ans = cups[r].first;
+    int f = cups[r].second;
+    ll op1 = 0,op2 = 0;
+    for(int i = n-2;i > 0 ;i--){
+        if(f == cups[i].second){
+            op1 = max(op1,cups[i].first/2);
 
-    cout << b._Find_next(menor - 1) + 1 << endl;
+        }else{
+            op2 = max(op2 , cups[i].first);
+
+        }
+    }
+    cout << ans + max(op1,op2) << endl;
     return 0;
 }
 

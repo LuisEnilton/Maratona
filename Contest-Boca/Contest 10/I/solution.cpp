@@ -31,28 +31,32 @@ using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
-vi nums;
-int n;
-
-
-
 
 int main(int argc, char** argv)
 {
     optimize;
-
+    int n;
     cin >> n;
-    bitset<1000> b;
-    b.flip();
-    nums.resize(n);
-    int menor =INF;
-    for(auto &x: nums) {
-        cin >> x;
-        b.reset(x - 1);
-        menor = min(menor,x);
+    vi frogs(n);
+    bitset<10000010> bs;
+    //bitset<10000000> bs2;
+    bs.flip();
+    for(int i = 0;i < n;i++){
+        int pos; cin >> pos;
+        frogs[i] = pos - 1;
+        bs.reset(pos - 1);
     }
-
-    cout << b._Find_next(menor - 1) + 1 << endl;
+    //cout << bs << endl;
+    int q; cin >> q;
+    while(q--){
+        int id; cin >> id;
+        id--;
+        int next = bs._Find_next(frogs[id]);
+        cout << next + 1 << endl;
+        bs[frogs[id]].flip();
+        frogs[id] = next;
+        bs[next].flip();
+    }
     return 0;
 }
 

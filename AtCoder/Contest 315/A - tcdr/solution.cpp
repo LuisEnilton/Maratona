@@ -1,5 +1,5 @@
 //
-// Created by Luis on 26/08/2023.
+// Created by Luis on 27/08/2023.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
@@ -31,28 +31,26 @@ using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
-vi nums;
-int n;
 
-
+bool check(char c){
+    if(c == 'a' || c == 'e' || c == 'i' || c == 'o' || c =='u'){
+        return true;
+    }
+    return false;
+}
 
 
 int main(int argc, char** argv)
 {
     optimize;
-
-    cin >> n;
-    bitset<1000> b;
-    b.flip();
-    nums.resize(n);
-    int menor =INF;
-    for(auto &x: nums) {
-        cin >> x;
-        b.reset(x - 1);
-        menor = min(menor,x);
+    string s,ans = "";
+    cin >> s;
+    for(auto c : s){
+        if(!check(c)){
+            ans+=c;
+        }
     }
-
-    cout << b._Find_next(menor - 1) + 1 << endl;
+    cout << ans << endl;
     return 0;
 }
 

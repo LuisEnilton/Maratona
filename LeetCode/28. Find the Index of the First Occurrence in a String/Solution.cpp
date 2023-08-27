@@ -1,6 +1,8 @@
 //
-// Created by Luis on 26/08/2023.
+// Created by Luis on 27/08/2023.
 //
+
+#include "Solution.h"
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -31,28 +33,15 @@ using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
-vi nums;
-int n;
-
-
 
 
 int main(int argc, char** argv)
 {
     optimize;
-
-    cin >> n;
-    bitset<1000> b;
-    b.flip();
-    nums.resize(n);
-    int menor =INF;
-    for(auto &x: nums) {
-        cin >> x;
-        b.reset(x - 1);
-        menor = min(menor,x);
-    }
-
-    cout << b._Find_next(menor - 1) + 1 << endl;
+    Solution sol;
+    string s = "sadbutsad";
+    string t = "sad";
+    cout << sol.strStr(s,t) << endl;
     return 0;
 }
 

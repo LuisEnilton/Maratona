@@ -29,10 +29,40 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
+int mostSignificantOne(bitset<64> bt){
+    int pos = 0;
+    int ans = 0;
+    while(pos != bt.size()){
+        pos = bt._Find_next(pos);
+        if(pos!=bt.size())
+            ans = pos;
+    }
 
+    return ans;
+}
+int counterGame(long n) {
+    bitset<64> bt(n);
+    int cont = 0;
+    while(n > 1){
+        if(bt.count() == 1){
+            n>>=1;
+            bt>>= 1;
+        }else{
+            int pos = mostSignificantOne(bt);
+            n-= (1 << pos);
+            bitset<64> copy(n);
+            bt.reset();
+            bt |= copy;
+        }
+        cont++;
+    }
+
+    return cont;
+}
 int main(int argc, char** argv)
 {
     optimize;
+    cout <<counterGame(6);
     return 0;
 }
 
