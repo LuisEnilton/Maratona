@@ -157,7 +157,6 @@ int main(int argc, char** argv)
 
             int ans = __builtin_popcount(freq); // conta os 1 no inteiro
 
-
             cout << ans << endl;
         }
     }

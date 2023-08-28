@@ -291,4 +291,4 @@ add_executable(Maratona
         main.cpp
         Solution.cpp
         template.cpp
-        teste.cpp)
+        teste.cpp Extensão/Geometria/solution.cpp "Codeforces/908C - New Year and Curling/solution.cpp" "Beecrowd/2665 - Hipercampo/solution.cpp")
