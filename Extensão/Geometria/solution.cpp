@@ -47,10 +47,16 @@ using namespace __gnu_pbds;
 #define a_den first.second
 #define b second
 typedef pair<int,int> Point;
-typedef pair<int,int> Vector;
 typedef pair<pair<int,int>,int> Line;
+typedef pair<int,int> Vector;
 typedef pair<pair<int,int>,pair<int,int>> Segment;
 typedef vector<Point> Polygon;
+
+
+//Distância entre dois pontos
+double distance(Point a, Point b){
+    return sqrt((a.x-b.x)*(a.x-b.x) + (a.y-b.y)*(a.y-b.y));
+}
 
 //Produto interno entre dois pontos
 int dot_product(Point a, Point b){
@@ -89,6 +95,15 @@ Line line_equation(Point a, Point b){
     int C = A*a.first + B*a.second;
     return {{A,B},C};
 }
+
+//calcula o ponto de intersessão entre duas retas
+Point intersection_point(Line a, Line b){
+    int det = a.first.first*b.first.second - b.first.first*a.first.second;
+    int g = (b.first.second*a.second - a.first.second*b.second)/det;
+    int h = (a.first.first*b.second - b.first.first*a.second)/det;
+    return {g,h};
+}
+
 
 //lei dos cossenos
 double cosines_law(double a, double b, double c){
