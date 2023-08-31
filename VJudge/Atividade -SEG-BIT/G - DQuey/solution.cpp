@@ -34,80 +34,84 @@ using namespace __gnu_pbds;
 
 
 int n;
-const int MAXN = 30010;
-set<int> seg[4 * MAXN];
-int NEUTRO =0;
+vi nums;
+const int MAXN = 3*10e4 + 10;
+bitset<3000> seg[4 * MAXN];
 
-set<int> join(set<int> &a, set<int> &b)
+bitset<3000> query(int no, int l, int r, int a, int b)
 {
-    a.insert(ALL(b));
-    return a;
+    if (b < l || r < a)
+        return 0;
+    if (a <= l && r <= b)
+        return seg[no];
+
+    int m = (l + r) / 2, e = no * 2, d = no * 2 + 1;
+
+    return query(e, l, m, a, b) | query(d, m + 1, r, a, b);
 }
 
-
-vector<ll> nums;
-void build(int no, int l, int r)
+void update(int no, int l, int r, int pos, ll v)
 {
+    if (pos < l || r < pos)
+        return;
     if (l == r)
     {
-        seg[no].insert(nums[l]);
+        seg[no].set(v - 1);
         return;
     }
 
-    int e = 2 * no;
-    int d = e + 1;
-    int m = (l + r) / 2;
+    int m = (l + r) / 2, e = no * 2, d = no * 2 + 1;
 
-    build(e, l, m);
-    build(d, m + 1, r);
+    update(e, l, m, pos, v);
+    update(d, m + 1, r, pos, v);
 
-    seg[no].insert(ALL(seg[e]));
-    seg[no].insert(ALL(seg[d]));
+    seg[no] = seg[e] | seg[d];
+}
+
+void build(int no , int l ,int r){
+    if(l == r){
+        seg[no].set(nums[l] - 1);
+        return;
+    }
+    int m = (l+r)/2, e = no*2, d = no*2+1;
+    build(e,l,m);
+    build(d,m+1,r);
+    seg[no] = seg[e] | seg[d];
 }
 
 
-set<int> query(int no, int l, int r, int a, int b)
-{
-    if (l > b || r < a){
-        set<int> vazio;
-        return vazio;
+//algoritmo de compressão de coordenadas dado um vector<int>
+//retorna um vector<int> com as coordenadas comprimidas
+//complexidade O(nlogn)
+vi compress(vi &v){
+    vi ret = v;
+    ret;
+    for(auto &x : v){
+        x = POS(ret,x);
     }
-
-
-    if (l >= a && r <= b)
-    {
-        return seg[no];
-    }
-
-    int e = 2 * no;
-    int d = e + 1;
-    int m = (l + r) / 2;
-
-    set<int> esq = query(e, l, m, a, b);
-    set<int> dir = query(d, m + 1, r, a, b);
-    return join(esq, dir);
+    return ret;
 }
-
-
 
 
 
 int q;
 int main(int argc, char **argv) {
-    optimize;
-
 
 
         cin >> n ;
-        nums.resize(n);
-        for(auto &x:nums) cin >> x;
+        vi aux(n);
+
+        for(int i = 0;i < n;i++){
+            cin >> aux[i];
+        }
+        nums = compress(aux);
         build(1,0,n-1);
         cin >> q;
         while(q--){
             int l ,r;
             cin >> l >> r;
             l--,r--;
-            cout <<  query(1,0,n-1,l-1,r).size() << endl;
+            cout <<  query(1,0,n-1,l,r).count() << endl;
         }
 
     return 0;

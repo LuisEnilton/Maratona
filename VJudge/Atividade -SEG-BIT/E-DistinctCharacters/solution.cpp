@@ -32,11 +32,54 @@ using namespace __gnu_pbds;
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
 int n;
-const int MAXN = 10e5+10;
+const int MAXN = 10e5;
+string s;
+bitset<27> seg[4 * MAXN];
+
+bitset<27> query(int no, int l, int r, int a, int b)
+{
+    if (b < l || r < a){
+        bitset<27> bt;
+        return bt;
+    }
+    if (a <= l && r <= b)
+        return seg[no];
+
+    int m = (l + r) / 2, e = no * 2, d = no * 2 + 1;
+
+    return query(e, l, m, a, b) | query(d, m + 1, r, a, b);
+}
+
+void update(int no, int l, int r, int pos, int v)
+{
+    if (pos < l || r < pos)
+        return;
+    if (l == r)
+    {
+        seg[no].flip(v);
+        return;
+    }
+
+    int m = (l + r) / 2, e = no * 2, d = no * 2 + 1;
+
+    update(e, l, m, pos, v);
+    update(d, m + 1, r, pos, v);
+
+    seg[no] = seg[e] | seg[d];
+}
+
+void build(int no , int l ,int r){
+    if(l == r){
+        seg[no].set(s[l] -'a');
+        return;
+    }
+    int m = (l+r)/2, e = no*2, d = no*2+1;
+    build(e,l,m);
+    build(d,m+1,r);
+    seg[no] = seg[e] | seg[d];
+}
 
 
-
-int seg[4*MAXN];
 
 int join(int a, int b)
 {
@@ -44,71 +87,30 @@ int join(int a, int b)
 
 }
 
-string s;
 
-void build(int no, int l, int r)
-{
-    // estamos buildando um folha
-    if (l == r)
-    {
-        int c = s[l];
-        Node curr;
-        curr.freq[c - 'a']++;
-        return;
-    }
 
-    int e = 2 * no;
-    int d = e + 1;
-    int m = (l + r) / 2;
-
-    build(e, l, m);
-    build(d, m + 1, r);
-
-    seg[no] = join(seg[e], seg[d]);
-}
-
-void update(int no, int l, int r, int pos, int v)
-{
-    // chegou na posicao que cê quer mudar
-    if (l == r)
-    {
-        seg[no] = v;
-        return;
-    }
-
-    int e = 2 * no;
-    int d = e + 1;
-    int m = (l + r) / 2;
-
-    if (pos <= m)
-        update(e, l, m, pos, v);
-    else
-        update(d, m + 1, r, pos, v);
-
-    seg[no] = join(seg[e], seg[d]);
-}
-
-ll query(int no, int l, int r, int a, int b)
-{
-    //totalmente fora
-    if (r < a || b < l)
-        // valor neutro (no caso do min, o INF)
-        return NEUTRO;
-
-    // totalmente dentro
-    if (a <= l && r <= b)
-        return seg[no];
-
-    int e = 2 * no;
-    int d = e + 1;
-    int m = (l + r) / 2;
-
-    return join(query(e, l, m, a, b), query(d, m + 1, r, a, b));
-
-}
 
 int main(int argc, char** argv)
 {
     optimize;
+    cin >> s;
+    int q;cin >>q;
+    n = s.size();
+    build(1,0,n-1);
+    while(q--){
+        int op; cin >> op;
+        if(op == 1){
+            int pos; cin >> pos;
+            cin.ignore();
+            char c; cin >> c;
+            update(1,0,n-1,pos - 1,s[pos-1] - 'a');
+            update(1,0,n-1,pos - 1,c - 'a');
+        }else{
+            int l,r;
+            cin >> l >> r;
+            l--,r--;
+            cout << query(1,0,n-1,l,r).count() << endl;
+        }
+    }
     return 0;
 }
