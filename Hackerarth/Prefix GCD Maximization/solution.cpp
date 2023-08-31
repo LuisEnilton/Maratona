@@ -35,7 +35,7 @@ using namespace __gnu_pbds;
 
 int n;
 vector<ll> nums;
-ll memo[2 << 20][21];
+ll memo[2 << 20][20];
 
 vector<ll> compress(vector<ll> &v) {
     vector<ll> ret = v;
@@ -45,23 +45,19 @@ vector<ll> compress(vector<ll> &v) {
     return ret;
 }
 
-ll solve(bitset<20> mask, int i, vector<ll> &pos) {
+ll solve(int mask, int i, vector<ll> &pos , ll pref) {
     if (i == n) {
         return 0;
     }
-    mask.set(pos[i]);
+    mask |= ( 1 << pos[i]);
 
-    if(memo[mask.to_ulong()][i] != -1){
-        return memo[mask.to_ulong()][i];
+    if(memo[mask][pos[i]] != -1){
+        return memo[mask][i];
     }
-
-    ll result = 0;
-    for (int j = i; j >= 0; j--) {
-        result = gcd(result, nums[pos[j]]);
-    }
-    ll val;
-    val = solve(mask, i + 1, pos);
-    return memo[mask.to_ulong()][i] = val + result;
+    // pref é o prefixo calculado até aquele momento
+    ll result = gcd(pref,nums[pos[i]]);
+    ll val = solve(mask, i + 1, pos,result);
+    return memo[mask][pos[i]] = val + result;
 
 
 }
@@ -72,12 +68,12 @@ int main(int argc, char **argv) {
     nums.resize(n);
     for (auto &x: nums) cin >> x;
     sort(ALL(nums));
-    vector<ll> pos = compress(nums);
+    vector<ll> pos = compress(nums); // pos é o vetor comprimido
     memset(memo, -1, sizeof memo);
     ll ans = 0;
     do {
-        bitset<20> mask;
-        ans = max(ans, solve(mask, 0, pos));
+        int mask = 0;
+        ans = max(ans, solve(mask, 0, pos,0));
 
     } while (next_permutation(ALL(pos)));
     cout << ans << endl;
