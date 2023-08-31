@@ -1,5 +1,5 @@
 //
-// Created by Luis on 30/08/2023.
+// Created by Luis on 31/08/2023.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
@@ -31,53 +31,21 @@ using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
-const int maxn = 11;
-vii grafo[maxn];
-int n,m;
-
-int memo[2050][maxn];
-
-
-int solve(bitset<11> mask,int atual){
-    if(mask.count() == n){
-        return 0;
-    }
-    int ans = INF;
-    mask.set(atual);
-    //cout << mask.to_ullong() << endl;
-    if(memo[mask.to_ullong()][atual] != -1){
-        return memo[mask.to_ulong()][atual];
-    }
-    for(auto [dest,custo] : grafo[atual]){
-        if(mask.test(dest)) continue;
-        bitset<11> auxMask = mask;
-        auxMask.set(dest);
-        ans = min(ans,custo + solve(auxMask,dest));
-    }
-    return memo[mask.to_ullong()][atual] = ans;
-}
 
 
 int main(int argc, char** argv)
 {
-    // optimize;
-    cin >> n >> m;
-
-    for(int i =0;i < m;i++){
-        int u ,v ,c;
-        cin >> u >> v >> c;
-        grafo[u].EB(v,c);
-        grafo[v].EB(u,c);
-    }
-
+    optimize;
+    int n; cin >> n;
+    vi ps(n+1);
+    ps[0] = 0;
     int ans = 0;
-    memset(memo,-1,  sizeof memo);
-    for(int i = 1;i <=n;i++){
-        bitset<11> mask;
-        //cout << mask.to_ullong() << endl;
-        ans = max(ans,solve(mask,i)) ;
+    for(int i =1;i<=n;i++){
+        int val; cin >> val;
+        ps[i] = ps[i-1]+ val;
+        ans = max(ans,ps[i]);
     }
-    cout << ans << endl;
+    cout << 100 + ans << endl;
     return 0;
 }
 
