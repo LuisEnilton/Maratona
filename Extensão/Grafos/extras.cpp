@@ -38,10 +38,6 @@ using namespace std;
     -Se a distancia do vertice de origem até o vertice u/v + o custo da aresta + a distancia do vertice u/v
     até o vertice de destino for igual a distancia minima do vertice de origem até o vertice de destino,
     então a aresta faz parte do caminho minimo
-
-
-
-
 */
 
 struct Grafo

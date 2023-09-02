@@ -1,3 +1,6 @@
+//
+// Created by Luis on 01/09/2023.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -28,60 +31,26 @@ using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
-#define debug cout<<"ate aqui ok\n"
 
-string a, b;
-int casos;
-
-bool aparicoes(int n){
-
-    int pos_a = 0;
-
-    for(auto B : b){
-        for(int qtd=0; qtd < n; qtd++){
-
-            while( pos_a < a.size() && B != a[pos_a] )
-                pos_a++;
-
-            if( pos_a == a.size())
-                return false;
-
-            pos_a++;
-        }
+bool check(char c){
+    if(c == '7' || c == '4'){
+        return true;
     }
-
-    return true;
+    return false;
 }
 
 
-int main(){
-
+int main(int argc, char** argv)
+{
     optimize;
-
-    cin>>casos;
-
-    while(casos--){
-
-        cin>>a>>b;
-
-        int esq = 0, dir = a.size() / b.size(), maiorValor;
-
-        while( esq <= dir ){
-
-            int meio = (esq + dir) / 2;
-
-            if( aparicoes(meio) ){
-                maiorValor = meio;
-                esq = meio + 1;
-            } else {
-                dir = meio - 1;
-            }
-
-        }
-
-        cout<<maiorValor<<endl;
-
+    string s; cin >> s;
+    ll cnt = 0;
+    for(auto c : s){
+        if(check(c)) cnt++;
+        if(cnt > 7) break;
     }
+    cout << (cnt == 4 || cnt == 7 ?"YES":"NO");
 
     return 0;
 }
+

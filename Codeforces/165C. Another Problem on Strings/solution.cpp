@@ -1,3 +1,6 @@
+//
+// Created by Luis on 01/09/2023.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -28,60 +31,46 @@ using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
-#define debug cout<<"ate aqui ok\n"
 
-string a, b;
-int casos;
+int k;
 
-bool aparicoes(int n){
+ll fastExp(ll base, ll exp){
+    ll ret = 1LL;
 
-    int pos_a = 0;
-
-    for(auto B : b){
-        for(int qtd=0; qtd < n; qtd++){
-
-            while( pos_a < a.size() && B != a[pos_a] )
-                pos_a++;
-
-            if( pos_a == a.size())
-                return false;
-
-            pos_a++;
-        }
+    while(exp){
+        if((exp&(1LL))) ret = (ret * base)%MOD;
+        base = (base * base)%MOD;
+        exp >>= 1;
     }
 
-    return true;
+    return ret;
 }
 
 
-int main(){
-
+int main(int argc, char** argv)
+{
     optimize;
+    cin >> k;
+    string s;
+    cin >> s;
+    int n = s.size();
+    int l = 0,r = 0;
+    ll ans = 0;
+    int cnt = 0;
+    while(l<=r  && l != n-1){
 
-    cin>>casos;
-
-    while(casos--){
-
-        cin>>a>>b;
-
-        int esq = 0, dir = a.size() / b.size(), maiorValor;
-
-        while( esq <= dir ){
-
-            int meio = (esq + dir) / 2;
-
-            if( aparicoes(meio) ){
-                maiorValor = meio;
-                esq = meio + 1;
-            } else {
-                dir = meio - 1;
-            }
-
+        if(cnt <= k){
+            if(s[r] == '1') cnt++;
+            r = min(r+1,n-1);
+            if(cnt > k) r--;
+        }else{
+            ans++;
+            if(s[l] == '1') cnt--;
+            l++;
         }
 
-        cout<<maiorValor<<endl;
-
     }
-
+    cout << ans << endl;
     return 0;
 }
+

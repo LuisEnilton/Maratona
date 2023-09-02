@@ -1,3 +1,6 @@
+//
+// Created by Luis on 31/08/2023.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -28,60 +31,43 @@ using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
-#define debug cout<<"ate aqui ok\n"
 
-string a, b;
-int casos;
-
-bool aparicoes(int n){
-
-    int pos_a = 0;
-
-    for(auto B : b){
-        for(int qtd=0; qtd < n; qtd++){
-
-            while( pos_a < a.size() && B != a[pos_a] )
-                pos_a++;
-
-            if( pos_a == a.size())
-                return false;
-
-            pos_a++;
-        }
+char grid[1001][1001];
+int h , w;
+ll memo [1001][1001];
+ll solve(int i,int j){
+    if(i == h-1 && j == w - 1){
+        return 1;
+    }
+    if(i >=h || j >=w){
+        return 0;
     }
 
-    return true;
+    if(grid[i][j] == '#'){
+        return 0;
+    }
+
+    if(~memo[i][j]){
+        return memo[i][j];
+    }
+
+    ll direita = solve(i,j+1);
+    ll baixo = solve(i+1,j);
+
+    return memo[i][j] = (direita + baixo) % MOD;
 }
 
-
-int main(){
-
+int main(int argc, char** argv)
+{
     optimize;
-
-    cin>>casos;
-
-    while(casos--){
-
-        cin>>a>>b;
-
-        int esq = 0, dir = a.size() / b.size(), maiorValor;
-
-        while( esq <= dir ){
-
-            int meio = (esq + dir) / 2;
-
-            if( aparicoes(meio) ){
-                maiorValor = meio;
-                esq = meio + 1;
-            } else {
-                dir = meio - 1;
-            }
-
+    cin >> h >> w;
+    for(int i = 0;i < h;i++){
+        for(int j =0;j < w;j++){
+            cin >> grid[i][j];
         }
-
-        cout<<maiorValor<<endl;
-
     }
-
+    memset(memo,-1,sizeof memo);
+    cout << solve(0,0) << endl;
     return 0;
 }
+
