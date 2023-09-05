@@ -291,4 +291,4 @@ add_executable(Maratona
         main.cpp
         Solution.cpp
         template.cpp
-        teste.cpp Extensão/Geometria/solution.cpp "Codeforces/908C - New Year and Curling/solution.cpp" "Beecrowd/2665 - Hipercampo/solution.cpp" "Codeforces/1199B - Water Lily/solution.cpp" "Codeforces/842B - Gleb And Pizza/solution.cpp" "Codeforces/1248A - Integer Points/solution.cpp")
+        teste.cpp Extensão/Geometria/solution.cpp "Codeforces/908C - New Year and Curling/solution.cpp" "Beecrowd/2665 - Hipercampo/solution.cpp" "Codeforces/1199B - Water Lily/solution.cpp" "Codeforces/842B - Gleb And Pizza/solution.cpp" "Codeforces/1248A - Integer Points/solution.cpp" "CSES/Sum of Two Values/solution.cpp")

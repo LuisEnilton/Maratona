@@ -1,3 +1,6 @@
+//
+// Created by luise on 05/09/2023.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -23,59 +26,42 @@
 #define MAXL 23
 #define EPS 1e-9
 #define endl '\n'
-
+#define f first
+#define s second
 using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
-#define debug cout<<"ate aqui ok\n"
-
-string a, b;
-int casos;
 
 
-bool check(int qtd){
-    int n = a.size();
-    int m = b.size();
-    int j =0;
-    int cnt = 0;
-    for(int i =0; i < n; i++){
-        if(a[i] == b[j]){
-            cnt++;
-        }
+int main(int argc, char** argv)
+{
+    optimize;ll
+    int n;
+    ll val;
+    cin >> n >> val;
 
-        if(cnt == qtd){
-            j++;
-        }
-
-        if(j == m){
-            return true;
-        }
-
+    vector<pair<ll,int>> nums(n);
+    for(int i =0; i <n;i++){
+        ll x;
+        cin >> x;
+        nums[i] = {x,i};
     }
-    return false;
-}
-
-
-int main(){
-
-    optimize;
-
-    cin >> casos;
-    while(casos--) {
-        cin >> a >> b;
-        int l =0, r = a.size()/b.size(); // o max possivel é encaixar a string b na string a
-        int ans = 0;
-        while(l<=r){
-            int mid = (l+r)/2;
-            if(check(mid)){
-                ans = mid;
-                l = mid+1;
-            }else{
-                r = mid - 1;
-            }
+    sort(ALL(nums));
+    int l =0, r = n-1;
+    while(l<r){
+        ll atual = nums[l].f + nums[r].f;
+        if(atual == val){
+            cout << nums[l].s + 1 << " " << nums[r].s + 1 << endl;
+            return 0;
+        }else if(atual < val){
+            l++;
+        }else{
+            r--;
         }
-        cout << ans << endl;
     }
+    cout << "IMPOSSIBLE" << endl;
     return 0;
 }
+
+

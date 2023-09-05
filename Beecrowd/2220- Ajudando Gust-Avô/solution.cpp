@@ -33,24 +33,28 @@ using namespace __gnu_pbds;
 string a, b;
 int casos;
 
-bool aparicoes(int n){
 
-    int pos_a = 0;
-
-    for(auto B : b){
-        for(int qtd=0; qtd < n; qtd++){
-
-            while( pos_a < a.size() && B != a[pos_a] )
-                pos_a++;
-
-            if( pos_a == a.size())
-                return false;
-
-            pos_a++;
+bool check(int qtd){
+    int n = a.size();
+    int m = b.size();
+    int j =0;
+    int cnt = 0;
+    for(int i =0; i < n; i++){
+        if(a[i] == b[j]){
+            cnt++;
         }
-    }
 
-    return true;
+        if(cnt == qtd){ // se a quantidade praquela letra deu certo , eu vou pra próxima
+            j++;
+            cnt = 0;
+        }
+
+        if(j == m){ // se eu consegui colocar todas as letras nessa quantidade
+            return true;
+        }
+
+    }
+    return false;
 }
 
 
@@ -58,30 +62,21 @@ int main(){
 
     optimize;
 
-    cin>>casos;
-
-    while(casos--){
-
-        cin>>a>>b;
-
-        int esq = 0, dir = a.size() / b.size(), maiorValor;
-
-        while( esq <= dir ){
-
-            int meio = (esq + dir) / 2;
-
-            if( aparicoes(meio) ){
-                maiorValor = meio;
-                esq = meio + 1;
-            } else {
-                dir = meio - 1;
+    cin >> casos;
+    while(casos--) {
+        cin >> a >> b;
+        int l =0, r = a.size()/b.size(); // o max possivel é encaixar a string b na string a
+        int ans = 0;
+        while(l<=r){
+            int mid = (l+r)/2;
+            if(check(mid)){
+                ans = mid;
+                l = mid+1;
+            }else{
+                r = mid - 1;
             }
-
         }
-
-        cout<<maiorValor<<endl;
-
+        cout << ans << endl;
     }
-
     return 0;
 }
