@@ -38,6 +38,32 @@ using namespace __gnu_pbds;
 int n;
 ll x, y;
 vector<pair<int, ll>> stop;
+ll memo[841];
+int calc(){
+    int ans = 1;
+    for(int i = 1;i <9;i++){
+        ans = ans*i/gcd(ans,i);
+    }
+    return ans;
+}
+
+
+void precalc(){
+    for(ll j = 0;j <= 840;j++){
+        ll val = j;
+        val+=x;
+        for (int i = 0; i < n -1; i++) {
+            if (val % stop[i].f == 0) {
+                val += stop[i].s;
+            } else {
+                ll time = (val / stop[i].f) + 1;
+                val = stop[i].f * time;
+                val += stop[i].s;
+            }
+        }
+        memo[j] = val - j + y;
+    }
+}
 
 int main(int argc, char **argv) {
     optimize;
@@ -49,20 +75,14 @@ int main(int argc, char **argv) {
     }
     int q;
     cin >> q;
+    int mmc = calc();
+    //cerr << mmc << endl;
+    precalc();
     while (q--) {
         ll val ;
         cin >> val;
-        val += x;
-        for (int i = 0; i < n -1; i++) {
-            if (val % stop[i].f == 0) {
-                val += stop[i].s;
-            } else {
-                ll time = (val / stop[i].f) + 1;
-                val = stop[i].f * time;
-                val += stop[i].s;
-            }
-        }
-        cout << val + y << endl;
+        ll m = val % 840;
+        cout << val+memo[m] << endl;
     }
     return 0;
 }
