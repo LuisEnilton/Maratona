@@ -1,6 +1,8 @@
 //
-// Created by Luis on 30/08/2023.
+// Created by Luis on 08/09/2023.
 //
+
+#include "Solution.h"
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -31,52 +33,20 @@ using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
-const int maxn = 11;
-vii grafo[maxn];
-int n,m;
 
-int memo[2050][maxn];
-
-
-int solve(bitset<11> mask,int atual){
-    if(mask.count() == n){
-        return 0;
-    }
-    int ans = 0;
-    mask.set(atual);
-    //cout << mask.to_ullong() << endl;
-    if(memo[mask.to_ullong()][atual] != -1){
-        return memo[mask.to_ulong()][atual];
-    }
-    for(auto [dest,custo] : grafo[atual]){
-        if(mask.test(dest)) continue;
-        bitset<11> auxMask = mask;
-        auxMask.set(dest);
-        ans = max(ans,custo + solve(auxMask,dest));
-    }
-    return memo[mask.to_ullong()][atual] = ans;
-}
 
 
 int main(int argc, char** argv)
 {
-    // optimize;
-    cin >> n >> m;
-
-    for(int i =0;i < m;i++){
-        int u ,v ,c;
-        cin >> u >> v >> c;
-        grafo[u].EB(v,c);
-        grafo[v].EB(u,c);
+    optimize;
+    auto* head = new ListNode(1);
+    ListNode * aux = head;
+    for(int i =2;i < 5;i++){
+        aux->next = new ListNode(i);
+        aux = aux->next;
     }
-
-    int ans = 0;
-    memset(memo,-1,  sizeof memo);
-    for(int i = 1;i <=n;i++){
-        bitset<11> mask;
-        ans = max(ans,solve(mask,i)) ;
-    }
-    cout << ans << endl;
+    Solution sol;
+    sol.reverseBetween(head,1,4);
     return 0;
 }
 

@@ -1,10 +1,11 @@
 //
-// Created by Luis on 30/08/2023.
+// Created by Luis on 06/09/2023.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
+
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -31,51 +32,36 @@ using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
-const int maxn = 11;
-vii grafo[maxn];
-int n,m;
-
-int memo[2050][maxn];
 
 
-int solve(bitset<11> mask,int atual){
-    if(mask.count() == n){
-        return 0;
+int main(int argc, char **argv) {
+    //optimize;
+    freopen("shell.in", "r", stdin);
+    int n;
+    cin >> n;
+    vector<bool> shell(3, false);
+    vii swaps(n);
+    vi guess(n);
+    for (int i = 0; i < n; i++) {
+        cin >> swaps[i].first;
+        swaps[i].first--;
+        cin >> swaps[i].second;
+        swaps[i].second--;
+        cin >> guess[i];
+        guess[i]--;
     }
     int ans = 0;
-    mask.set(atual);
-    //cout << mask.to_ullong() << endl;
-    if(memo[mask.to_ullong()][atual] != -1){
-        return memo[mask.to_ulong()][atual];
+    for (int i = 0; i < 3; i++) {
+        for(int k = 0;k < 3;k++) shell[i] = false;
+        shell[i] = true;
+        int cnt = 0;
+        for (int j = 0; j < n; j++) {
+            swap(shell[swaps[i].first], shell[swaps[i].second]);
+            cnt += shell[guess[i]];
+        }
+        ans = max(ans, cnt);
     }
-    for(auto [dest,custo] : grafo[atual]){
-        if(mask.test(dest)) continue;
-        bitset<11> auxMask = mask;
-        auxMask.set(dest);
-        ans = max(ans,custo + solve(auxMask,dest));
-    }
-    return memo[mask.to_ullong()][atual] = ans;
-}
-
-
-int main(int argc, char** argv)
-{
-    // optimize;
-    cin >> n >> m;
-
-    for(int i =0;i < m;i++){
-        int u ,v ,c;
-        cin >> u >> v >> c;
-        grafo[u].EB(v,c);
-        grafo[v].EB(u,c);
-    }
-
-    int ans = 0;
-    memset(memo,-1,  sizeof memo);
-    for(int i = 1;i <=n;i++){
-        bitset<11> mask;
-        ans = max(ans,solve(mask,i)) ;
-    }
+    freopen("shell.out", "w", stdout);
     cout << ans << endl;
     return 0;
 }
