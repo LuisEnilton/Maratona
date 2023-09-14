@@ -1,3 +1,8 @@
+//
+// Created by Luis on 12/09/2023.
+//
+
+#include "Solution.h"
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -31,7 +36,9 @@ using namespace __gnu_pbds;
 
 int main(int argc, char** argv)
 {
-
+    Solution sol;
+    string s = "abcabc";
+    cout << sol.minDeletions(s) << endl;
 
     return 0;
 }

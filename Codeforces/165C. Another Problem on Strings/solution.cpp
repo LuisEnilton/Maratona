@@ -54,21 +54,16 @@ int main(int argc, char** argv)
     string s;
     cin >> s;
     int n = s.size();
-    int l = 0,r = 0;
-    ll ans = 0;
-    int cnt = 0;
-    while(l<=r  && l != n-1){
+    int soma = 0;
+    int ans = 0;
+    vi ps(n+1);
+    ps.PB(0);
+    for(int i = 1;i <= n ; i++){
+        int val = s[i] - '0';
+        soma+=val;
 
-        if(cnt <= k){
-            if(s[r] == '1') cnt++;
-            r = min(r+1,n-1);
-            if(cnt > k) r--;
-        }else{
-            ans++;
-            if(s[l] == '1') cnt--;
-            l++;
-        }
-
+        ans += upper_bound(ALL(ps),soma-k) - lower_bound(ALL(ps),soma-k);
+        ps.PB(val);
     }
     cout << ans << endl;
     return 0;

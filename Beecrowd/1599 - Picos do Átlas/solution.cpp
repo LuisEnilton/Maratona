@@ -41,7 +41,8 @@ int dx[8] = {-1,0,1,1,-1,-1,0,1};
   */
 const int maxn = 1001;
 int grid[maxn][maxn];
-
+vector<vector<bool>> picos(maxn,vector<bool>(maxn,true));
+vector<vector<bool>> visitado(maxn,vector<bool>(maxn,false));
 int cnt = 0,n,m;
 
 bool check(int y , int x){
@@ -51,7 +52,7 @@ bool check(int y , int x){
     return true;
 }
 
-void dfs(vector<vector<bool>> &picos,vector<vector<bool>> &visitado,int y = 0, int x = 0){
+void dfs(int y = 0, int x = 0){
     queue<pii > fila;
     fila.emplace(y,x);
     while(!fila.empty()){
@@ -59,6 +60,7 @@ void dfs(vector<vector<bool>> &picos,vector<vector<bool>> &visitado,int y = 0, i
         fila.pop();
         int Y = atual.first;
         int X = atual.second;
+        if(!picos[Y][X]) continue;
         if(visitado[Y][X]) continue;
         visitado[Y][X] = true;
         for(int j = 0; j < 8;j++){
@@ -87,20 +89,15 @@ void dfs(vector<vector<bool>> &picos,vector<vector<bool>> &visitado,int y = 0, i
 
 int main(int argc, char** argv)
 {
-    //optimize;
-    while(cin >> n >> m){
+    cin >> n >> m;
     cnt = 0;
-    vector<vector<bool>> picos(n,vector<bool>(m,true));
-    vector<vector<bool>> visitado(n,vector<bool>(m,false));
     for(int i =0;i < n;i++){
         for(int j = 0;j < m;j++){
             cin >> grid[i][j];
         }
     }
-    dfs(picos,visitado);
-    if(cnt == 0) cout << -1 << endl;
-    cout << endl;
-    }
+    dfs();
+    cout << cnt << endl;
     return 0;
 }
 
