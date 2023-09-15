@@ -34,36 +34,10 @@ using namespace __gnu_pbds;
 using namespace std;
 
 int N;
-vi seq;
+vector<ll> seq;
 
-map<pair<int,ll>, int> dp;
-vector<int> subsequence;
+map<ll,vi> freq;
 
-int solve(int i, ll ultimo)
-{
-    if (i == N)
-        return 0;
-    if( dp[{i,ultimo}] != 0)
-        return dp[{i,ultimo}];
-
-    int without_current = solve(i + 1, ultimo);
-    int with_current = 0;
-
-    if (seq[i] == ultimo + 1) {
-        with_current = solve(i + 1, seq[i]) + 1;
-        if (with_current > without_current) {
-            subsequence.push_back(i + 1);
-        }
-    }
-
-    if (with_current > without_current) {
-        dp[{i,ultimo}] = with_current;
-    } else {
-        dp[{i,ultimo}] = without_current;
-    }
-
-    return dp[{i,ultimo}];
-}
 
 int main()
 {
@@ -72,10 +46,20 @@ int main()
     seq.resize(N);
     for (size_t i = 0; i < N; i++)
         cin >> seq[i];
-    int ans = solve(0,seq[0] - 1);
-    cout << ans << endl;
-    for(int i = 0; i < subsequence.size();i++){
-        cout << subsequence[subsequence.size()-i-1]  << " ";
+    vi ans;
+    for(int i = 0; i < N;i++){
+        if(freq[seq[i]].empty()){
+            freq[seq[i]] = freq[seq[i] - 1];
+            freq[seq[i]].push_back(i);
+            freq[seq[i] - 1].clear();
+        }
+        if(freq[seq[i]].size() > ans.size()){
+            ans = freq[seq[i]];
+        }
+    }
+    cout << ans.size() << endl;
+    for(auto &x : ans){
+        cout << x + 1 << " ";
     }
     cout << endl;
 }
