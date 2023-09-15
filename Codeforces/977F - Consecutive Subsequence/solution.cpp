@@ -36,7 +36,7 @@ using namespace std;
 int N;
 vector<ll> seq;
 
-map<ll,vi> freq;
+map<ll,int> freq;
 
 
 int main()
@@ -46,20 +46,21 @@ int main()
     seq.resize(N);
     for (size_t i = 0; i < N; i++)
         cin >> seq[i];
-    vi ans;
-    for(int i = 0; i < N;i++){
-        if(freq[seq[i]].empty()){
-            freq[seq[i]] = freq[seq[i] - 1];
-            freq[seq[i]].push_back(i);
-            freq[seq[i] - 1].clear();
+    pii ans = {0,0};
+    for(int i = N-1; i >= 0;i--){
+        freq[seq[i]] = freq[seq[i] + 1 ] + 1;
+        if(freq[seq[i]] > ans.first){
+            ans = {freq[seq[i]],seq[i]};
         }
-        if(freq[seq[i]].size() > ans.size()){
-            ans = freq[seq[i]];
-        }
+
     }
-    cout << ans.size() << endl;
-    for(auto &x : ans){
-        cout << x + 1 << " ";
+    cout << ans.first << endl;
+    for(int i = 0; i < N;i++){
+        if(seq[i] == ans.second){
+            cout << i + 1 << " ";
+            ans.second++;
+        }
+
     }
     cout << endl;
 }
