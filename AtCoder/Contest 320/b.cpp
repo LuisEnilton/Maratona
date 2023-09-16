@@ -1,3 +1,6 @@
+//
+// Created by Luis on 16/09/2023.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -29,11 +32,42 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
+vi manacher(string &st) {
+    string s = "$_";
+    for (auto c: st) {
+        s += c;
+        s += "_";
+    }
+    s += "#";
+    int n = s.size() - 2; //elimina o '$' e o '#'
+    vi p(n + 2);
+    int l = 1, r = 1;// r marca o palindromo que chegou mais longe
+    for (int i = 1; i <= n; i++) {
+        p[i] = max(0, min(r - i, p[l + r - i]));
+
+        while (s[i - p[i]] == s[i + p[i]])//tenta crescer pros 2 lados
+            p[i]++;
+
+        if (i + p[i] > r) {
+            l = i - p[i];
+            r = i + p[i];
+        }
+    }
+
+    for (auto &x: p) x--;
+    return p;
+}
+
+
 int main(int argc, char** argv)
 {
     optimize;
-
-
+    string s;
+    cin >> s;
+    vi p = manacher(s);
+    int ans = 1;
+    for(auto x: p) ans = max(ans,x);
+    cout << ans << endl;
     return 0;
 }
 

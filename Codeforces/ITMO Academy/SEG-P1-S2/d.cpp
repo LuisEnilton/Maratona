@@ -96,7 +96,7 @@ struct SegTree {
     ll query(int no, int l, int r, ll x,int limit) {
 
         if(seg[no] < x || r < limit ){
-            return NEUTRO;
+            return 0;
         }
 
         if(l == r){
@@ -108,12 +108,12 @@ struct SegTree {
         int mid = (l + r) / 2;
 
         ll esq = query(e, l, mid, x,limit);
-        ll dir = NEUTRO;
-        if(esq == NEUTRO){
+        ll dir = 0;
+        if(esq == 0){
             dir = query(d, mid + 1, r, x,limit);
         }
 
-        if(no == 1 && esq == NEUTRO && dir == NEUTRO) {
+        if(no == 1 && esq == 0 && dir == 0) {
             return 0;
         }
 
@@ -142,7 +142,7 @@ int main(int argc, char **argv) {
             int limit;
             cin >>x;
             cin >> limit;
-            cout << seg->query(1,1,n,x,limit + 1 ) - 1 << endl;
+            cout << seg->query(1,1,n,x,limit+ 1 ) - 1 << endl;
         }
     }
     return 0;

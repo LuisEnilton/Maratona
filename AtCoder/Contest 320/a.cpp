@@ -1,3 +1,6 @@
+//
+// Created by Luis on 16/09/2023.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -32,8 +35,10 @@ using namespace __gnu_pbds;
 int main(int argc, char** argv)
 {
     optimize;
-
-
+    int a,b;
+    cin >> a >> b;
+    ll ans = pow(a,b) + pow(b,a);
+    cout << ans << endl;
     return 0;
 }
 

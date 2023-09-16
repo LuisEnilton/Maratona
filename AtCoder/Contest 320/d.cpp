@@ -1,3 +1,6 @@
+//
+// Created by Luis on 16/09/2023.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -29,10 +32,44 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
+int n,m;
+map<pii,int> coord;
+map<int,pii> person;
 int main(int argc, char** argv)
 {
     optimize;
+    cin >> n >> m;
+    coord[{0,0}] = 1;
+    bool ok = true;
+    vector<bool> det(n,true);
+    while(m--){
+        int a,b;
+        cin >> a >> b;
+        ll x,y;
+        cin >> x >> y;
+        pii t = {0,0};
+        if(person.count(a) == 1 ) {
+            pii cd = person[a];
+            pii cd2 = {cd.first+x,cd.second+y};
+            if(person.count(b) == 1){
+                det[b] = false;
+            }else{
+                coord[cd2] = b;
+                person[b] = cd2;
+            }
 
+        }else if(person.count(b) == 1){
+                    pii cd = person[b];
+                    pii cd2 = {cd.first-x,cd.second-y};
+                    if(person.count(a) == 1){
+                        ok = false;
+                    }else{
+                        coord[cd2] = a;
+                        person[a] = cd2;
+                    }
+            }
+
+    }
 
     return 0;
 }

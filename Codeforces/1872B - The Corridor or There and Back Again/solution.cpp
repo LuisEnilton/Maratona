@@ -1,3 +1,6 @@
+//
+// Created by Luis on 15/09/2023.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -28,12 +31,44 @@ using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
+int n;
+int rooms[400];
+
+bool check(int val){
+    int cnt = 0,time = 0;
+    int aux[400];
+    copy(rooms,rooms+val+1,aux);
+    for(int i = 0; i < val;i++){
+        if(aux[i] != 0){
+            aux[i]+=i;
+        }
+        cnt = i;
+    }
+    for(int i = val-1;i>=0;i--){
+        if(aux[i]!=0){
+              if(cnt > aux[i]) return false;
+        }
+        cnt++;
+    }
+    return true;
+}
 
 int main(int argc, char** argv)
 {
     optimize;
-
-
+    cin >> n;
+    for(int i = 0;i < n;i++){
+        int d,s; cin >>d >> s;
+        if(rooms[d-1]!=0){
+            rooms[d-1] = min(rooms[d-1],s);
+        }else{
+            rooms[d-1] = s;
+        }
+    }
+    int l = 1,r = 400;
+    int ans = 1;
+    check(3);
+    cout << ans << endl;
     return 0;
 }
 
