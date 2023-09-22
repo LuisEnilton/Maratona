@@ -1,5 +1,8 @@
 //
-// Created by Luis on 15/09/2023.
+// Created by Luis on 16/09/2023.
+//
+//
+// Created by Luis on 16/09/2023.
 //
 //
 // Created by Luis on 15/09/2023.
@@ -50,7 +53,7 @@ struct SegTree {
     int n;
     vector<ll> nums;
     vector<ll> seg;
-    ll NEUTRO = 0LL;
+    ll NEUTRO = 0;
 
     SegTree(vector<ll> &nums) {
         n = nums.size();
@@ -60,13 +63,21 @@ struct SegTree {
         build(1, 1, n);
     }
 
+    SegTree(int n) {
+        this->n = n;
+        seg.resize(4 * n);
+        this->nums = vector<ll>(n,1);
+        build(1,1,n);
+    }
+
     ll join(ll a, ll b) {
+
         return a + b;
     }
 
     void build(int no, int l, int r) {
         if (l == r) {
-            seg[no] = nums[l - 1];
+            seg[no] = *new ll(nums[l - 1]);
             return;
         }
 
@@ -78,74 +89,71 @@ struct SegTree {
         seg[no] = join(seg[e], seg[d]);
     }
 
-    void update(int no, int l, int r, int pos) {
+    void update(int no, int l, int r, int pos, ll val) {
         if (r < pos || l > pos) {
             return;
         }
 
         if (l == r) {
-            int arr[2] = {1, 0};
-            seg[no] = arr[seg[no]];
+            seg[no] = val;
             return;
         }
 
         int e = 2 * no;
         int d = e + 1;
         int mid = (l + r) / 2;
-        update(e, l, mid, pos);
-        update(d, mid + 1, r, pos);
+        update(e, l, mid, pos, val);
+        update(d, mid + 1, r, pos, val);
 
         seg[no] = join(seg[e], seg[d]);
     }
 
     ll query(int no, int l, int r, int &k) {
-
-        if (k >= seg[no]) {
-            k -= seg[no];
-            return NEUTRO;
+        if(k>=seg[no]){
+            k-=seg[no];
+            return 0;
         }
 
         if (l == r) {
             return l;
         }
-
-
-        int e = no * 2;
+        int e = 2 * no;
         int d = e + 1;
         int mid = (l + r) / 2;
-        ll esq = query(e, l, mid, k);
-        ll dir = 0;
-        if (esq == NEUTRO)
-            dir = query(d, mid + 1, r, k);
-        return join(esq, dir);
+        ll dir = query(d,mid+1,r,k);
+        ll esq = NEUTRO;
+        if(dir == NEUTRO){
+            esq = query(e,l,mid,k);
+        }
+        return join(dir,esq);
     }
 };
 
 
 int main(int argc, char **argv) {
     optimize;
-    int n, m;
-    cin >> n >> m;
-    vector<ll> nums(n);
-    for (auto &x: nums) {
-        cin >> x;
+    int n;
+    cin >> n;
+    auto seg = *new SegTree(n);
+    vi inv;
+    for (int i = 0; i < n; i++) {
+        int num;
+        cin >> num;
+        inv.EB(num);
     }
-    auto *seg = new SegTree(nums);
-    while (m--) {
-        int op;
-        cin >> op;
-        if (op == 1) {
-            int pos;
-            cin >> pos;
-            pos++;
-            seg->update(1, 1, n, pos);
-        } else {
-            int k;
-            cin >> k;
-            ll ans = seg->query(1, 1, n, k);
-            cout << ans -1 << endl;
-        }
+    stack<int> ans;
+    for(int i = n-1;i>=0;i--){
+        ll index =  seg.query(1, 1, n, inv[i]) ;
+        ans.push(index);
+        seg.update(1,1,n,index,-1
+        );
     }
+    while(!ans.empty()){
+        int idx = ans.top();
+        ans.pop();
+        cout << idx << " ";
+    }
+    cout << endl;
     return 0;
 }
 

@@ -1,4 +1,7 @@
 //
+// Created by Luis on 18/09/2023.
+//
+//
 // Created by Luis on 15/09/2023.
 //
 //
@@ -84,8 +87,7 @@ struct SegTree {
         }
 
         if (l == r) {
-            int arr[2] = {1, 0};
-            seg[no] = arr[seg[no]];
+            seg[no] = 1;
             return;
         }
 
@@ -98,25 +100,22 @@ struct SegTree {
         seg[no] = join(seg[e], seg[d]);
     }
 
-    ll query(int no, int l, int r, int &k) {
+    ll query(int no, int l, int r, int a,int b) {
 
-        if (k >= seg[no]) {
-            k -= seg[no];
+        if(b < l || a > r){
             return NEUTRO;
         }
 
-        if (l == r) {
-            return l;
+        if(l>=a && r <=b){
+            return seg[no];
         }
 
 
         int e = no * 2;
         int d = e + 1;
         int mid = (l + r) / 2;
-        ll esq = query(e, l, mid, k);
-        ll dir = 0;
-        if (esq == NEUTRO)
-            dir = query(d, mid + 1, r, k);
+        ll esq = query(e, l, mid, a,b);
+        ll dir = query(d, mid + 1, r, a,b);
         return join(esq, dir);
     }
 };
@@ -124,28 +123,33 @@ struct SegTree {
 
 int main(int argc, char **argv) {
     optimize;
-    int n, m;
-    cin >> n >> m;
-    vector<ll> nums(n);
-    for (auto &x: nums) {
-        cin >> x;
-    }
+    int n;
+    cin >> n ;
+    vector<ll> nums(2*n);
+    vii pares(n+1,{-1,-1});
     auto *seg = new SegTree(nums);
-    while (m--) {
-        int op;
-        cin >> op;
-        if (op == 1) {
-            int pos;
-            cin >> pos;
-            pos++;
-            seg->update(1, 1, n, pos);
-        } else {
-            int k;
-            cin >> k;
-            ll ans = seg->query(1, 1, n, k);
-            cout << ans -1 << endl;
+    for (int i = 0; i < 2*n;i++) {
+        int x;
+        cin >> x;
+        nums[i] = x;
+        if(pares[x].second == -1){
+            pares[x].second = i;
+        }else{
+            pares[x].first = i;
         }
     }
+    sort(ALL(pares));
+    vector<ll> ans(n);
+    for(int i = 1 ; i <= n;i++){
+        auto [r,l] = pares[i];
+        ll qry = seg->query(1,1,2 * n,l+1,r+1);
+        ans[nums[l] - 1] = qry;
+        seg->update(1,1,2 * n,l+1);
+    }
+    for(auto x : ans){
+        cout << x << " ";
+    }
+    cout << endl;
     return 0;
 }
 

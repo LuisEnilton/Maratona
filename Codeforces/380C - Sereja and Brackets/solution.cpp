@@ -1,5 +1,5 @@
 //
-// Created by Luis on 15/09/2023.
+// Created by Luis on 17/09/2023.
 //
 //
 // Created by Luis on 15/09/2023.
@@ -45,28 +45,60 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
+struct Node{
+
+    ll open;
+    ll close;
+    ll done;
+
+    Node(){
+        this->open = 0;
+        this->close = 0;
+        this->done = 0;
+    }
+
+    Node(char c){
+        if(c == '('){
+            this->open = 1;
+            this->close = 0;
+        }else{
+            this->open = 0;
+            this->close = 1;
+        }
+        this->done = 0;
+    }
+
+
+};
+
+
 
 struct SegTree {
     int n;
-    vector<ll> nums;
-    vector<ll> seg;
-    ll NEUTRO = 0LL;
+    string s;
+    vector<Node> seg;
+    Node NEUTRO = *new Node();
 
-    SegTree(vector<ll> &nums) {
-        n = nums.size();
+    SegTree(string &s) {
+        n = s.size();
         seg.resize(4 * n);
-        this->nums = nums;
+        this->s = s;
 
         build(1, 1, n);
     }
 
-    ll join(ll a, ll b) {
-        return a + b;
+    Node join(Node a, Node b) {
+        Node ans;
+        ll quant = min(a.open,b.close);
+        ans.done = a.done + b .done + quant;
+        ans.open = (a.open - quant) + b.open;
+        ans.close = (b.close - quant) + a.close;
+        return ans;
     }
 
     void build(int no, int l, int r) {
         if (l == r) {
-            seg[no] = nums[l - 1];
+            seg[no] = *new Node(s[l-1]);
             return;
         }
 
@@ -78,73 +110,54 @@ struct SegTree {
         seg[no] = join(seg[e], seg[d]);
     }
 
-    void update(int no, int l, int r, int pos) {
+    void update(int no, int l, int r, int pos, ll val) {
         if (r < pos || l > pos) {
             return;
         }
 
         if (l == r) {
-            int arr[2] = {1, 0};
-            seg[no] = arr[seg[no]];
+            seg[no] = val;
             return;
         }
 
         int e = 2 * no;
         int d = e + 1;
         int mid = (l + r) / 2;
-        update(e, l, mid, pos);
-        update(d, mid + 1, r, pos);
+        update(e, l, mid, pos, val);
+        update(d, mid + 1, r, pos, val);
 
         seg[no] = join(seg[e], seg[d]);
     }
 
-    ll query(int no, int l, int r, int &k) {
-
-        if (k >= seg[no]) {
-            k -= seg[no];
+    Node query(int no, int l, int r, int a, int b) {
+        if (r < a || l > b) {
             return NEUTRO;
         }
 
-        if (l == r) {
-            return l;
+        if (l >= a && r <= b) {
+            return seg[no];
         }
-
-
-        int e = no * 2;
+        int e = 2 * no;
         int d = e + 1;
         int mid = (l + r) / 2;
-        ll esq = query(e, l, mid, k);
-        ll dir = 0;
-        if (esq == NEUTRO)
-            dir = query(d, mid + 1, r, k);
-        return join(esq, dir);
+        return join(query(e, l, mid, a, b), query(d, mid + 1, r, a, b));
     }
 };
 
 
 int main(int argc, char **argv) {
     optimize;
-    int n, m;
-    cin >> n >> m;
-    vector<ll> nums(n);
-    for (auto &x: nums) {
-        cin >> x;
-    }
-    auto *seg = new SegTree(nums);
-    while (m--) {
-        int op;
-        cin >> op;
-        if (op == 1) {
-            int pos;
-            cin >> pos;
-            pos++;
-            seg->update(1, 1, n, pos);
-        } else {
-            int k;
-            cin >> k;
-            ll ans = seg->query(1, 1, n, k);
-            cout << ans -1 << endl;
-        }
+    string s;
+    int m;
+    cin >> s >> m;
+    int n = s.size();
+    auto *seg = new SegTree(s);
+    while(m--){
+
+        int l ,r;
+        cin >> l >> r;
+        Node ans = seg->query(1,1,n,l,r);
+        cout << ans.done * 2 << endl;
     }
     return 0;
 }

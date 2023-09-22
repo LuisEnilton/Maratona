@@ -1,5 +1,5 @@
 //
-// Created by Luis on 15/09/2023.
+// Created by Luis on 16/09/2023.
 //
 //
 // Created by Luis on 15/09/2023.
@@ -50,7 +50,7 @@ struct SegTree {
     int n;
     vector<ll> nums;
     vector<ll> seg;
-    ll NEUTRO = 0LL;
+    ll NEUTRO = *new ll();
 
     SegTree(vector<ll> &nums) {
         n = nums.size();
@@ -60,13 +60,19 @@ struct SegTree {
         build(1, 1, n);
     }
 
+    SegTree(ll n) {
+        this->n = n;
+        seg.resize(4 * n);
+    }
+
     ll join(ll a, ll b) {
+
         return a + b;
     }
 
     void build(int no, int l, int r) {
         if (l == r) {
-            seg[no] = nums[l - 1];
+            seg[no] = *new ll(nums[l - 1]);
             return;
         }
 
@@ -78,74 +84,53 @@ struct SegTree {
         seg[no] = join(seg[e], seg[d]);
     }
 
-    void update(int no, int l, int r, int pos) {
+    void update(int no, int l, int r, int pos, ll val) {
         if (r < pos || l > pos) {
             return;
         }
 
         if (l == r) {
-            int arr[2] = {1, 0};
-            seg[no] = arr[seg[no]];
+            seg[no] += val;
             return;
         }
 
         int e = 2 * no;
         int d = e + 1;
         int mid = (l + r) / 2;
-        update(e, l, mid, pos);
-        update(d, mid + 1, r, pos);
+        update(e, l, mid, pos, val);
+        update(d, mid + 1, r, pos, val);
 
         seg[no] = join(seg[e], seg[d]);
     }
 
-    ll query(int no, int l, int r, int &k) {
-
-        if (k >= seg[no]) {
-            k -= seg[no];
+    ll query(int no, int l, int r, int a, int b) {
+        if (r < a || l > b) {
             return NEUTRO;
         }
 
-        if (l == r) {
-            return l;
+        if (l >= a && r <= b) {
+            return seg[no];
         }
-
-
-        int e = no * 2;
+        int e = 2 * no;
         int d = e + 1;
         int mid = (l + r) / 2;
-        ll esq = query(e, l, mid, k);
-        ll dir = 0;
-        if (esq == NEUTRO)
-            dir = query(d, mid + 1, r, k);
-        return join(esq, dir);
+        return join(query(e, l, mid, a, b), query(d, mid + 1, r, a, b));
     }
 };
 
 
 int main(int argc, char **argv) {
     optimize;
-    int n, m;
-    cin >> n >> m;
-    vector<ll> nums(n);
-    for (auto &x: nums) {
-        cin >> x;
+    int n;
+    cin >> n;
+    auto seg = *new SegTree(n);
+    for (int i = 0; i < n; i++) {
+        int num;
+        cin >> num;
+        cout << seg.query(1, 1, n, num + 1, n) << " ";
+        seg.update(1,1,n,num,1);
     }
-    auto *seg = new SegTree(nums);
-    while (m--) {
-        int op;
-        cin >> op;
-        if (op == 1) {
-            int pos;
-            cin >> pos;
-            pos++;
-            seg->update(1, 1, n, pos);
-        } else {
-            int k;
-            cin >> k;
-            ll ans = seg->query(1, 1, n, k);
-            cout << ans -1 << endl;
-        }
-    }
+    cout << endl;
     return 0;
 }
 

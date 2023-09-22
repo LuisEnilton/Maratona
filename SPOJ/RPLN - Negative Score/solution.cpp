@@ -1,5 +1,8 @@
 //
-// Created by Luis on 15/09/2023.
+// Created by Luis on 17/09/2023.
+//
+//
+// Created by Luis on 17/09/2023.
 //
 //
 // Created by Luis on 15/09/2023.
@@ -45,14 +48,41 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
+struct Node{
+
+    ll open;
+    ll close;
+    ll done;
+
+    Node(){
+        this->open = 0;
+        this->close = 0;
+        this->done = 0;
+    }
+
+    Node(char c){
+        if(c == '('){
+            this->open = 1;
+            this->close = 0;
+        }else{
+            this->open = 0;
+            this->close = 1;
+        }
+        this->done = 0;
+    }
+
+
+};
+
+
 
 struct SegTree {
     int n;
     vector<ll> nums;
     vector<ll> seg;
-    ll NEUTRO = 0LL;
+    ll NEUTRO = INF;
 
-    SegTree(vector<ll> &nums) {
+    SegTree(const vector<ll>& nums) {
         n = nums.size();
         seg.resize(4 * n);
         this->nums = nums;
@@ -61,12 +91,12 @@ struct SegTree {
     }
 
     ll join(ll a, ll b) {
-        return a + b;
+        return min(a,b);
     }
 
     void build(int no, int l, int r) {
         if (l == r) {
-            seg[no] = nums[l - 1];
+            seg[no] = nums[l-1];
             return;
         }
 
@@ -78,72 +108,56 @@ struct SegTree {
         seg[no] = join(seg[e], seg[d]);
     }
 
-    void update(int no, int l, int r, int pos) {
+    void update(int no, int l, int r, int pos, ll val) {
         if (r < pos || l > pos) {
             return;
         }
 
         if (l == r) {
-            int arr[2] = {1, 0};
-            seg[no] = arr[seg[no]];
+            seg[no] = val;
             return;
         }
 
         int e = 2 * no;
         int d = e + 1;
         int mid = (l + r) / 2;
-        update(e, l, mid, pos);
-        update(d, mid + 1, r, pos);
+        update(e, l, mid, pos, val);
+        update(d, mid + 1, r, pos, val);
 
         seg[no] = join(seg[e], seg[d]);
     }
 
-    ll query(int no, int l, int r, int &k) {
-
-        if (k >= seg[no]) {
-            k -= seg[no];
+    ll query(int no, int l, int r, int a, int b) {
+        if (r < a || l > b) {
             return NEUTRO;
         }
 
-        if (l == r) {
-            return l;
+        if (l >= a && r <= b) {
+            return seg[no];
         }
-
-
-        int e = no * 2;
+        int e = 2 * no;
         int d = e + 1;
         int mid = (l + r) / 2;
-        ll esq = query(e, l, mid, k);
-        ll dir = 0;
-        if (esq == NEUTRO)
-            dir = query(d, mid + 1, r, k);
-        return join(esq, dir);
+        return join(query(e, l, mid, a, b), query(d, mid + 1, r, a, b));
     }
 };
 
 
 int main(int argc, char **argv) {
     optimize;
-    int n, m;
-    cin >> n >> m;
-    vector<ll> nums(n);
-    for (auto &x: nums) {
-        cin >> x;
-    }
-    auto *seg = new SegTree(nums);
-    while (m--) {
-        int op;
-        cin >> op;
-        if (op == 1) {
-            int pos;
-            cin >> pos;
-            pos++;
-            seg->update(1, 1, n, pos);
-        } else {
-            int k;
-            cin >> k;
-            ll ans = seg->query(1, 1, n, k);
-            cout << ans -1 << endl;
+    int t; cin >> t;
+    for(int i = 1;i <=t;i++){
+        cout << "Scenario #" << i << ":" << endl;
+        int m,n;
+        cin >> n >> m;
+        vector<ll> nums(n);
+        for(auto &x:nums) cin >> x;
+        auto *seg = new SegTree(nums);
+        while(m--){
+            int l ,r;
+            cin >> l >> r;
+            ll ans = seg->query(1,1,n,l,r);
+            cout << ans << endl;
         }
     }
     return 0;
