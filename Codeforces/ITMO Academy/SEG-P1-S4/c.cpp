@@ -1,7 +1,4 @@
 //
-// Created by Luis on 22/09/2023.
-//
-//
 // Created by Luis on 15/09/2023.
 //
 //Template By eduardocesb
@@ -36,11 +33,33 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
+struct Node {
+    int freq[40];
+    int qtd;
+
+    void clear() {
+        memset(this->freq, 0, sizeof freq);
+    }
+
+    Node() {
+        clear();
+        qtd = 0;
+    }
+
+    Node(ll val) {
+        clear();
+        freq[val - 1] = 1;
+        qtd = 0;
+    }
+    
+};
+
+
 struct SegTree {
     int n;
     vector<ll> nums;
-    vector<ll> seg;
-    ll NEUTRO = 0;
+    vector<Node> seg;
+    Node NEUTRO = *new Node();
 
     SegTree(vector<ll> &nums) {
         n = nums.size();
@@ -50,13 +69,29 @@ struct SegTree {
         build(1, 1, n);
     }
 
-    ll join(ll a, ll b) {
-        return a + b;
+    Node join(Node a, Node b) {
+        Node ans;
+        int sum = 0;
+        int lim = 0; // limite inferior , n precisa começar do 0 , basta somar as inversões já contadas
+        int q = 0; // q guarda q quantidade de numeros menores até o momento
+        for (int i = 0; i < 40; i++) {
+            if (a.freq[i]) {
+                sum += (a.freq[i] * q); // todas as inversões que ocorrem para um numero menor, ocorrem para um num maior.
+                for (int j = lim; j < i; j++) {
+                    sum += (a.freq[i] * b.freq[j]);
+                    q+=b.freq[j];
+                }
+                lim = i;
+            }
+            ans.freq[i] = a.freq[i] + b.freq[i];
+        }
+        ans.qtd = sum + a.qtd + b.qtd;
+        return ans;
     }
 
     void build(int no, int l, int r) {
         if (l == r) {
-            seg[no] = nums[l-1];
+            seg[no] = *new Node(nums[l - 1]);
             return;
         }
 
@@ -74,8 +109,7 @@ struct SegTree {
         }
 
         if (l == r) {
-            if(seg[no] < 0) val*=-1;
-            seg[no] = val;
+            seg[no] = *new Node(val);
             return;
         }
 
@@ -88,7 +122,7 @@ struct SegTree {
         seg[no] = join(seg[e], seg[d]);
     }
 
-    ll query(int no, int l, int r, int a, int b) {
+    Node query(int no, int l, int r, int a, int b) {
         if (r < a || l > b) {
             return NEUTRO;
         }
@@ -103,36 +137,44 @@ struct SegTree {
     }
 };
 
-int main(int argc, char **argv) {
-    optimize;
-    int n,m; cin >> n ;
-    vector<ll> nums(n);
-    int j = 0;
-    for(auto &x: nums){
-        cin >> x;
-        if(j & 1) x*=-1;
-        j++;
-    }
-    cin >> m;
 
+int main(int argc, char **argv) {
+    //optimize;
+    int n, m;
+    cin >> n >> m;
+    vector<ll> nums(n);
+    for (auto &x: nums) {
+        cin >> x;
+    }
     auto *seg = new SegTree(nums);
-    while(m--){
-        int op; cin >> op;
-        if(op == 0){
-            int pos; cin >> pos;
-            ll val; cin >> val;
-            seg->update(1,1,n,pos,val);
-        }else{
-            int l,r;
+    while (m--) {
+        int op;
+        cin >> op;
+        if (op == 2) {
+            int pos;
+            cin >> pos;
+            ll val;
+            cin >> val;
+            seg->update(1, 1, n, pos, val);
+        } else {
+            int l, r;
             cin >> l >> r;
-            ll ans = seg->query(1,1,n,l,r);
-            if(l & 1){
-                cout << ans << endl;
-            }else{
-                cout << -1 * ans << endl;
-            }
+            Node ans = seg->query(1, 1, n, l, r);
+            cout << ans.qtd << endl;
         }
     }
     return 0;
 }
 
+/*
+ 7 6
+2 2 2 1 1 1 2
+1 1 3
+1 2 5
+1 2 4
+2 2 8
+1 1 6
+1 1 3
+
+
+ * */
