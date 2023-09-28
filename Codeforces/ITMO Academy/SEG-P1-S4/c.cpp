@@ -35,7 +35,7 @@ using namespace __gnu_pbds;
 
 struct Node {
     int freq[40];
-    int qtd; // quantidade de inversões no segmento
+    ll qtd; // quantidade de inversões no segmento
 
     void clear() {
         memset(this->freq, 0, sizeof freq);
@@ -71,9 +71,9 @@ struct SegTree {
 
     Node join(Node a, Node b) {
         Node ans;
-        int sum = 0;
+        ll sum = 0;
         int lim = 0; // limite inferior , n precisa começar do 0 , basta somar as inversões já contadas
-        int q = 0; // 'q' guarda a quantidade de numeros menores que lim.
+        ll q = 0; // 'q' guarda a quantidade de numeros menores que lim.
         for (int i = 0; i < 40; i++) {
             if (a.freq[i]) {
                 sum += (a.freq[i] * q); // todas as inversões que ocorrem para um numero menor, ocorrem para um num maior.
