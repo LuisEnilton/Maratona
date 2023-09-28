@@ -124,9 +124,9 @@ add_executable(Maratona
         "CSES/Bit Strings/solution.cpp"
         "CSES/Increasing Array/solution.cpp"
         "CSES/Missing Number/solution.cpp"
-        "CSES/Number Spiral/solution.cpp"
+        "CSES/Introductory Problems/Number Spiral/solution.cpp"
         "CSES/Palindrome Queries/solution.cpp"
-        CSES/Permutations/solution.cpp
+        "CSES/Introductory Problems/Permutations/solution.cpp"
         "CSES/Range Updates and Sums/solution.cpp"
         CSES/Repetitions/solution.cpp
         "CSES/String Matching/solution.cpp"
@@ -291,4 +291,4 @@ add_executable(Maratona
         main.cpp
         Solution.cpp
         template.cpp
-        teste.cpp Extensão/Geometria/solution.cpp "Codeforces/908C - New Year and Curling/solution.cpp" "Beecrowd/2665 - Hipercampo/solution.cpp" "Codeforces/1199B - Water Lily/solution.cpp" "Codeforces/842B - Gleb And Pizza/solution.cpp" "Codeforces/1248A - Integer Points/solution.cpp" "CSES/Sum of Two Values/solution.cpp")
+        teste.cpp Extensão/Geometria/solution.cpp "Codeforces/908C - New Year and Curling/solution.cpp" "Beecrowd/2665 - Hipercampo/solution.cpp" "Codeforces/1199B - Water Lily/solution.cpp" "Codeforces/842B - Gleb And Pizza/solution.cpp" "Codeforces/1248A - Integer Points/solution.cpp" "CSES/Sum of Two Values/solution.cpp" "CSES/Maximum Subarray Sum/solution.cpp" "CSES/Stick Lengths/solution.cpp" "CSES/Graphs/Counting Rooms/solution.cpp" "Codeforces/20C - Dijsktra/solution.cpp")
