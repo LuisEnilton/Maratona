@@ -1,4 +1,7 @@
 //
+// Created by Luis on 28/09/2023.
+//
+//
 // Created by Luis on 27/09/2023.
 //
 //
@@ -66,7 +69,7 @@ void dbg_out(Head H, Tail... T) {
 
 struct SegTree {
     vector<ll> seg, lazy, nums;
-    ll NEUTRO = 0;
+    ll NEUTRO = INFLL;
     int n;
 
     SegTree(vector<ll> &nums) {
@@ -80,7 +83,7 @@ struct SegTree {
     }
 
     ll join(ll a, ll b) {
-        return a + b;
+        return min(a, b);
     }
 
     void build(int no, int l, int r) {
@@ -100,12 +103,12 @@ struct SegTree {
     }
 
     void atualiza(int no, ll v) {
-        lazy[no] = v;
+        lazy[no] += v;
     }
 
     void apply(int no, int l, int r) {
-        if(lazy[no] == 0) return;
-        seg[no] = (lazy[no] * (r - l + 1));
+        if (lazy[no] == 0) return;
+        seg[no] += (lazy[no] * (r - l + 1));
 
         if (l != r) {
             int e = 2 * no;
@@ -171,12 +174,13 @@ int main(int argc, char **argv) {
             int l, r;
             ll val;
             cin >> l >> r >> val;
-            l++,r++;
+            l++, r++;
             seg.update(1, 1, n, l, r - 1, val);
         } else {
-            int pos;
-            cin >> pos;
-            cout << seg.query(1, 1, n, pos + 1, pos + 1) << endl;
+            int l, r;
+            cin >> l >> r;
+            l++,r++;
+            cout << seg.query(1, 1, n, l, r-1) << endl;
         }
     }
 
