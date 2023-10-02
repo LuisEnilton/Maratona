@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 100000010
 #define ALL(x) x.begin(), x.end()
@@ -21,55 +22,57 @@
 
 using namespace std;
 
-int matriz[MAXN][MAXN];
-int n, m, res = 0;
-
-void limpar(int line, int col){
-    matriz[line][col] = 0;
-
-    if(col > 0 && matriz[line][col-1] == 1) limpar(line, col-1);
-    if(line > 0 && matriz[line-1][col] == 1) limpar(line-1, col);
-    if(col < m-1 && matriz[line][col+1] == 1) limpar(line, col+1);
-    if(line < n-1 && matriz[line+1][col] == 1) limpar(line+1, col);
-}
-
-void labt(int line, int col){
-
-    if(matriz[line][col]){
-        res++;
-        limpar(line, col);
+template<class BidirectionalIterator>
+bool my_next_permutation(BidirectionalIterator first, BidirectionalIterator last) {
+    if (first == last) {
+        // If the range is empty, there's no permutation.
+        return false;
     }
 
-<<<<<<< Updated upstream
-int main(int argc, char const *argv[])
-{
-    
-    cout << "hello world" << endl;
-=======
-    if(col == m-1){
-        if(line == n-1) return;
-        labt(line+1, 0);
-    }else{
-        labt(line, col+1);
+    // Start from the rightmost element and find the first pair (i, i+1)
+    // such that *i < *(i+1).
+    BidirectionalIterator i = last;
+    if (first == --i) {
+        // If there's only one element in the range, it can't be permuted.
+        return false;
     }
-}
 
-int main(int argc, char** argv)
-{
-    optimize;
-    cin >> n >> m;
+    while (true) {
+        BidirectionalIterator i1 = i, i2;
+        if (*--i < *i1) {
+            // Found the first pair where *i < *i1.
+            // Now find the rightmost element *i2 such that *i < *i2.
+            i2 = last;
+            while (!(*i < *--i2)) {}
 
-    for (int i = 0; i < n; i++){
-        for (int j = 0; j < m; j++){
-            cin >> matriz[i][j];
+            // Swap *i and *i2.
+            std::iter_swap(i, i2);
+
+            // Reverse the subsequence (i+1, last).
+            std::reverse(i1, last);
+
+            return true;
+        }
+
+        // If no such pair is found, continue checking further left.
+        if (i == first) {
+            std::reverse(first, last);
+            return false;
         }
     }
-
-    labt(0, 0);
-
-    cout << res << endl;
-
->>>>>>> Stashed changes
-    return 0;
 }
-p
+
+int main(){
+    vi nums = {1,1,2,3};
+    string s = "abcd";
+    int cnt = 0;
+    do{
+
+        for(auto x : s){
+            cout << x << " ";
+        }
+        cout << endl;
+        cnt++;
+    }while(my_next_permutation(ALL(s)));
+        cout << cnt << endl;
+}
