@@ -1,6 +1,9 @@
 //
-// Created by Luis on 07/10/2023.
+// Created by Luis on 11/09/2023.
 //
+
+#ifndef MARATONA_SOLUTION_H
+#define MARATONA_SOLUTION_H
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -33,45 +36,32 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-vector<int> masks(10e4 + 2);
-vector<int> custos(10 );
-int main(int argc, char **argv) {
-    optimize;
-    int n, b;
-    cin >> n >> b;
-    for (int i = 0; i < n; i++) {
-        cin >> custos[i];
-        int m;
-        cin >> m;
-        while (m--) {
-            int p;
-            cin >> p;
-            masks[p] |= (1 << i);
-        }
-    }
-    ll ans = 0;
-    for (int mask = 0; mask < (1 << n); mask++) {
-        ll custo = 0;
-        ll qtd = 0;
-        bool ok = true;
-        for(int i = 0; i < n;i++){
-            if(mask & (1 << i)){
-                custo+=custos[i];
-            }
+class Solution {
+public:
 
-            if(custo > b){
-                ok = false;
-            }
-        }
-        if(!ok) continue;
-        for (int i = 0; i < 10e4; i++) {
-            if (mask & masks[i]) {
-                qtd++;
-            }
-            ans = max(ans, qtd);
-        }
-    }
-    cout << ans << endl;
+    int solve(int i, int &n, vi &prices,map<pii,int> &dp, int q = 0) {
+        if (i == n) return 0;
+        int act, ign;
 
-    return 0;
-}
+        if(dp[{i,q}] !=0) return dp[{i,q}];
+
+        if (q == 0) {
+            act = solve(i + 1, n, prices, dp,prices[i]);
+        } else {
+            act = (prices[i] - q) + solve(i + 1, n, prices,dp, 0);
+        }
+
+        ign = solve(i + 1, n, prices, dp,q);
+
+        return  dp[{i,q}] =  max(act, ign);
+    }
+
+    int maxProfit(vector<int> &prices) {
+        int n = prices.size();
+        map<pii,int> dp;
+        return solve(0,n,prices,dp);
+    }
+};
+
+
+#endif //MARATONA_SOLUTION_H

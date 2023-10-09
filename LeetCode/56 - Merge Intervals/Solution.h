@@ -1,11 +1,13 @@
 //
-// Created by Luis on 07/10/2023.
+// Created by Luis on 03/10/2023.
 //
+
+#ifndef MARATONA_SOLUTION_H
+#define MARATONA_SOLUTION_H
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -33,45 +35,42 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-vector<int> masks(10e4 + 2);
-vector<int> custos(10 );
-int main(int argc, char **argv) {
-    optimize;
-    int n, b;
-    cin >> n >> b;
-    for (int i = 0; i < n; i++) {
-        cin >> custos[i];
-        int m;
-        cin >> m;
-        while (m--) {
-            int p;
-            cin >> p;
-            masks[p] |= (1 << i);
-        }
-    }
-    ll ans = 0;
-    for (int mask = 0; mask < (1 << n); mask++) {
-        ll custo = 0;
-        ll qtd = 0;
-        bool ok = true;
-        for(int i = 0; i < n;i++){
-            if(mask & (1 << i)){
-                custo+=custos[i];
-            }
 
-            if(custo > b){
-                ok = false;
-            }
-        }
-        if(!ok) continue;
-        for (int i = 0; i < 10e4; i++) {
-            if (mask & masks[i]) {
-                qtd++;
-            }
-            ans = max(ans, qtd);
-        }
-    }
-    cout << ans << endl;
 
-    return 0;
-}
+
+
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        priority_queue<pii> pq;
+        for(auto p:intervals){
+
+            int ini = p[0];
+            int fin = p[1];
+            pq.emplace(-fin,1);
+            pq.emplace(-ini,2);
+        }
+        vector<vi> ans;
+        vi interval(2);
+        int cnt = 0;
+        while(!pq.empty()){
+            auto atual = pq.top();
+            if(atual.second == 2){
+                if(cnt == 0) interval[0] = -atual.first;
+                cnt++;
+            }else{
+                cnt--;
+                if(cnt == 0){
+                    interval[1] = -atual.first;
+                    ans.EB(interval);
+                    interval = vi(2);
+                }
+            }
+            pq.pop();
+        }
+        return ans;
+    }
+};
+
+
+#endif //MARATONA_SOLUTION_H
