@@ -1,11 +1,10 @@
 //
-// Created by Luis on 07/10/2023.
+// Created by Luis on 06/10/2023.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -33,45 +32,34 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-vector<int> masks(10e4 + 2);
-vector<int> custos(10 );
-int main(int argc, char **argv) {
-    optimize;
-    int n, b;
-    cin >> n >> b;
-    for (int i = 0; i < n; i++) {
-        cin >> custos[i];
-        int m;
-        cin >> m;
-        while (m--) {
-            int p;
-            cin >> p;
-            masks[p] |= (1 << i);
-        }
-    }
-    ll ans = 0;
-    for (int mask = 0; mask < (1 << n); mask++) {
-        ll custo = 0;
-        ll qtd = 0;
-        bool ok = true;
-        for(int i = 0; i < n;i++){
-            if(mask & (1 << i)){
-                custo+=custos[i];
-            }
 
-            if(custo > b){
-                ok = false;
-            }
+int main() {
+    while (true) {
+        int EV1, EV2, AT, D;
+        cin >> EV1 >> EV2 >> AT >> D;
+
+        if (EV1 == 0 && EV2 == 0 && AT == 0 && D == 0) {
+            break;
         }
-        if(!ok) continue;
-        for (int i = 0; i < 10e4; i++) {
-            if (mask & masks[i]) {
-                qtd++;
-            }
-            ans = max(ans, qtd);
+
+        EV1 = ceil(static_cast<double>(EV1) / D);
+        EV2 = ceil(static_cast<double>(EV2) / D);
+        int n = EV1 + EV2;
+        double x, y;
+
+        if (AT == 3) {
+            x = static_cast<double>(EV1);
+            y = static_cast<double>(n);
+        } else {
+            x = 1 - pow((6 - AT) / static_cast<double>(AT), EV1);
+            y = 1 - pow((6 - AT) / static_cast<double>(AT), n);
         }
+
+        double resposta = round(100 * x / y * 10) / 10; // Round to 1 decimal place
+        cout << fixed; // Ensure decimal point is printed
+        cout <<  setprecision(1)<< resposta << endl;
     }
-    cout << ans << endl;
 
     return 0;
 }
+

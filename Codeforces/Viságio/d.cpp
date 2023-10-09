@@ -33,14 +33,17 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-vector<int> masks(10e4 + 2);
-vector<int> custos(10 );
+
 int main(int argc, char **argv) {
     optimize;
     int n, b;
     cin >> n >> b;
+    vector<int> masks(10e5 + 2,0);
+    vector<int> custos(10e5 + 2);
     for (int i = 0; i < n; i++) {
-        cin >> custos[i];
+        int c;
+        cin >> c;
+        custos[i] = c;
         int m;
         cin >> m;
         while (m--) {
@@ -53,19 +56,9 @@ int main(int argc, char **argv) {
     for (int mask = 0; mask < (1 << n); mask++) {
         ll custo = 0;
         ll qtd = 0;
-        bool ok = true;
-        for(int i = 0; i < n;i++){
-            if(mask & (1 << i)){
-                custo+=custos[i];
-            }
-
-            if(custo > b){
-                ok = false;
-            }
-        }
-        if(!ok) continue;
-        for (int i = 0; i < 10e4; i++) {
+        for (int i = 0; i < n; i++) {
             if (mask & masks[i]) {
+                if (custo + custos[i] > b) break;
                 qtd++;
             }
             ans = max(ans, qtd);

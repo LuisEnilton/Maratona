@@ -1,11 +1,13 @@
 //
-// Created by Luis on 07/10/2023.
+// Created by Luis on 12/09/2023.
 //
+
+#ifndef MARATONA_SOLUTION_H
+#define MARATONA_SOLUTION_H
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -33,45 +35,38 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-vector<int> masks(10e4 + 2);
-vector<int> custos(10 );
-int main(int argc, char **argv) {
-    optimize;
-    int n, b;
-    cin >> n >> b;
-    for (int i = 0; i < n; i++) {
-        cin >> custos[i];
-        int m;
-        cin >> m;
-        while (m--) {
-            int p;
-            cin >> p;
-            masks[p] |= (1 << i);
+class Solution {
+public:
+    int minDeletions(string &s) {
+        vi freq(26,0);
+        bitset<100010> bt;
+        bt.flip();
+        for(auto c : s){
+            freq[c - 'a']++;
         }
-    }
-    ll ans = 0;
-    for (int mask = 0; mask < (1 << n); mask++) {
-        ll custo = 0;
-        ll qtd = 0;
-        bool ok = true;
-        for(int i = 0; i < n;i++){
-            if(mask & (1 << i)){
-                custo+=custos[i];
-            }
 
-            if(custo > b){
-                ok = false;
-            }
+        for(auto x : freq){
+            bt.reset(abs(100009-x));
         }
-        if(!ok) continue;
-        for (int i = 0; i < 10e4; i++) {
-            if (mask & masks[i]) {
-                qtd++;
-            }
-            ans = max(ans, qtd);
-        }
-    }
-    cout << ans << endl;
+        bt.set(100009);
+        sort(ALL(freq));
+        int anterior = 0;
+        int ans = 0;
+        int i = upper_bound(ALL(freq),0) - freq.begin();
+        for( ; i < 26;i++){
+            if(freq[i] == 0) continue;
 
-    return 0;
-}
+            if(freq[i]!= anterior){
+                anterior = freq[i];
+            }else{
+                int pos = bt._Find_next(abs(100009-freq[i])) ;
+                if(pos != 100009) bt.reset(pos );
+                ans+= freq[i] - (100009 - pos);
+            }
+        }
+        return ans;
+    }
+};
+
+
+#endif //MARATONA_SOLUTION_H

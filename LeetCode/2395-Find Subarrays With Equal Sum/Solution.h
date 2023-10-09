@@ -1,11 +1,13 @@
 //
-// Created by Luis on 07/10/2023.
+// Created by Luis on 14/09/2023.
 //
+
+#ifndef MARATONA_SOLUTION_H
+#define MARATONA_SOLUTION_H
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -33,45 +35,20 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-vector<int> masks(10e4 + 2);
-vector<int> custos(10 );
-int main(int argc, char **argv) {
-    optimize;
-    int n, b;
-    cin >> n >> b;
-    for (int i = 0; i < n; i++) {
-        cin >> custos[i];
-        int m;
-        cin >> m;
-        while (m--) {
-            int p;
-            cin >> p;
-            masks[p] |= (1 << i);
-        }
-    }
-    ll ans = 0;
-    for (int mask = 0; mask < (1 << n); mask++) {
-        ll custo = 0;
-        ll qtd = 0;
-        bool ok = true;
-        for(int i = 0; i < n;i++){
-            if(mask & (1 << i)){
-                custo+=custos[i];
-            }
 
-            if(custo > b){
-                ok = false;
-            }
-        }
-        if(!ok) continue;
-        for (int i = 0; i < 10e4; i++) {
-            if (mask & masks[i]) {
-                qtd++;
-            }
-            ans = max(ans, qtd);
-        }
-    }
-    cout << ans << endl;
 
-    return 0;
-}
+class Solution {
+public:
+    bool findSubarrays(vector<int>& nums) {
+        int n = nums.size();
+        unordered_map<int,int> sums;
+        for(int i = 1; i < n;i++){
+            sums[ nums[i-1] + nums[i]]++;
+            if(sums[nums[i-1] + nums[i]] == 2) return true;
+        }
+        return false;
+    }
+};
+
+
+#endif //MARATONA_SOLUTION_H
