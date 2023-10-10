@@ -1,3 +1,9 @@
+//
+// Created by luise on 10/10/2023.
+//
+
+#ifndef MARATONA_SOLUTION_H
+#define MARATONA_SOLUTION_H
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -6,6 +12,7 @@
 #include <iostream>
 #include <ranges>
 #include <string_view>
+
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -33,40 +40,34 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
- vector<string> split(const string& str, char delimiter) {
-    vector<string> tokens;
-    size_t start = 0;
-
-    while (start != string::npos) {
-        size_t end = str.find(delimiter, start);
-        tokens.push_back(str.substr(start, end - start));
-        start = (end == string::npos) ? end : end + 1;
+class Solution {
+public:
+    int minOperations(string s1, string s2, int x) {
+        int n = s1.size();
+        bitset<500> bt1(s1);
+        bitset<500> bt2(s2);
+        bitset<500> aux = bt1 ^ bt2;
+        cout << aux << endl;
+        int cnt = 0;
+        int ans = 0;
+        int tot = 0;
+        for (int i = 0; i < n; i++) {
+            if (aux.test(i)) {
+                cnt++;
+                tot++;
+            } else {
+                cnt = 0;
+            }
+            if (cnt == 2) {
+                ans += 1;
+                tot -= 2;
+            }
+        }
+        if (tot & 1) return -1;
+        ans += (tot / 2) * x;
+        return ans;
     }
-
-    return tokens;
-}
-
-vector<string> split(const string& str) {
-    vector<string> words;
-    stringstream stream(str);
-    string word;
-
-    while(stream >> word) {
-        words.push_back(word);
-    }
-    return words;
-}
+};
 
 
-int main()
-{
-    string s;
-    getline(cin,s);
-    auto words = split(s,' ');
-    for(auto x : words){
-        cout << x << endl;
-
-    }
-    return 0;
-}
-
+#endif //MARATONA_SOLUTION_H

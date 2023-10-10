@@ -1,3 +1,10 @@
+//
+// Created by luise on 10/10/2023.
+//
+//
+// Created by luise on 10/10/2023.
+//
+
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -33,40 +40,29 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
- vector<string> split(const string& str, char delimiter) {
-    vector<string> tokens;
-    size_t start = 0;
-
-    while (start != string::npos) {
-        size_t end = str.find(delimiter, start);
-        tokens.push_back(str.substr(start, end - start));
-        start = (end == string::npos) ? end : end + 1;
-    }
-
-    return tokens;
-}
-
-vector<string> split(const string& str) {
-    vector<string> words;
-    stringstream stream(str);
-    string word;
-
-    while(stream >> word) {
-        words.push_back(word);
-    }
-    return words;
-}
-
-
 int main()
 {
-    string s;
-    getline(cin,s);
-    auto words = split(s,' ');
-    for(auto x : words){
-        cout << x << endl;
-
+    optimize;
+    int n;
+    cin >> n;
+    vi nums(n);
+    for(auto &x : nums) cin >> x;
+    set<int> playlist;
+    int l =0,r = 0;
+    int ans = 0;
+    for(; r <n;r++){
+        int initSz = playlist.size();
+        playlist.insert(nums[r]);
+        if(playlist.size() == initSz){
+            while(playlist.find(nums[r]) != playlist.end() ){
+                auto it = playlist.find(nums[l]);
+                playlist.erase(it);
+                l++;
+            }
+            playlist.insert(nums[r]);
+        }
+        ans = max (ans,r-l+1);
     }
+    cout << ans << endl;
     return 0;
 }
-
