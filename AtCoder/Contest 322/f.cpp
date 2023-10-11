@@ -31,43 +31,71 @@ using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
-const int maxn= 5 * 10e5 + 3;
+const int maxn= 5 * 10e5 + 1;
 
 
 struct Node{
-    ll segm1,pfx1,sfx1,sum1;
-    ll segm2,pfx2,sfx2,sum2;
+    int segm[2];
+    int pfx[2];
+    int sfx[2];
+    int sum[2];
+
+    void clear(){
+        memset(segm,0,sizeof segm);
+        memset(pfx,0,sizeof pfx);
+        memset(sfx,0,sizeof sfx);
+        memset(sum,0,sizeof sum);
+    }
+
     Node(){
-        segm1 = 0;
-        pfx1 = 0;
-        sfx1 = 0;
-        sum1 = 0;
+        clear();
     }
 
     Node(char c){
-        if(c == '1'){
-            segm = 1;
-            pfx = 1;
-            sfx = 1;
-            sum = 1;
-        }else{
-            Node();
-        }
+        clear();
+        segm[c-'0'] = 1;
+        pfx[c-'0'] = 1;
+        sfx[c-'0'] = 1;
+        sum[c-'0'] = 1;     
+    }
+
+    void flip(){
+        swap(segm[0],segm[1]);
+        swap(pfx[0],pfx[1]);
+        swap(sfx[0],sfx[1]);
+        swap(sum[0],sum[1]);
     }
 };
 Node seg[4*maxn];
 int lazy[4*maxn];
 
 Node join(Node a,Node b){
+    Node ans;
+    for(int i = 0;i < 2;i++){
+        ans.segm[i] = max({a.segm[i],b.segm[i],a.sfx[i] + b.pfx[i]});
+        if(a.sum[(i+1)%2] == 0){
+            ans.pfx[i] = max(a.pfx[i],a.sum[i] + b.pfx[i]);
+        }else{
+            ans.pfx[i] = a.pfx[i];
+        }
+        if(b.sum[(i+1)%2] == 0){
+            ans.sfx[i] = max(b.sfx[i],b.sum[i] + a.sfx[i]);
+        }else{
+            ans.sfx[i] = b.sfx[i];
+        }
+        ans.sum[i] = a.sum[i] + b.sum[i];
 
+    }
+    return ans;
 }
 
 void unlazy(int no, int l, int r){
     if(lazy[no] == 0) return;
 
     int m=(l+r)>>1, e=no*2, d=no*2+1;
-
-    seg[no] += (r-l+1) * lazy[no];
+    if(lazy[no] % 2!=0){
+        seg[no].flip();
+    }
 
     if(l != r){
         lazy[e] += lazy[no];
@@ -102,7 +130,7 @@ void update(int no, int l, int r, int a, int b, int v){
     update(e, l,   m, a, b, v);
     update(d, m+1, r, a, b, v);
 
-    seg[no] = seg[e] + seg[d];
+    seg[no] = join(seg[e] , seg[d]);
 }
 
 
@@ -123,7 +151,23 @@ void build(int no, int l, int r, string &s){
 int main(int argc, char** argv)
 {
     optimize;
-
+    int n,q;
+    cin >> n >> q;
+    string s; cin >> s;
+    build(1,1,n,s);
+    while(q--){
+        int op; cin >> op;
+        if(op == 1){
+            int l,r;
+            cin >> l >> r;
+            update(1,1,n,l,r,1);
+        }else{
+            int l,r;
+            cin >> l >> r;
+            auto ans = query(1,1,n,l,r);
+            cout << ans.segm[1] << endl;
+        }
+    }
     return 0;
 }
 
