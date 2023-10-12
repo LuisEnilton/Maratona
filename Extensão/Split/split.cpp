@@ -1,3 +1,6 @@
+//
+// Created by luise on 11/10/2023.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -33,29 +36,41 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
+vector<string> split(const string& str, char delimiter) {
+    vector<string> tokens;
+    size_t start = 0;
 
+    while (start != string::npos) {
+        size_t end = str.find(delimiter, start);
+        tokens.push_back(str.substr(start, end - start));
+        start = (end == string::npos) ? end : end + 1;
+    }
+
+    return tokens;
+}
+
+vector<string> split(const string& str) {
+    vector<string> words;
+    stringstream stream(str);
+    string word;
+
+    while(stream >> word) {
+        words.push_back(word);
+    }
+    return words;
+}
 
 
 int main()
 {
-    optimize;
-    int n,m;
-    cin >> n >> m;
-    vi nums(n);
-    for(auto &x: nums) cin >> x;
-    sort(ALL(nums));
-    while(m--){
-        int val; cin >> val;
-        auto it = upper_bound(ALL(nums),val);
-        if(it == nums.begin()){
-            cout << -1 << endl;
-            continue;
-        }
-        it-=1;
-        int num = nums[*it];
-        nums.erase(it);
-        cout << num << endl;
+    string s;
+    getline(cin,s);
+    auto words = split(s,' ');
+    for(auto x : words){
+        cout << x << endl;
+
     }
     return 0;
 }
+
 

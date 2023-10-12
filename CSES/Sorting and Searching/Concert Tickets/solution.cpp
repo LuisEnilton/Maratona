@@ -41,18 +41,20 @@ int main()
     optimize;
     int n,m;
     cin >> n >> m;
-    vi nums(n);
-    for(auto &x: nums) cin >> x;
-    sort(ALL(nums));
+    multiset<int> nums;
+    for(int i = 0;i < n;i++){
+        int x; cin >> x;
+        nums.insert(x);
+    }
     while(m--){
         int val; cin >> val;
-        auto it = upper_bound(ALL(nums),val);
+        auto it = nums.upper_bound(val);
         if(it == nums.begin()){
             cout << -1 << endl;
             continue;
         }
-        it-=1;
-        int num = nums[*it];
+        it--;
+        int num = *it;
         nums.erase(it);
         cout << num << endl;
     }

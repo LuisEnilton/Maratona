@@ -1,3 +1,8 @@
+//
+// Created by luise on 11/10/2023.
+//
+
+#include "Solution.h"
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -39,23 +44,9 @@ using namespace __gnu_pbds;
 int main()
 {
     optimize;
-    int n,m;
-    cin >> n >> m;
-    vi nums(n);
-    for(auto &x: nums) cin >> x;
-    sort(ALL(nums));
-    while(m--){
-        int val; cin >> val;
-        auto it = upper_bound(ALL(nums),val);
-        if(it == nums.begin()){
-            cout << -1 << endl;
-            continue;
-        }
-        it-=1;
-        int num = nums[*it];
-        nums.erase(it);
-        cout << num << endl;
-    }
+    Solution sol;
+    vi nums = {0,3,7,2,5,8,4,6,0,1};
+    cout << sol.longestConsecutive(nums) << endl;
     return 0;
 }
 

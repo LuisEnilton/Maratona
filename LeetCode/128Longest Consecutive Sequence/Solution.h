@@ -1,3 +1,9 @@
+//
+// Created by luise on 11/10/2023.
+//
+
+#ifndef MARATONA_SOLUTION_H
+#define MARATONA_SOLUTION_H
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -36,26 +42,33 @@ using namespace __gnu_pbds;
 
 
 
-int main()
-{
-    optimize;
-    int n,m;
-    cin >> n >> m;
-    vi nums(n);
-    for(auto &x: nums) cin >> x;
-    sort(ALL(nums));
-    while(m--){
-        int val; cin >> val;
-        auto it = upper_bound(ALL(nums),val);
-        if(it == nums.begin()){
-            cout << -1 << endl;
-            continue;
-        }
-        it-=1;
-        int num = nums[*it];
-        nums.erase(it);
-        cout << num << endl;
-    }
-    return 0;
-}
 
+
+
+
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        int n = nums.size();
+        unordered_map<int,int> cresc;
+        unordered_map<int,int> decresc;
+        int ans = 0;
+        for(int i = 0; i < n;i++){
+            cresc[nums[i]] = cresc[nums[i] - 1] + 1;
+            decresc[nums[i]] = decresc[nums[i] + 1] + 1;
+            if(decresc[nums[i] + 1] && cresc[nums[i] - 1]){
+                cresc[nums[i] + 1] = cresc[nums[i] ] + 1;
+                decresc[nums[i] - 1] = decresc[nums[i]] + 1;
+            }
+            ans = max({cresc[nums[i]],
+                       decresc[nums[i]],
+                       decresc[nums[i] - 1],
+                       cresc[nums[i] + 1]
+                      });
+        }
+        return ans;
+    }
+};
+
+
+#endif //MARATONA_SOLUTION_H

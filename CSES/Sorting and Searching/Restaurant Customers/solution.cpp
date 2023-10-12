@@ -1,3 +1,6 @@
+//
+// Created by luise on 11/10/2023.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -40,22 +43,28 @@ int main()
 {
     optimize;
     int n,m;
-    cin >> n >> m;
-    vi nums(n);
-    for(auto &x: nums) cin >> x;
-    sort(ALL(nums));
-    while(m--){
-        int val; cin >> val;
-        auto it = upper_bound(ALL(nums),val);
-        if(it == nums.begin()){
-            cout << -1 << endl;
-            continue;
-        }
-        it-=1;
-        int num = nums[*it];
-        nums.erase(it);
-        cout << num << endl;
+    cin >> n ;
+    priority_queue<pii> pq;
+    for(int i = 0; i < n;i++){
+        int arrival; cin >> arrival;
+        pq.push({-arrival,0});
+        int leaving; cin >> leaving;
+        pq.push({-leaving,1});
     }
+    int cnt = 0;
+    int ans = 0;
+    while(!pq.empty()){
+        auto [time,type] = pq.top();
+        pq.pop();
+        if(type == 0){
+            cnt++;
+        }else{
+            cnt--;
+        }
+        ans = max(ans,cnt);
+    }
+    cout << ans << endl;
     return 0;
 }
+
 
