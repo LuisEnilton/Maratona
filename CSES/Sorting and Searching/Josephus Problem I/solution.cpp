@@ -1,8 +1,14 @@
+//
+// Created by Luis on 21/10/2023.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-
+#include <iomanip>
+#include <iostream>
+#include <ranges>
+#include <string_view>
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -36,8 +42,27 @@ using namespace __gnu_pbds;
 int main()
 {
     optimize;
-
-
+    int n; cin >> n;
+    set<int> nums;
+    for(int i = 1; i <=n;i++){
+        nums.insert(i);
+    }
+    auto it = nums.begin();
+    while(nums.size() > 0){
+        it++;
+        if(it == nums.end()){
+            it = nums.begin();
+        }
+        cout << *it << " ";
+        auto aux = it;
+        aux++;
+        if(aux == nums.end()){
+            aux = nums.begin();
+        }
+        nums.erase(it);
+        it = aux;
+    }
+    cout << endl;
     return 0;
 }
 

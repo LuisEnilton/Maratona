@@ -1,8 +1,14 @@
+//
+// Created by Luis on 23/10/2023.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-
+#include <iomanip>
+#include <iostream>
+#include <ranges>
+#include <string_view>
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -29,15 +35,24 @@ using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
-
-
+#define price first
+#define fuel  second
+int n,h;
+vii stations;
+vi positions;
 
 
 int main()
 {
     optimize;
-
-
+    cin >> n >> h;
+    stations.resize(n);
+    positions.resize(n);
+    for(auto &x: positions) cin >> x;
+    for(auto &x: stations){
+        cin >> x.price;
+        cin >> x.fuel;
+    }
     return 0;
 }
 

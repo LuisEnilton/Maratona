@@ -86,6 +86,7 @@ int main(int argc, char **argv) {
     for (int i = 1; i <= n; i++) {
         cout << ans[i] << endl;
     }
+    string s = "as";
     return 0;
 }
 

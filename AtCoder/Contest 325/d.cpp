@@ -1,8 +1,14 @@
+//
+// Created by Luis on 21/10/2023.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-
+#include <iomanip>
+#include <iostream>
+#include <ranges>
+#include <string_view>
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -33,11 +39,38 @@ using namespace __gnu_pbds;
 
 
 
+
+
 int main()
 {
     optimize;
+    int n;
+    cin >> n;
+    priority_queue<pair<ll,pii>> pq;
+    vector<pair<ll,ll>> products;
+    unordered_map<ll,bool>  marked;
+    for(int i = 0; i < n;i++){
+        ll init,final;
+        cin >> init >> final;
 
+        pq.push({-(init),{0,i}});
+        pq.push({-(init+final),{1,i}});
+        }
 
+    int i = 0;
+    priority_queue<pair<ll,int>> entered;
+    ll anterior = pq.top().first;
+    while(!pq.empty()){
+        while(pq.top().first== anterior){
+            auto current = pq.top();
+            if(current.second.first == 0){
+                entered.push({})
+            }else{
+
+            }
+            pq.pop();
+        }
+    }
     return 0;
 }
 

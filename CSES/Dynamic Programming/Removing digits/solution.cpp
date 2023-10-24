@@ -1,8 +1,14 @@
+//
+// Created by Luis on 21/10/2023.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-
+#include <iomanip>
+#include <iostream>
+#include <ranges>
+#include <string_view>
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -31,13 +37,37 @@ using namespace __gnu_pbds;
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
 
+int n;
+const int maxn = 10e6 + 2;
+ll dp[maxn];
+ll solve(int num){
+    if(num == 0) return 0;
+    if(~dp[num]) return dp[num];
+    int qtdDigitos = floor(log10(n)) + 1;
+    //cout << num << " tem "<<qtdDigitos << endl;
+    int aux = num;
+    ll ans = INFLL;
+    for(int i = 0 ; i < qtdDigitos;i++){
+        int dig = aux % 10;
+        aux/=10;
+        if(dig == 0) continue;
+        ll caso = 1 + solve(num-dig);
+
+        ans = min(ans,caso);
+    }
+    return dp[num] =  ans;
+}
 
 
 int main()
 {
     optimize;
 
+    cin >> n;
+    memset(dp,-1,sizeof dp);
+    cout << solve(n) << endl;
 
     return 0;
 }
 
+//123

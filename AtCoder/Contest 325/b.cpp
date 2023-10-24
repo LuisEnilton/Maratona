@@ -1,8 +1,14 @@
+//
+// Created by Luis on 21/10/2023.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-
+#include <iomanip>
+#include <iostream>
+#include <ranges>
+#include <string_view>
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -36,8 +42,26 @@ using namespace __gnu_pbds;
 int main()
 {
     optimize;
+    int n;
+    cin >> n;
+    vii emp(n);
+    for(auto &x: emp){
+        cin >> x.first;
+        cin >> x.second;
+    }
+    ll ans = 0;
+    for(int i = 0; i < 24;i++){
+        ll sum = 0;
+        for(int j = 0; j < n;j++){
+            int currTime =(emp[j].second + i) % 24;
+            if( currTime>= 9 && currTime<18){
+                sum+=emp[j].first;
+            }
 
-
+        }
+        ans = max(ans,sum);
+    }
+    cout << ans << endl;
     return 0;
 }
 
