@@ -1,5 +1,5 @@
 //
-// Created by Luis on 23/10/2023.
+// Created by luise on 24/10/2023.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
@@ -34,33 +34,37 @@ using namespace __gnu_pbds;
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
 
-void solve() {
-    int n;
-    cin >> n;
-    vi ans;
-    vi nums(n * (n - 1) / 2);
-    for (auto &x: nums) cin >> x;
-    sort(ALL(nums));
-    int dif = 1;
-    int idx = (n - dif) - 1;
-    while ((n - dif) > 0) {
-        ans.push_back(nums[idx]);
-        dif++;
-        idx += (n - dif);
+void solve(){
+    int n;cin >> n;
+    unordered_map<int, ll> ans;
+    vector<ll> points(n);
+    for(auto &p: points) cin >> p;
+    vector<ll> aux = points;
+    sort(ALL(aux));
+    ll val = aux[0];
+    ll sum = 0;
+    for(int i = 0; i < n;i++){
+        sum+=(aux[i] - val + 1);
     }
-    ans.push_back(ans[ans.size()-1] );
-    for(auto x : ans){
-        cout << x << " ";
+    ans[aux[0]] = sum;
+    for(int i = 1;i < n;i++){
+        ll dif = (aux[i] - aux[i - 1]);
+        ll menor = i;
+        ll maior = n-i;
+        ans[aux[i]] = ans[aux[i-1]] + menor *dif - maior *dif;
+    }
+    for(auto x : points){
+        cout << ans[x] << " ";
     }
     cout << endl;
 }
 
 
-int main() {
+int main()
+{
     optimize;
-    int t;
-    cin >> t;
-    while (t--) {
+    int t;cin >> t;
+    while(t--){
         solve();
     }
     return 0;

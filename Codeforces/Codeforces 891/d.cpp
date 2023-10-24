@@ -1,5 +1,5 @@
 //
-// Created by Luis on 23/10/2023.
+// Created by luise on 24/10/2023.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
@@ -33,34 +33,38 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
+bool pred(const pair<ll,int> &a,const pair<ll,int> &b){
+    return a.first < b.first;
+}
 
-void solve() {
+
+void solve(){
     int n;
     cin >> n;
-    vi ans;
-    vi nums(n * (n - 1) / 2);
-    for (auto &x: nums) cin >> x;
-    sort(ALL(nums));
-    int dif = 1;
-    int idx = (n - dif) - 1;
-    while ((n - dif) > 0) {
-        ans.push_back(nums[idx]);
-        dif++;
-        idx += (n - dif);
+    vector<pair<ll,int>> z(n);
+    for(int i = 0; i < n;i++){
+        cin >> z[i].first;
+        z[i].second = i + 1;
     }
-    ans.push_back(ans[ans.size()-1] );
-    for(auto x : ans){
-        cout << x << " ";
+    for(int i = 0; i < n; i++){
+        ll val; cin >> val;
+        z[i].first -= val;
+    }
+    // a(u) - b(u) >= a(v) - b(v)
+    sort(ALL(z));
+    auto it = lower_bound(ALL(z),z[n-1],pred);
+    cout << n - (it - z.begin()) << endl;
+    for(;it!=z.end();it++){
+        cout << (*it).second << " ";
     }
     cout << endl;
 }
 
-
-int main() {
+int main()
+{
     optimize;
-    int t;
-    cin >> t;
-    while (t--) {
+    int t; cin >> t;
+    while(t--){
         solve();
     }
     return 0;
