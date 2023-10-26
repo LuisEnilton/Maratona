@@ -1,10 +1,11 @@
 //
-// Created by Luis on 26/09/2023.
+// Created by luise on 25/10/2023.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
+
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -32,19 +33,29 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-int main(int argc, char** argv)
+
+void solve(){
+    ll n,k;
+    ll x;
+    cin >> n>> k >>x;
+    ll minSum = 0,maxSum=0;
+    minSum = ((1+ k) * k)/2;
+    maxSum =((n-k + 1 + n) * k)/2;
+    //cout << "Soma max: "<< maxSum << endl;
+    if(x >= minSum && x <=maxSum){
+        cout << "YES" << endl;
+    }else{
+        cout << "NO" << endl;
+    }
+}
+
+int main()
 {
     optimize;
     int t; cin >> t;
     while(t--){
-        int n; cin >> n;
-        for(int i = 0; i < n;i++){
-            cout << 3 * i + 1 << " ";
-        }
-
-        cout << endl;
+        solve();
     }
-
     return 0;
 }
 
