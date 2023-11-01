@@ -1,14 +1,11 @@
 //
-// Created by Luis on 21/10/2023.
+// Created by luise on 31/10/2023.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-#include <iomanip>
-#include <iostream>
-#include <ranges>
-#include <string_view>
+
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -42,29 +39,21 @@ using namespace __gnu_pbds;
 int main()
 {
     optimize;
-    int x,n;
-    cin >> x >> n;
-    set<int> nums;
-    for(int i = 0; i < n; i ++){
-        int val; cin >> val;
-        int sup,inf;
-        auto it = nums.upper_bound(val);
-        if(it == nums.end()){
-            sup = (x - val);
-        }else{
-            sup = (*it - val);
-        }
-        it = nums.lower_bound(val);
-        if(it == nums.begin() ){
-            inf = val;
-        }else{
-            it--;
-            inf = val - *it;
-        }
-        nums.insert(val);
-        cout << max(sup,inf) << " ";
+    int n,m; cin >> n >> m;
+    bitset<200010> days;
+    while(m--){
+        int pos; cin >> pos;
+        pos--;
+        days.set(pos);
     }
-
+    for(int i = 0 ; i < n ; i++){
+        if(days.test(i)){
+            cout << 0 << endl;
+            continue;
+        }
+        int pos = days._Find_next(i);
+        cout << pos  - i << endl;
+    }
     return 0;
 }
 

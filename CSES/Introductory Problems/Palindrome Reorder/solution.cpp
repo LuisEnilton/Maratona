@@ -1,14 +1,11 @@
 //
-// Created by Luis on 21/10/2023.
+// Created by luise on 30/10/2023.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-#include <iomanip>
-#include <iostream>
-#include <ranges>
-#include <string_view>
+
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -42,28 +39,40 @@ using namespace __gnu_pbds;
 int main()
 {
     optimize;
-    int x,n;
-    cin >> x >> n;
-    set<int> nums;
-    for(int i = 0; i < n; i ++){
-        int val; cin >> val;
-        int sup,inf;
-        auto it = nums.upper_bound(val);
-        if(it == nums.end()){
-            sup = (x - val);
-        }else{
-            sup = (*it - val);
-        }
-        it = nums.lower_bound(val);
-        if(it == nums.begin() ){
-            inf = val;
-        }else{
-            it--;
-            inf = val - *it;
-        }
-        nums.insert(val);
-        cout << max(sup,inf) << " ";
+    string s;
+    vector<int> freq(26);
+    cin >> s;
+    for(auto c : s)
+        freq[c - 'A']++;
+
+    int cntImpar = 0;
+    char centerLetter;
+    int i = 0;
+    char lt;
+    for(auto x : freq){
+        if(x & 1){
+            cntImpar++;
+            lt = 'A' + i;
+        }else
+        i++;
     }
+    if(cntImpar > 1){
+        cout << "NO SOLUTION" <<endl;
+        return 0;
+    }
+    string ans = "";
+    for(int j = 0; j < freq[lt -'A'] ; j++ ){
+        ans+= lt;
+    }
+    for(int j = 0; j < 26;j++){
+        if(freq[j] % 2 == 0 && freq[j] > 0){
+            char lett = 'A' + j;
+            for(int k = 0; k < freq[j]/2;k++){
+                ans = lett + ans + lett;
+            }
+        }
+    }
+    cout << ans << endl;
 
     return 0;
 }
