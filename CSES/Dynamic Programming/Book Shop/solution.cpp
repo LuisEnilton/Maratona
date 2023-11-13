@@ -1,5 +1,5 @@
 //
-// Created by Luis on 28/09/2023.
+// Created by Luis on 26/10/2023.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
@@ -32,32 +32,33 @@ using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
-int n, x;
-vi coins;
-const int maxn = 10e6 + 2;
-ll dp[101][1000010];
 
+int n,x;
+vi prices;
+vi pages;
+int dp[1001][100010];
+int solve(int i,int q){
+    if(q > x){
+        return -INF;
+    }
+    if(i == n) return 0;
+    if(~dp[i][q]) return dp[i][q];
+    ll pega = pages[i] + solve(i+1,q+prices[i]);
+    ll n_pega = solve(i+1,q);
 
-int main(int argc, char **argv) {
+    return dp[i][q] =  max(pega,n_pega);
+}
+
+int main()
+{
     optimize;
     cin >> n >> x;
-    coins.resize(n + 1);
-    for(int i = 1; i <=n;i++){
-        cin >> coins[i];
-    }
-    for (int i = 1; i <= n; i++) {
-        for (int sum = 0; sum <= x; sum++) {
-
-            if (sum == 0) {
-                dp[i][sum] = 1;
-            } else {
-                ll op1 = (coins[i] > sum) ? 0 : dp[i][sum - coins[i]];
-                ll op2 = (i == 1) ? 0 : dp[i - 1][sum];
-                dp[i][sum] = (op1 + op2) % MOD;
-            }
-        }
-    }
-    cout << dp[n][x] << endl;
+    prices.resize(n);
+    pages.resize(n);
+    for(auto &p : prices) cin >> p;
+    for(auto &pg:pages) cin >> pg;
+    memset(dp,-1,sizeof dp);
+    cout << solve(0,0) << endl;
     return 0;
 }
 

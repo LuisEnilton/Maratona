@@ -1,4 +1,10 @@
 //
+// Created by Luis on 27/10/2023.
+//
+//
+// Created by Luis on 27/10/2023.
+//
+//
 // Created by Luis on 28/09/2023.
 //
 //Template By eduardocesb
@@ -32,32 +38,29 @@ using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
-int n, x;
-vi coins;
-const int maxn = 10e6 + 2;
-ll dp[101][1000010];
+
+int n;
+const int maxn = 10e6 + 5;
+ll dp[maxn];
+
 
 
 int main(int argc, char **argv) {
     optimize;
-    cin >> n >> x;
-    coins.resize(n + 1);
-    for(int i = 1; i <=n;i++){
-        cin >> coins[i];
-    }
-    for (int i = 1; i <= n; i++) {
-        for (int sum = 0; sum <= x; sum++) {
-
-            if (sum == 0) {
-                dp[i][sum] = 1;
-            } else {
-                ll op1 = (coins[i] > sum) ? 0 : dp[i][sum - coins[i]];
-                ll op2 = (i == 1) ? 0 : dp[i - 1][sum];
-                dp[i][sum] = (op1 + op2) % MOD;
-            }
+    ll val;
+    cin >> n >> val;
+    vi nums(n);
+    for(auto &x : nums) cin >> x;
+    sort(ALL(nums));
+    dp[0] = 1;
+    for(int i = 1;i <=val;i++){
+        for(int x = 0; x < n;x++){
+            if(nums[x] > i) break;
+            dp[i] += dp[i-nums[x]] ;
         }
+        dp[i] = dp[i] %MOD;
     }
-    cout << dp[n][x] << endl;
+    cout << dp[val] << endl;
     return 0;
 }
 

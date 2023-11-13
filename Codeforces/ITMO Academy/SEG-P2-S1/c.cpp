@@ -103,30 +103,29 @@ struct SegTree {
         lazy[no] = v;
     }
 
-    void apply(int no, int l, int r) {
-        if(lazy[no] == 0) return;
-        seg[no] = (lazy[no] * (r - l + 1));
+    void unlazy(int no, int l, int r) {
+        if (lazy[no] == 0) return;
+
+        int m = (l + r) >> 1, e = no * 2, d = no * 2 + 1;
+
+        seg[no] = 1LL * (r - l + 1) * lazy[no];
 
         if (l != r) {
-            int e = 2 * no;
-            int d = e + 1;
-
-            atualiza(e, lazy[no]);
-            atualiza(d, lazy[no]);
+            lazy[e] = lazy[no];
+            lazy[d] = lazy[no];
         }
 
-        // CUIDADO COM ESSE VALOR, COLOCAR UM VALOR NEUTRO.
         lazy[no] = 0;
     }
 
     void update(int no, int l, int r, int a, int b, ll v) {
-        apply(no, l, r);
+        unlazy(no, l, r);
         if (r < a || l > b)
             return;
 
         if (a <= l && r <= b) {
             atualiza(no, v);
-            apply(no, l, r);
+            unlazy(no, l, r);
             return;
         }
 
@@ -141,7 +140,7 @@ struct SegTree {
     }
 
     ll query(int no, int l, int r, int a, int b) {
-        apply(no, l, r);
+        unlazy(no, l, r);
         if (r < a || l > b)
             return NEUTRO;
 
@@ -171,7 +170,7 @@ int main(int argc, char **argv) {
             int l, r;
             ll val;
             cin >> l >> r >> val;
-            l++,r++;
+            l++, r++;
             seg.update(1, 1, n, l, r - 1, val);
         } else {
             int pos;
