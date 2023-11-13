@@ -1,5 +1,5 @@
 //
-// Created by Luis on 31/10/2023.
+// Created by Luis on 11/11/2023.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
@@ -34,54 +34,57 @@ using namespace __gnu_pbds;
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
 
-void solve(){
-    int n,k; cin >> n >> k;
-    int freq[26];
-    bool ok = true;
-    memset(freq,0,sizeof freq);
-    string s; cin >> s;
-    for(auto c : s){
-        freq[c-'a']++;
-    }
-    int cntPar = 0,cntImpar = 0;
-    for(auto x : freq){
-        if(x & 1)
-            cntImpar+=x;
-        else
-            cntPar++;
-    }
-    if(cntImpar > 0){
-        if(k & 1){
-            if(cntImpar & 1){
-                k-=cntImpar;
-            }else{
-                k-=cntImpar;
-                k++;
-            }
-        }else{
-            if(cntImpar & 1){
-                k-=cntImpar;
-                k++;
-            }else{
-                k-=cntImpar;
-            }
-        }
-    }
-    if(k < 0 || k & 1){
-        cout << "NO" << endl;
-    }else{
-        cout << "YES" << endl;
-    }
 
-}
 
 int main()
 {
     optimize;
-    int t; cin >> t;
-    while(t--){
-        solve();
+    string s;
+    cin >> s;
+    int n = s.size();
+    string ans;
+    vector<char> pilha;
+    for(int i = 0; i < n;i++){
+        char c = s[i];
+        if(c != 'A') {
+            if(pilha.size() == 0) {
+                ans+=c;
+                continue;
+            }
+        }
+        if(c == 'A'){
+            pilha.push_back(c);
+        }
+        if(c == 'B'){
+
+            if(pilha.back() == 'A'){
+                pilha.push_back(c);
+            }else{
+                pilha.push_back(c);
+                for(char j : pilha){
+                    ans+=j;
+                }
+                pilha.clear();
+            }
+        }
+
+        if(c == 'C'){
+            if(pilha.back() == 'B'){
+                pilha.pop_back();
+                pilha.pop_back();
+            }else{
+                pilha.push_back(c);
+                for(char j : pilha){
+                    ans+=j;
+                }
+                pilha.clear();
+            }
+        }
     }
+    for(char j : pilha){
+        ans+=j;
+    }
+    cout << ans << endl;
     return 0;
 }
 

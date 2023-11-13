@@ -76,9 +76,9 @@ struct SegTree {
         ll q = 0; // 'q' guarda a quantidade de numeros menores que lim.
         for (int i = 0; i < 40; i++) {
             if (a.freq[i]) {
-                sum += (a.freq[i] * q); // todas as inversões que ocorrem para um numero menor, ocorrem para um num maior.
+                sum += 1LL * (ll ) a.freq[i] * q; // todas as inversões que ocorrem para um numero menor, ocorrem para um num maior.
                 for (int j = lim; j < i; j++) {
-                    sum += (a.freq[i] * b.freq[j]);
+                    sum += 1LL * a.freq[i] * b.freq[j];
                     q+=b.freq[j];
                 }
                 lim = i;

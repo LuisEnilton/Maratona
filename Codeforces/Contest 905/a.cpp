@@ -1,11 +1,11 @@
 //
-// Created by Luis on 28/09/2023.
+// Created by Luis on 31/10/2023.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-
+#include <cmath>
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -32,32 +32,28 @@ using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
-int n, x;
-vi coins;
-const int maxn = 10e6 + 2;
-ll dp[101][1000010];
 
 
-int main(int argc, char **argv) {
+void solve(){
+    string s; cin >> s;
+    int ans = 0;
+    int init = 1;
+    for(auto c : s){
+        int val = (c == '0'?10:c-'0');
+        int displaceCost = abs(val-init);
+        ans+= displaceCost + 1;
+        init = val;
+    }
+    cout << ans << endl;
+}
+
+int main()
+{
     optimize;
-    cin >> n >> x;
-    coins.resize(n + 1);
-    for(int i = 1; i <=n;i++){
-        cin >> coins[i];
+    int t; cin >> t;
+    while(t--){
+        solve();
     }
-    for (int i = 1; i <= n; i++) {
-        for (int sum = 0; sum <= x; sum++) {
-
-            if (sum == 0) {
-                dp[i][sum] = 1;
-            } else {
-                ll op1 = (coins[i] > sum) ? 0 : dp[i][sum - coins[i]];
-                ll op2 = (i == 1) ? 0 : dp[i - 1][sum];
-                dp[i][sum] = (op1 + op2) % MOD;
-            }
-        }
-    }
-    cout << dp[n][x] << endl;
     return 0;
 }
 

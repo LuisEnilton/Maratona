@@ -1,5 +1,5 @@
 //
-// Created by Luis on 28/09/2023.
+// Created by Luis on 30/10/2023.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
@@ -32,32 +32,51 @@ using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
-int n, x;
-vi coins;
-const int maxn = 10e6 + 2;
-ll dp[101][1000010];
 
+vii pares = {
+        {0, 1},
+        {1, 2},
+        {3, 4},
+        {7, 8},
+        {15, 16}
+};
 
-int main(int argc, char **argv) {
-    optimize;
-    cin >> n >> x;
-    coins.resize(n + 1);
-    for(int i = 1; i <=n;i++){
-        cin >> coins[i];
+bool check(int i, int j) {
+    pii aux = {i, j};
+    for (auto p: pares) {
+        if (aux == p)
+            return true;
     }
-    for (int i = 1; i <= n; i++) {
-        for (int sum = 0; sum <= x; sum++) {
-
-            if (sum == 0) {
-                dp[i][sum] = 1;
-            } else {
-                ll op1 = (coins[i] > sum) ? 0 : dp[i][sum - coins[i]];
-                ll op2 = (i == 1) ? 0 : dp[i - 1][sum];
-                dp[i][sum] = (op1 + op2) % MOD;
-            }
-        }
-    }
-    cout << dp[n][x] << endl;
-    return 0;
+    return false;
 }
 
+void solve() {
+    int n;
+    cin >> n;
+    int anterior = -1;
+    bool ok = true;
+    for (int i = 0; i < n; i++) {
+        int num;
+        cin >> num;
+        if(!ok) continue;
+        if (num < anterior) {
+            ok = check(i - 1, i);
+        }
+        anterior = num;
+    }
+    cout << (ok ? "YES" : "NO") << endl;
+}
+
+int main() {
+    optimize;
+    int t;
+    cin >> t;
+    while (t--) {
+        solve();
+    }
+    return 0;
+}
+/*
+ 7
+2 6 5 4 1 1 3
+ * */

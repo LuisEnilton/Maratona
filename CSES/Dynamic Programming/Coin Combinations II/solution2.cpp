@@ -1,4 +1,7 @@
 //
+// Created by Luis on 27/10/2023.
+//
+//
 // Created by Luis on 28/09/2023.
 //
 //Template By eduardocesb
@@ -45,16 +48,13 @@ int main(int argc, char **argv) {
     for(int i = 1; i <=n;i++){
         cin >> coins[i];
     }
-    for (int i = 1; i <= n; i++) {
-        for (int sum = 0; sum <= x; sum++) {
+    for(int i = 0; i <=x;i++){
+        dp[i][0] = 1;
+    }
+    for(int i = 1 ; i <=n;i++){
 
-            if (sum == 0) {
-                dp[i][sum] = 1;
-            } else {
-                ll op1 = (coins[i] > sum) ? 0 : dp[i][sum - coins[i]];
-                ll op2 = (i == 1) ? 0 : dp[i - 1][sum];
-                dp[i][sum] = (op1 + op2) % MOD;
-            }
+        for(int j = 0; j <=x;j++ ){
+
         }
     }
     cout << dp[n][x] << endl;
