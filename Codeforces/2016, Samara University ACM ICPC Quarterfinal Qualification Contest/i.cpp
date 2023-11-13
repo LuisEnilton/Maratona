@@ -37,25 +37,6 @@ using namespace __gnu_pbds;
 int n,m;
 const int maxn = 10e5 + 2;
 vi grafo[maxn];
-struct Component{
-    bool ciclo;
-    vi vertices;
-    Component(){
-        this->ciclo = true;
-        this->vertices = vi();
-    }
-};
-
-vector<bool> visited(maxn + 2,false);
-void dfs(int u, int pai,Component &cp){
-    if(visited[u]) return;
-    cp.vertices.push_back(u);
-    if(grafo[u].size()!=2)cp.ciclo = false;
-    for(auto v : grafo[u]){
-        if(v == pai) continue;
-        dfs(v,u,cp);
-    }
-}
 
 int main()
 {
@@ -67,44 +48,17 @@ int main()
         grafo[u].EB(v);
         grafo[v].EB(u);
     }
-    //dfs
-    vector<Component> components;
-    for(int i = 1 ; i <=n;i++){
-        if(visited[i])continue;
-        auto cp = *new Component();
-        dfs(i,-1,cp);
-        components.EB(cp);
-    }
-    Component ans;
-    for(auto cp : components){
-        if(cp.ciclo < ans.ciclo){
-            if(cp.vertices.size() < ans.vertices.size() || ans.vertices.size() == 0){
-                ans = cp;
-            }
-        }else{
-            if(cp.vertices.size() < ans.vertices.size() || ans.vertices.size() == 0){
-                ans = cp;
-            }
+    int ans = 0;
+    int val = INF;
+    for(int i = 1; i <=n;i++){
+        if(grafo[i].size() < val){
+            ans = i;
+            val = grafo[i].size();
         }
     }
-    int cnt;
-    if(ans.ciclo){
-        cnt = 3;
-        for(auto x : ans.vertices){
-            if(cnt == 0) break;
-            resposta[x] = 0;
-            cnt--;
-        }
-    }else{
-        cnt = min((int) ans.vertices.size(),2);
-        for(auto x : ans.vertices){
-            if(grafo[x].size() <= 1){
-                for(int v : grafo[x]){
-                    resposta[v] = 0;
-                }
-                break;
-            }
-        }
+    resposta[ans] = 0;
+    for(auto v : grafo[ans]){
+        resposta[v] = 0;
     }
     for(int i = 1; i <=n;i++){
         cout << resposta[i] << " ";

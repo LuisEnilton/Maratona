@@ -38,26 +38,32 @@ using namespace __gnu_pbds;
 int n, x;
 vi coins;
 const int maxn = 10e6 + 2;
+
 ll dp[101][1000010];
 
-
+// dp state {0, x} -> {0,x - c0}
 int main(int argc, char **argv) {
     optimize;
     cin >> n >> x;
     coins.resize(n + 1);
-    for(int i = 1; i <=n;i++){
+
+    for (int i = 1; i <= n; i++) {
         cin >> coins[i];
     }
-    for(int i = 0; i <=x;i++){
+    for (int i = 0; i <= x; i++) {
         dp[i][0] = 1;
     }
-    for(int i = 1 ; i <=n;i++){
+    for (int k = 1; k <= x; k++) {
 
-        for(int j = 0; j <=x;j++ ){
-
+        for (int j = n; j >= 0; j--) {
+            if (coins[j] <= k)
+                dp[j][k] += dp[j][k - coins[j]];
+            if (j < n)
+                dp[j][k] += dp[j + 1][k];
+            dp[j][k] %= MOD;
         }
     }
-    cout << dp[n][x] << endl;
+    cout << dp[1][x] << endl;
     return 0;
 }
 
