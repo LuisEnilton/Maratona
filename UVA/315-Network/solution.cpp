@@ -1,3 +1,6 @@
+//
+// Created by Luis on 15/11/2023.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -33,12 +36,18 @@ using namespace __gnu_pbds;
 
 
 
+
+
 int main()
 {
     optimize;
-    bitset<10> bt;
-    bt.to_string();
-    cout << bt << endl;
+    int n;
+    while(cin >> n && (n!=0)){
+        int u;
+        while(cin >> u && (u!=0)){
+            
+        }
+    }
     return 0;
 }
 

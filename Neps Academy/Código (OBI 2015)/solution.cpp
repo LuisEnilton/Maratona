@@ -64,6 +64,18 @@ struct StringHash{
 
 };
 int n ,m , q;
+vector<string> split(const string& str, char delimiter) {
+    vector<string> tokens;
+    size_t start = 0;
+
+    while (start != string::npos) {
+        size_t end = str.find(delimiter, start);
+        tokens.push_back(str.substr(start, end - start));
+        start = (end == string::npos) ? end : end + 1;
+    }
+
+    return tokens;
+}
 int main(int argc, char** argv)
 {
     optimize;
@@ -76,14 +88,18 @@ int main(int argc, char** argv)
         return 0;
     }
     getline(cin,s);
+    auto a = split(s,' ');
+    s = "";
+    for(const auto& l : a){
+        s += l;
+    }
     StringHash hsh(s);
-    cout << s << endl;
     int ans = 0;
-    string t ="1 0 0";
+    string t ="100";
     StringHash padr(t);
-    for(int i =0;i + 4 < n;i+=2){
-        if(hsh.get_value(i,i+4) == padr.get_value(0,4)){
-            cout << s.substr(i,5) << endl;
+    for(int i =0;i + 2 < n;i++){
+        if(hsh.get_value(i,i+2) == padr.get_value(0,2)){
+            cout << s.substr(i,3) << endl;
             ans++;
         }
     }

@@ -49,7 +49,6 @@ add_executable(Maratona
         "Beecrowd/1088 - Bolhas e Baldes/solution.cpp"
         "Beecrowd/1110 - Jogando Cartas Fora/solution.cpp"
         "Beecrowd/1112 - Schweisen/solution.cpp"
-        "Beecrowd/1123 - Desvio de Rota/a.cpp"
         "Beecrowd/1123 - Desvio de Rota/solution.cpp"
         "Beecrowd/1128 -Ir e vir/solution.cpp"
         "Beecrowd/1162 - Organizador de Vag�es/solution.cpp"

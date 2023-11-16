@@ -1,3 +1,6 @@
+//
+// Created by Luis on 15/11/2023.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -30,15 +33,41 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
+int n, c;
+vector<bool> gatos;
+const int maxn = 10e5 + 2;
+vi grafo[maxn];
 
+int dfs(int u,int pai,int g){
+    if(gatos[u]) g++;
+    else g = 0;
+    if(g > c) return 0;
+    if(grafo[u].size() == 1 && u != 1) return 1;
+    int ret = 0;
+    for(auto v : grafo[u]){
+        if(v == pai) continue;
+        ret += dfs(v,u,g);
+    }
+    return ret;
+}
 
 
 int main()
 {
     optimize;
-    bitset<10> bt;
-    bt.to_string();
-    cout << bt << endl;
+    cin >> n >> c;
+    gatos.resize(n+1);
+    for(int i = 1; i <=n;i++){
+        bool ok;cin >> ok;
+        gatos[i] = ok;
+    }
+    for(int i=0;i <n-1;i++){
+        int u,v;
+        cin >> u >> v;
+        grafo[u].EB(v);
+        grafo[v].EB(u);
+    }
+    cout << dfs(1,-1,0) << endl;
     return 0;
 }
 
