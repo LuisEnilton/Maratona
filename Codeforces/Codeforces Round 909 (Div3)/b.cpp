@@ -1,3 +1,9 @@
+//
+// Created by Luis on 17/11/2023.
+//
+//
+// Created by Luis on 17/11/2023.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -31,11 +37,46 @@ using namespace __gnu_pbds;
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
 
-
+void solve(){
+    int n; cin >> n;
+    vector<ll> ps(n);
+    ll maior = 0,menor =INFLL;
+    for(int i = 0; i < n;i++){
+        ll val; cin >> val;
+        maior = max(maior,val);
+        menor = min(menor,val);
+        if(i == 0){
+            ps[0] = val;
+            continue;
+        }
+        ps[i] = ps[i-1] + val;
+    }
+    ll ans = (maior - menor);
+    for(int i = 2; i <=n/2;i++){
+        if( n % i == 0){
+            ll ma = 0,me = INFLL;
+            for(int j = i - 1; j < n;j+=i){
+                if(j == (i-1)){
+                    ma = max(ma,ps[j]);
+                    me = min(me,ps[j]);
+                }else{
+                    ma = max(ma,ps[j] - ps[j-i]);
+                    me = min(me,ps[j] - ps[j-i]);
+                }
+            }
+            ans = max(ans,ma - me);
+        }
+    }
+    cout << ans << endl;
+}
 
 int main()
 {
     optimize;
+    int t; cin >> t;
+    while(t--){
+        solve();
+    }
     return 0;
 }
 

@@ -1,3 +1,6 @@
+//
+// Created by Luis on 18/11/2023.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -36,6 +39,19 @@ using namespace __gnu_pbds;
 int main()
 {
     optimize;
+    int n; cin >> n;
+    int m = 0,ans = 0;
+    for(int i = 0; i < n;i++){
+        int val; cin >> val;
+        if(val == m) continue;
+        if(val > m){
+            if(m > ans) ans = m;
+            m = val;
+        }else{
+            if(val > ans) ans = val;
+        }
+    }
+    cout << ans << endl;
     return 0;
 }
 

@@ -1,3 +1,6 @@
+//
+// Created by Luis on 18/11/2023.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -32,10 +35,19 @@ using namespace __gnu_pbds;
 
 
 
-
 int main()
 {
     optimize;
+    priority_queue<pii> pq;
+    int n,m; cin >> n >> m;
+    vi aux(n + 1);
+    while(m--){
+        int c; cin >> c;
+        aux[c]++;
+        pq.push({aux[c],-c});
+        auto ans = pq.top();
+        cout << -ans.second << endl;
+    }
     return 0;
 }
 
