@@ -70,7 +70,12 @@ int main()
         grafo[u].EB(v);
         grafo[v].EB(u);
     }
-    dfs(1,-1);
+    //dfs(1,-1);
+    for(int i = 1; i <=n;i++){
+        if(grafo[i].size() <5 && grafo[i].size() >=2){
+            ans++;
+        }
+    }
     cout << ans << endl;
     return 0;
 }

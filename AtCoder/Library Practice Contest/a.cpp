@@ -1,3 +1,6 @@
+//
+// Created by Luis on 17/11/2023.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -30,12 +33,56 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
+struct DSU{
+    vector<int> pai;
+    vector<int> altura;
 
+    DSU(int n){
+        pai.resize(n+1);
+        altura.resize(n+1);
+        resetDSU(n);
+    }
+
+    inline void resetDSU(int &n){
+        for(int i=0; i<=n; i++)
+            altura[i] = 1, pai[i] = i;
+    }
+
+    inline int find(int u){
+        return ( pai[u] == u  ?  u  :  pai[u] = find(pai[u]) );
+    }
+
+    void join(int u,int v){
+        u = find(u);
+        v = find(v);
+        if(u == v)  return;
+        //compressão de altura
+        if(altura[u] > altura[v]){
+            swap(u,v);
+        }
+        pai[u] = v;
+
+        if(altura[u] == altura[v]) altura[v]++;
+
+    }
+};
 
 
 int main()
 {
     optimize;
+    int n,q; cin >> n >> q;
+    auto dsu = DSU(n);
+    while(q--){
+        int op; cin >> op;
+        if(op == 0){
+            int u,v; cin >> u >> v;
+            dsu.join(u,v);
+        }else{
+            int u,v; cin >> u >> v;
+            cout <<(dsu.find(u) == dsu.find(v)) << endl;
+        }
+    }
     return 0;
 }
 
