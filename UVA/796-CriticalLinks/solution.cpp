@@ -1,5 +1,5 @@
 //
-// Created by Luis on 15/11/2023.
+// Created by luise on 16/11/2023.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
@@ -33,29 +33,13 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-vector<string> split(const string& str, char delimiter) {
-    vector<string> tokens;
-    size_t start = 0;
 
-    while (start != string::npos) {
-        size_t end = str.find(delimiter, start);
-        tokens.push_back(str.substr(start, end - start));
-        start = (end == string::npos) ? end : end + 1;
-    }
-
-    return tokens;
-}
-const int maxn = 102;
-vector<vi> grafo ;
-
-vector<int> cut;
-vector<int> pre,low;
+vector<set<int>> grafo;
+vector<pair<int, int>> pontes;
+vi pre,low;
 int clk = 0;
 void tarjan(int u, int p = -1){
     pre[u] = low[u] = clk++;
-
-    bool any = false;
-    int chd = 0;
 
     for(auto v : grafo[u]){
         if(v == p) continue;
@@ -66,46 +50,60 @@ void tarjan(int u, int p = -1){
 
             low[u] = min(low[v], low[u]);
 
-            if(low[v] >= pre[u]) any = true;
-
-            chd++;
+            if(low[v] >  pre[u])
+                pontes.emplace_back(u, v);
         }
         else
             low[u] = min(low[u], pre[v]);
     }
 
-    if(p == -1 && chd >= 2) cut.push_back(u);
-    if(p != -1 && any)      cut.push_back(u);
 }
 
+void clear(){
+    pre.clear();
+    low.clear();
+    grafo.clear();
+    pontes.clear();
+}
 
 int main()
 {
-    optimize;
+    //optimize;
     int n;
-    while(cin >> n && (n!=0)){
-        int u;
-        grafo.clear();
+    while(cin >> n){
+        clear();
         grafo.resize(n+1);
-        low.clear();
         low.resize(n+1);
-        pre.clear();
         pre.resize(n+1);
-        cut.clear();
         fill(ALL(pre),-1);
-        while(cin >> u && (u!=0)){
-            cin.ignore();
-            string s;
-            getline(cin,s);
-            auto x = split(s,' ');
-            for(auto num : x){
-                int v = stoi(num);
-                grafo[u].EB(v);
-                grafo[v].EB(u);
+        for(int i = 0 ; i < n;i++){
+            int u; cin >>u;
+            u++;
+            char c;
+            cin >> c;
+            int m; cin >> m;
+            cin >> c;
+            while(m--){
+                int v; cin >> v;
+                v++;
+                grafo[u].insert(v);
+                grafo[v].insert(u);
             }
         }
-        tarjan(1);
-        cout << cut.size() << endl;
+        for(int i = 1 ; i <=n;i++){
+            if(pre[i] != -1) continue;
+            tarjan(i);
+        }
+        cout << pontes.size() << " critical links" << endl;
+        for(auto &p : pontes){
+            if(p.first > p.second)
+                swap(p.first,p.second);
+        }
+        sort(ALL(pontes));
+        for(auto [u,v] : pontes){
+            cout << u - 1 << " - " << v - 1<< endl;
+        }
+        cout << endl;
     }
     return 0;
 }

@@ -1,5 +1,5 @@
 //
-// Created by Luis on 15/11/2023.
+// Created by luise on 16/11/2023.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
@@ -33,79 +33,78 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-vector<string> split(const string& str, char delimiter) {
-    vector<string> tokens;
-    size_t start = 0;
+vector<vi> grafo;
 
-    while (start != string::npos) {
-        size_t end = str.find(delimiter, start);
-        tokens.push_back(str.substr(start, end - start));
-        start = (end == string::npos) ? end : end + 1;
-    }
-
-    return tokens;
-}
-const int maxn = 102;
-vector<vi> grafo ;
-
-vector<int> cut;
-vector<int> pre,low;
+vi pre,low;
 int clk = 0;
+map<pii,bool> dir;
 void tarjan(int u, int p = -1){
     pre[u] = low[u] = clk++;
 
-    bool any = false;
-    int chd = 0;
-
     for(auto v : grafo[u]){
         if(v == p) continue;
-
+        pii a = {u,v};
         if(pre[v] == -1)
         {
             tarjan(v, u);
 
             low[u] = min(low[v], low[u]);
 
-            if(low[v] >= pre[u]) any = true;
+            if(low[v] >  pre[u]){
+                dir[a] = true;
+            }else{
+                dir[a] = false;
+            }
 
-            chd++;
         }
-        else
+        else{
             low[u] = min(low[u], pre[v]);
+            if(!dir.count({a.second,a.first}))
+                dir[a] = false;
+
+        }
     }
 
-    if(p == -1 && chd >= 2) cut.push_back(u);
-    if(p != -1 && any)      cut.push_back(u);
 }
 
+void clear(){
+    grafo.clear();
+    dir.clear();
+    pre.clear();
+    low.clear();
+}
 
 int main()
 {
     optimize;
-    int n;
-    while(cin >> n && (n!=0)){
-        int u;
-        grafo.clear();
+    int n,m;
+    int t = 1;
+    while(cin >> n >> m && (n!=0 || m!=0)){
+        clear();
         grafo.resize(n+1);
-        low.clear();
-        low.resize(n+1);
-        pre.clear();
         pre.resize(n+1);
-        cut.clear();
+        low.resize(n+1);
         fill(ALL(pre),-1);
-        while(cin >> u && (u!=0)){
-            cin.ignore();
-            string s;
-            getline(cin,s);
-            auto x = split(s,' ');
-            for(auto num : x){
-                int v = stoi(num);
-                grafo[u].EB(v);
-                grafo[v].EB(u);
-            }
+        while(m--){
+            int u,v; cin >> u >> v;
+            grafo[u].EB(v);
+            grafo[v].EB(u);
         }
         tarjan(1);
-        cout << cut.size() << endl;
+        cout << t << endl;
+        cout << endl;
+        for(auto x : dir){
+            auto [u,v] = x.first;
+            bool ok = x.second;
+            if(ok){
+                cout << u << " " << v << endl;
+                cout << v << " " << u << endl;
+            }else{
+                cout << u << " " << v << endl;
+            }
+        }
+        cout << "#" << endl;
+        t++;
     }
     return 0;
 }
