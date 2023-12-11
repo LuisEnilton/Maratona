@@ -1,11 +1,12 @@
-// Created by Luis on 13/09/2023.
 //
-
-#include "Solution.h"
+// Created by luise on 20/11/2023.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
+#include <cmath>
+
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -33,11 +34,29 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-int main(int argc, char** argv)
-{
-    Solution sol;
-    vi nums = {4,3,2,1};
-    cout << sol.candy(nums) << endl;
+
+void solve() {
+    int n, q;
+    cin >> n >> q;
+    vi dir, esq;
+    for (int i = 1; i < n - 1; i++) {
+        cout << i << " " << i + 1 << endl;
+        if(i > 2) dir.push_back(i);
+    }
+    int szE = n-2,szD = 0;
+    while (q--) {
+        int d;
+        cin >> d;
+    }
+}
+
+int main() {
+    optimize;
+    int t;
+    cin >> t;
+    while (t--) {
+        solve();
+    }
     return 0;
 }
 

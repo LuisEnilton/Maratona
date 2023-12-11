@@ -1,11 +1,12 @@
-// Created by Luis on 13/09/2023.
 //
-
-#include "Solution.h"
+// Created by luise on 11/12/2023.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
+#include <cmath>
+
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -33,11 +34,49 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-int main(int argc, char** argv)
-{
-    Solution sol;
-    vi nums = {4,3,2,1};
-    cout << sol.candy(nums) << endl;
+void solve() {
+    int n;
+    cin >> n;
+    string s;
+    cin >> s;
+    int ans = n;
+    vi freq(26);
+    for(auto c : s){
+        freq[c - 'a']++;
+    }
+    multiset<int> nums;
+    for(auto x : freq){
+       if(x){
+           nums.insert(-x);
+       }
+    }
+//    cout << nums.size() << endl;
+    while(nums.size() > 1){
+        auto it = nums.begin();
+        int val = -1 * (*it);
+        val--;
+        auto aux = it;
+        aux++;
+        int val2 =  - 1 * (*aux);
+        nums.erase(it);
+        nums.erase(aux);
+        val2--;
+        if(val > 0)
+            nums.insert(-val);
+        if(val2 > 0)
+            nums.insert(-val2);
+        ans-=2;
+    }
+    cout << ans << endl;
+}
+
+int main() {
+    optimize;
+    int t;
+    cin >> t;
+    while (t--) {
+        solve();
+    }
     return 0;
 }
 

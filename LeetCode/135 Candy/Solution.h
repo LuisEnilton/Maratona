@@ -40,39 +40,38 @@ class Solution {
 public:
     int candy(vector<int> &ratings) {
         int n = ratings.size();
-        vi ans(n + 1, 0);
-        vi ps(n+1,0);
-        ps[0] = 1,ps[1] = -1;
-        vi difs(n - 1);
-        for (int i = 1; i < n; i++) {
-            difs[i - 1] = ratings[i] - ratings[i - 1];
-        }
-        pii cp = {0, 1};
-        int cntP = 0,cntN = 0;
-        for (int i = 1; i < n; i++) {
-            if (difs[i] < 0) {
-                cntN++;
-                if(cntN == 0){
-                    cp = {i - 1, ps[i - 1]};
-                    cntP = 0;
-                }
-                    if(cntN == cp.second ){
-                        ps[cp.first]++;
-                        cp.second++;
-                        ps[i+1]--;
-                    }else{
-                        ps[cp.first+1]++;
-                        ps[i+1]--;
-                    }
-            } else if (difs[i] == 0) {
-
-            } else {
-                    ps[i] = ps[i-1]+1;
-                    cntN = 0;
-                    cntP++;
+        vi ps(n, 1);
+        vi ans;
+        int ans1 = 0;
+        vector<bool> reseta(n, false);
+        bool crescendo = ratings[1] > ratings[0];
+        for (int r = 1, l = 0; r < n; r++) {
+            if (ratings[r] > ratings[r - 1]) {
+                l = r;
+                crescendo = true;
+                continue;
             }
+            ps[l]++;
+            ps[r]--;
+            reseta[r] = true;
+            if (crescendo) l = r;
+            crescendo = false;
         }
-
+        for (int i = 0, sum = 0; i < n; i++) {
+            if (reseta[i]) {
+                if (ans[i - 1] > 2) {
+                    ans[i - 1]--;
+                }
+                sum = 1;
+            }
+            sum += ps[i];
+            ans.push_back(sum);
+            ans1+=sum;
+        }
+        for (auto x: ans) {
+            cout << x << " ";
+        }
+        return ans1;
     }
 };
 
