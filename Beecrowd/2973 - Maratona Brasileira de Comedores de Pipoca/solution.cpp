@@ -30,30 +30,57 @@
 #define MAXN 1010010
 #define MAXL 23
 #define endl '\n'
-
+#define int long long
 using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type, less<os_type>, rb_tree_tag, tree_order_statistics_node_update>
 using namespace std;
 
-int n,c,t;
+int n, c, t;
+vi nums;
+
+//
+bool check(int time) {
+    int cnt = 0;
+    int q = t * time;
+    int aux = q;
+    for (int i = 0; i < n; i++) {
+        if (cnt > c) return false;
+        if (nums[i] > q) return false;
+
+        if (nums[i] > aux) {
+            cnt++;
+            aux = q;
+            i--;
+            continue;
+        }
+        if (cnt == c) return false;
+        aux -= nums[i];
+    }
+    return true;
+}
 
 
-int main() {
+signed main() {
     optimize;
     cin >> n >> c >> t;
-
-    queue<int> competidores;
-    for (int i = 1; i <= c; i++) {
-        competidores.push(i); // id de cada competidor
+    nums.resize(n);
+    for (auto &x: nums) cin >> x;
+    int l = 0, r = 10e11;
+    int ans = 0;
+    while (l <= r) {
+        int mid = (l + r) / 2;
+        if (check(mid)) {
+            r = mid - 1;
+            ans = mid;
+        } else {
+            l = mid + 1;
+        }
     }
-
-
-
-
-    }
-
+    cout << ans << endl;
+    return 0;
+}
 
 
 

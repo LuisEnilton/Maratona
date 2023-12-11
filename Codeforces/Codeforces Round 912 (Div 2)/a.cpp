@@ -1,13 +1,11 @@
 //
-// Created by Luis on 27/10/2023.
-//
-//
-// Created by Luis on 28/09/2023.
+// Created by Luis on 30/11/2023.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
+#include <cmath>
 
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
@@ -37,35 +35,31 @@ using namespace __gnu_pbds;
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
 
+void solve() {
+    int n, k;
+    cin >> n >> k;
+    int menor;
+    cin >> menor;
+    bool ans = true;
 
-// dp[x][n] = dp[x - cn][n] + dp[x][n-1]
-int main(){
-    int n, x;
-    cin >> n >> x;
-    vector<int> a(n);
-    for(int i = 0; i < n; i++){
-        cin >> a[i];
-    }
+        for (int i = 1; i < n; i++) {
+            int val; cin >> val;
+            if (val < menor) ans = false;
 
-    vector<vector<int>> dp(n + 1, vector<int>(x + 1));
-    // dp[i][k] = number of ways to construct sum k
-    // such that all coins before coin[i] are unusable
-
-    for(int i = 0; i < n; i++){
-        dp[i][0] = 1;
-    }
-
-    for(int i = n - 1; i >= 0; i--){
-        for(int sum = 1; sum <= x; sum++){
-            int skipping = dp[i + 1][sum];
-            int picking = 0;
-            if(a[i] <= sum){
-                picking = dp[i][sum - a[i]];
-            }
-            dp[i][sum] = (skipping + picking) % MOD;
         }
+    if (k != 1) {
+        ans = true;
     }
-    cout << dp[0][x] << endl;
+    cout << (ans ? "YES" : "NO") << endl;
+}
+
+int main() {
+    optimize;
+    int t;
+    cin >> t;
+    while (t--) {
+        solve();
+    }
     return 0;
 }
 

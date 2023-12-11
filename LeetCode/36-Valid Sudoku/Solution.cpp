@@ -1,14 +1,13 @@
 //
-// Created by Luis on 27/10/2023.
+// Created by Luis on 03/12/2023.
 //
-//
-// Created by Luis on 28/09/2023.
-//
+
+#include "Solution.h"
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-
+#include <cmath>
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -38,34 +37,21 @@ using namespace __gnu_pbds;
 
 
 
-// dp[x][n] = dp[x - cn][n] + dp[x][n-1]
-int main(){
-    int n, x;
-    cin >> n >> x;
-    vector<int> a(n);
-    for(int i = 0; i < n; i++){
-        cin >> a[i];
-    }
 
-    vector<vector<int>> dp(n + 1, vector<int>(x + 1));
-    // dp[i][k] = number of ways to construct sum k
-    // such that all coins before coin[i] are unusable
-
-    for(int i = 0; i < n; i++){
-        dp[i][0] = 1;
-    }
-
-    for(int i = n - 1; i >= 0; i--){
-        for(int sum = 1; sum <= x; sum++){
-            int skipping = dp[i + 1][sum];
-            int picking = 0;
-            if(a[i] <= sum){
-                picking = dp[i][sum - a[i]];
-            }
-            dp[i][sum] = (skipping + picking) % MOD;
-        }
-    }
-    cout << dp[0][x] << endl;
+int main()
+{
+    optimize;
+    Solution sol;
+    vector<vector<char>> board = {{'8','3','.','.','7','.','.','.','.'}
+    ,{'6','.','.','1','9','5','.','.','.'}
+    ,{'.','9','8','.','.','.','.','6','.'}
+    ,{'8','.','.','.','6','.','.','.','3'}
+    ,{'4','.','.','8','.','3','.','.','1'}
+    ,{'7','.','.','.','2','.','.','.','6'}
+    ,{'.','6','.','.','.','.','2','8','.'}
+    ,{'.','.','.','4','1','9','.','.','5'}
+    ,{'.','.','.','.','8','.','.','7','9'}};
+    cout << sol.isValidSudoku(board) << endl;
     return 0;
 }
 
