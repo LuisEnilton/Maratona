@@ -1,8 +1,5 @@
 //
-// Created by luise on 11/12/2023.
-//
-//
-// Created by luise on 11/12/2023.
+// Created by Luis on 13/01/2024.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
@@ -19,8 +16,6 @@
 #define POS(n, x) (lower_bound(ALL(n), x) - (n).begin())
 #define ll long long
 #define ld long double
-#define l first
-#define r second
 #define pii pair<int,int>
 #define vi vector<int>
 #define vii vector<pii>
@@ -39,48 +34,45 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-bool check(int k, vii &segments) {
-    int maxi = 0, mini = 0;
-    // pra cada segmento guarda o menor que é possivel chegar e o maior
-    for (auto [esq, dir]: segments) {
-        maxi = min(maxi + k, dir);
-        if (maxi < esq) return false;
-        mini = max(mini - k, esq);
-        if (mini > dir) return false;
-    }
-    return true;
-}
-
-void solve() {
-    int n;
-    cin >> n;
-    vii segments(n);
-    int maxi = 0;
-    for (auto &x: segments) {
-        cin >> x.l;
-        cin >> x.r;
-        maxi = max(maxi, x.r);
-    }
-
-    int le = 0, ri = maxi;
-    int ans = ri;
-    while (le <= ri) {
-        int mid = (le + ri) / 2;
-        if (check(mid, segments)) {
-            ans = mid;
-            ri = mid - 1;
-        } else {
-            le = mid + 1;
+void solve(){
+    int n; cin >> n;
+    vi dif;
+    int ma = 0, me = INF;
+    while(n--){
+        int op; cin >> op;
+        int num; cin >> num;
+        if(op == 1){
+            ma = max(ma,num);
+        }
+        if(op == 2){
+            me = min(me,num);
+        }
+        if(op == 3){
+            dif.PB(num);
         }
     }
-    cout << ans << endl;
+    int cnt = 0;
+    if(ma > me){
+        cout << 0 << endl;
+        return;
+    }
+    sort(ALL(dif));
+    if(ma > me){
+        cout << 0 << endl;
+        return;
+    }
+    auto it = lower_bound(ALL(dif),ma);
+    auto it2 = upper_bound(ALL(dif),me);
+    it2--;
+    int q = (it2 - it) + 1;
+    int total = (me - ma + 1) - q;
+    cout << total << endl;
 }
 
 int main() {
     optimize;
-    int t;
-    cin >> t;
-    while (t--) {
+    int t; cin >> t;
+    while(t--){
         solve();
     }
     return 0;

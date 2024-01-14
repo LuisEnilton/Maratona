@@ -1,8 +1,5 @@
 //
-// Created by luise on 11/12/2023.
-//
-//
-// Created by luise on 11/12/2023.
+// Created by Luis on 19/12/2023.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
@@ -19,8 +16,6 @@
 #define POS(n, x) (lower_bound(ALL(n), x) - (n).begin())
 #define ll long long
 #define ld long double
-#define l first
-#define r second
 #define pii pair<int,int>
 #define vi vector<int>
 #define vii vector<pii>
@@ -39,50 +34,36 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-bool check(int k, vii &segments) {
-    int maxi = 0, mini = 0;
-    // pra cada segmento guarda o menor que é possivel chegar e o maior
-    for (auto [esq, dir]: segments) {
-        maxi = min(maxi + k, dir);
-        if (maxi < esq) return false;
-        mini = max(mini - k, esq);
-        if (mini > dir) return false;
+vector<vi> grafo;
+int n;
+int dfs(int u, int p = -1){
+    int ans = 1; // conta o proprio vertice
+    for(auto v : grafo[u]){
+        if(v == p) continue;
+        ans += dfs(v,u);
     }
-    return true;
+    return  ans;
 }
 
-void solve() {
-    int n;
-    cin >> n;
-    vii segments(n);
-    int maxi = 0;
-    for (auto &x: segments) {
-        cin >> x.l;
-        cin >> x.r;
-        maxi = max(maxi, x.r);
+int solve(){
+    int maior = 0;
+    for(auto v : grafo[1]){
+        maior = max(maior, dfs(v,1));
     }
-
-    int le = 0, ri = maxi;
-    int ans = ri;
-    while (le <= ri) {
-        int mid = (le + ri) / 2;
-        if (check(mid, segments)) {
-            ans = mid;
-            ri = mid - 1;
-        } else {
-            le = mid + 1;
-        }
-    }
-    cout << ans << endl;
+    return n - maior; // soma mais um pra pegar a operacao final
 }
 
 int main() {
     optimize;
-    int t;
-    cin >> t;
-    while (t--) {
-        solve();
+     cin >> n;
+    grafo.resize(n+3);
+    for(int i = 0; i < n - 1;i++){
+        int u,v; cin >> u >> v;
+        grafo[u].EB(v);
+        grafo[v].EB(u);
     }
+
+    cout << solve() << endl;
     return 0;
 }
 

@@ -1,8 +1,5 @@
 //
-// Created by luise on 11/12/2023.
-//
-//
-// Created by luise on 11/12/2023.
+// Created by Luis on 14/01/2024.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
@@ -19,8 +16,6 @@
 #define POS(n, x) (lower_bound(ALL(n), x) - (n).begin())
 #define ll long long
 #define ld long double
-#define l first
-#define r second
 #define pii pair<int,int>
 #define vi vector<int>
 #define vii vector<pii>
@@ -39,49 +34,38 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-bool check(int k, vii &segments) {
-    int maxi = 0, mini = 0;
-    // pra cada segmento guarda o menor que é possivel chegar e o maior
-    for (auto [esq, dir]: segments) {
-        maxi = min(maxi + k, dir);
-        if (maxi < esq) return false;
-        mini = max(mini - k, esq);
-        if (mini > dir) return false;
-    }
-    return true;
-}
-
-void solve() {
-    int n;
-    cin >> n;
-    vii segments(n);
-    int maxi = 0;
-    for (auto &x: segments) {
-        cin >> x.l;
-        cin >> x.r;
-        maxi = max(maxi, x.r);
-    }
-
-    int le = 0, ri = maxi;
-    int ans = ri;
-    while (le <= ri) {
-        int mid = (le + ri) / 2;
-        if (check(mid, segments)) {
-            ans = mid;
-            ri = mid - 1;
-        } else {
-            le = mid + 1;
-        }
-    }
-    cout << ans << endl;
-}
 
 int main() {
     optimize;
-    int t;
-    cin >> t;
-    while (t--) {
-        solve();
+    int n;
+    cin >> n;
+    string s, t;
+    cin >> s >> t;
+    vi indo, vindo;
+    for (int i = 0; i < n; i++) {
+        if (s[i] != t[i]) {
+            if (s[i] == 'a') indo.PB(i + 1);
+            else vindo.PB(i + 1);
+        }
+    }
+    if ((indo.size() + vindo.size()) & 1) {
+        cout << -1 << endl;
+        return 0;
+    }
+    int total = indo.size() + vindo.size();
+    bool troca = (indo.size() & 1) || (vindo.size() & 1);
+    cout << (troca ? total/2 + 1 : total/2) << endl;
+    if ((indo.size() & 1) || (vindo.size() & 1)) {
+        auto i = vindo.back();
+        vindo.pop_back();
+        cout << i << " " << i << endl;
+        indo.push_back(i);
+    }
+    for (int i = 0; i < indo.size() / 2; i++) {
+        cout << indo[i] << " " << indo[i + 1] << endl;
+    }
+    for (int i = 0; i < vindo.size() / 2; i++) {
+        cout << vindo[i] << " " << vindo[i + 1] << endl;
     }
     return 0;
 }

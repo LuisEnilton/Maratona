@@ -38,7 +38,7 @@ set<int> ans;
 vector<bool> col;
 vector<pii > grafo[MAXN];
 pii arestas[MAXN];
-vector<pair<pii,bool>> wait;
+vii wait;
 bool dp[MAXN][2];
 
 bool dfs(int u, int p = -1) {
@@ -52,7 +52,7 @@ bool dfs(int u, int p = -1) {
     }
     col[u] = c;
     if (t && p != -1) {
-        wait.emplace_back(u, p,col[p]);
+        wait.emplace_back(u, p);
     }else{
         if(t) ans.insert(u);
     }

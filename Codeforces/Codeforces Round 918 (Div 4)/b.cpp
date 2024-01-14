@@ -1,8 +1,5 @@
 //
-// Created by luise on 11/12/2023.
-//
-//
-// Created by luise on 11/12/2023.
+// Created by Luis on 28/12/2023.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
@@ -19,8 +16,6 @@
 #define POS(n, x) (lower_bound(ALL(n), x) - (n).begin())
 #define ll long long
 #define ld long double
-#define l first
-#define r second
 #define pii pair<int,int>
 #define vi vector<int>
 #define vii vector<pii>
@@ -39,42 +34,36 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-bool check(int k, vii &segments) {
-    int maxi = 0, mini = 0;
-    // pra cada segmento guarda o menor que é possivel chegar e o maior
-    for (auto [esq, dir]: segments) {
-        maxi = min(maxi + k, dir);
-        if (maxi < esq) return false;
-        mini = max(mini - k, esq);
-        if (mini > dir) return false;
-    }
-    return true;
-}
-
 void solve() {
-    int n;
-    cin >> n;
-    vii segments(n);
-    int maxi = 0;
-    for (auto &x: segments) {
-        cin >> x.l;
-        cin >> x.r;
-        maxi = max(maxi, x.r);
+    vector<vector<char>> grid(3, vector<char>(3));
+    pii origem;
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            cin >> grid[i][j];
+            if (grid[i][j] == '?') {
+                origem = {i, j};
+            }
+        }
+    }
+    char ans;
+    vector<bool> l(3);
+
+    for (int i = 0; i < origem.first; i++) {
+        l[grid[i][origem.second] - 'A'] = true;
     }
 
-    int le = 0, ri = maxi;
-    int ans = ri;
-    while (le <= ri) {
-        int mid = (le + ri) / 2;
-        if (check(mid, segments)) {
-            ans = mid;
-            ri = mid - 1;
-        } else {
-            le = mid + 1;
+    for (int i = origem.first + 1; i < 3; i++) {
+        l[grid[i][origem.second] - 'A'] = true;
+    }
+
+    for (int i = 0; i < 3; i++) {
+        if (!l[i]) {
+            ans = 'A' + i;
         }
     }
     cout << ans << endl;
 }
+
 
 int main() {
     optimize;

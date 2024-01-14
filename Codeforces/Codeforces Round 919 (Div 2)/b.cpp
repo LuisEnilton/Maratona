@@ -1,8 +1,8 @@
 //
-// Created by luise on 11/12/2023.
+// Created by Luis on 13/01/2024.
 //
 //
-// Created by luise on 11/12/2023.
+// Created by Luis on 13/01/2024.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
@@ -19,8 +19,6 @@
 #define POS(n, x) (lower_bound(ALL(n), x) - (n).begin())
 #define ll long long
 #define ld long double
-#define l first
-#define r second
 #define pii pair<int,int>
 #define vi vector<int>
 #define vii vector<pii>
@@ -38,40 +36,31 @@ using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
-
-bool check(int k, vii &segments) {
-    int maxi = 0, mini = 0;
-    // pra cada segmento guarda o menor que é possivel chegar e o maior
-    for (auto [esq, dir]: segments) {
-        maxi = min(maxi + k, dir);
-        if (maxi < esq) return false;
-        mini = max(mini - k, esq);
-        if (mini > dir) return false;
-    }
-    return true;
+int n, k, x;
+vi ps;
+int value(int i){
+    if(i <= x) return 0;
+    return ps[i - x];
 }
 
 void solve() {
-    int n;
-    cin >> n;
-    vii segments(n);
-    int maxi = 0;
-    for (auto &x: segments) {
-        cin >> x.l;
-        cin >> x.r;
-        maxi = max(maxi, x.r);
-    }
 
-    int le = 0, ri = maxi;
-    int ans = ri;
-    while (le <= ri) {
-        int mid = (le + ri) / 2;
-        if (check(mid, segments)) {
-            ans = mid;
-            ri = mid - 1;
-        } else {
-            le = mid + 1;
-        }
+    cin >> n >> k >> x;
+    vi nums(n);
+    for (auto &a: nums) cin >> a;
+    sort(ALL(nums));
+    ps.clear();
+    ps.PB(0);
+    int sum = 0;
+    for (auto a: nums) {
+        sum += a;
+        ps.PB(sum);
+    }
+    int ans = -INF;
+    for (int i = n ; k >= 0; i--,k--) {
+        auto val = value(i);
+        auto cur = ps[i] - val;
+        ans = max(ps[i] - 2*cur,ans);
     }
     cout << ans << endl;
 }

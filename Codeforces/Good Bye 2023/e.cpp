@@ -1,8 +1,14 @@
 //
-// Created by luise on 11/12/2023.
+// Created by Luis on 30/12/2023.
 //
 //
-// Created by luise on 11/12/2023.
+// Created by Luis on 30/12/2023.
+//
+//
+// Created by Luis on 30/12/2023.
+//
+//
+// Created by Luis on 30/12/2023.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
@@ -19,8 +25,6 @@
 #define POS(n, x) (lower_bound(ALL(n), x) - (n).begin())
 #define ll long long
 #define ld long double
-#define l first
-#define r second
 #define pii pair<int,int>
 #define vi vector<int>
 #define vii vector<pii>
@@ -39,42 +43,56 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-bool check(int k, vii &segments) {
-    int maxi = 0, mini = 0;
-    // pra cada segmento guarda o menor que é possivel chegar e o maior
-    for (auto [esq, dir]: segments) {
-        maxi = min(maxi + k, dir);
-        if (maxi < esq) return false;
-        mini = max(mini - k, esq);
-        if (mini > dir) return false;
+vi act;
+
+multiset<int> dif;
+int q = 0;
+bool ok = false;
+priority_queue<int> ans;
+void dfs(int u, vector<vi > &grafo, int p = -1) {
+    int ini = q;
+    if (!dif.count(act[u])) q++;
+    dif.insert(act[u]);
+    ans.push(q);
+    for (auto v: grafo[u]) {
+        if (v == p) continue;
+        (dfs(v, grafo, u));
     }
-    return true;
+    if (dif.count(act[u]) == 1) q--;
+    dif.erase(dif.find(act[u]));
+
 }
+
+
 
 void solve() {
     int n;
     cin >> n;
-    vii segments(n);
-    int maxi = 0;
-    for (auto &x: segments) {
-        cin >> x.l;
-        cin >> x.r;
-        maxi = max(maxi, x.r);
+    act.clear();
+    act.resize(n + 2);
+    while(!ans.empty()){
+        ans.pop();
     }
-
-    int le = 0, ri = maxi;
-    int ans = ri;
-    while (le <= ri) {
-        int mid = (le + ri) / 2;
-        if (check(mid, segments)) {
-            ans = mid;
-            ri = mid - 1;
-        } else {
-            le = mid + 1;
-        }
+    q = 0;
+    dif.clear();
+    vector<vi > grafo(n + 2);
+    for (int i = 2; i <= n; i++) {
+        int u;
+        cin >> u;
+        grafo[u].EB(i);
+        grafo[i].EB(u);
     }
-    cout << ans << endl;
+    for (int i = 1; i <= n; i++) {
+        cin >> act[i];
+    }
+    ans.push(1);
+    ans.push(1);
+    dfs(1,grafo);
+    int val1 = ans.top();ans.pop();
+    int val2 = ans.top();ans.pop();
+    cout << 1LL * val1 * val2 << endl;
 }
+
 
 int main() {
     optimize;

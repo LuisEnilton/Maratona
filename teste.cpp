@@ -1,7 +1,15 @@
+//
+// Created by Luis on 14/01/2024.
+//
+//Template By eduardocesb
 #include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+#include <cmath>
 
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
-#define INF 100000010
+#define INF 1000000010
+#define INFLL 1000000000000000010LL
 #define ALL(x) x.begin(), x.end()
 #define UNIQUE(c) (c).resize(unique(ALL(c)) - (c).begin())
 #define REP(i, a, b) for(int i = (a); i <= (b); i++)
@@ -16,63 +24,36 @@
 #define EB emplace_back
 #define MOD 1000000007
 #define PRIME 101
-#define MAXN 1000
+#define MAXN 1010101
 #define MAXL 23
+#define EPS 1e-9
 #define endl '\n'
 
 using namespace std;
+using namespace __gnu_pbds;
 
-template<class BidirectionalIterator>
-bool my_next_permutation(BidirectionalIterator first, BidirectionalIterator last) {
-    if (first == last) {
-        // If the range is empty, there's no permutation.
-        return false;
+#define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
+
+
+int main() {
+    optimize;
+    int n;
+    cin >> n;
+    vector<ll> l(n);
+    map<ll,int> sla;
+    for (int i = 0; i < n; i++) {
+        cin >> l[i];
+        sla[l[i]] = 1;
     }
-
-    // Start from the rightmost element and find the first pair (i, i+1)
-    // such that *i < *(i+1).
-    BidirectionalIterator i = last;
-    if (first == --i) {
-        // If there's only one element in the range, it can't be permuted.
-        return false;
-    }
-
-    while (true) {
-        BidirectionalIterator i1 = i, i2;
-        if (*--i < *i1) {
-            // Found the first pair where *i < *i1.
-            // Now find the rightmost element *i2 such that *i < *i2.
-            i2 = last;
-            while (!(*i < *--i2)) {}
-
-            // Swap *i and *i2.
-            std::iter_swap(i, i2);
-
-            // Reverse the subsequence (i+1, last).
-            std::reverse(i1, last);
-
-            return true;
-        }
-
-        // If no such pair is found, continue checking further left.
-        if (i == first) {
-            std::reverse(first, last);
-            return false;
+    int ans = 1;
+    for (int i = 0; i < n - 1; i++) {
+        for(int j = i + 1;j < n;j++){
+            ll dif = l[j] -  l[i];
+            sla[l[i] + dif] = max(sla[l[i] + dif],sla[l[i]] +  1);
         }
     }
+    for()
+    cout << ans << endl;
+    return 0;
 }
 
-int main(){
-    vi nums = {1,1,2,3};
-    string s = "abcd";
-    int cnt = 0;
-    do{
-
-        for(auto x : s){
-            cout << x << " ";
-        }
-        cout << endl;
-        cnt++;
-    }while(my_next_permutation(ALL(s)));
-        cout << cnt << endl;
-}

@@ -1,8 +1,5 @@
 //
-// Created by luise on 11/12/2023.
-//
-//
-// Created by luise on 11/12/2023.
+// Created by Luis on 14/12/2023.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
@@ -19,8 +16,6 @@
 #define POS(n, x) (lower_bound(ALL(n), x) - (n).begin())
 #define ll long long
 #define ld long double
-#define l first
-#define r second
 #define pii pair<int,int>
 #define vi vector<int>
 #define vii vector<pii>
@@ -31,7 +26,7 @@
 #define PRIME 101
 #define MAXN 1010101
 #define MAXL 23
-#define EPS 1e-9
+#define EPS 1e-6
 #define endl '\n'
 
 using namespace std;
@@ -39,49 +34,35 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-bool check(int k, vii &segments) {
-    int maxi = 0, mini = 0;
-    // pra cada segmento guarda o menor que é possivel chegar e o maior
-    for (auto [esq, dir]: segments) {
-        maxi = min(maxi + k, dir);
-        if (maxi < esq) return false;
-        mini = max(mini - k, esq);
-        if (mini > dir) return false;
+int n, k;
+vector<double> acc;
+
+bool check(double energy) {
+    int l = 0; // quem pode doar
+    for(int r = 1; r < n;r++){
+        double giv = acc[l] - energy;
+        double rcv = energy - acc[r];
+        double val = min(giv,rcv);
     }
-    return true;
 }
 
-void solve() {
-    int n;
-    cin >> n;
-    vii segments(n);
-    int maxi = 0;
-    for (auto &x: segments) {
-        cin >> x.l;
-        cin >> x.r;
-        maxi = max(maxi, x.r);
-    }
-
-    int le = 0, ri = maxi;
-    int ans = ri;
-    while (le <= ri) {
-        int mid = (le + ri) / 2;
-        if (check(mid, segments)) {
-            ans = mid;
-            ri = mid - 1;
-        } else {
-            le = mid + 1;
-        }
-    }
-    cout << ans << endl;
-}
 
 int main() {
     optimize;
-    int t;
-    cin >> t;
-    while (t--) {
-        solve();
+    cin >> n >> k;
+    acc.resize(n);
+    for (auto &x: acc) cin >> x;
+    sort(ALL(acc));
+    double ans = 0;
+    double l = 0, r = acc[n - 1];
+    while (abs(l - r) < EPS) {
+        double m = (l + r) / 2;
+        if (check(m)) {
+            ans = m;
+            l++;
+        } else {
+            r--;
+        }
     }
     return 0;
 }
