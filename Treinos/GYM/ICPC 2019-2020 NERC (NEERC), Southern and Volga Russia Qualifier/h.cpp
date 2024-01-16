@@ -39,31 +39,31 @@ int main() {
     optimize;
     int n;
     cin >> n;
-    vi l(n);
-    vector<int> d;
-    for (auto &x: l) cin >> x;
+    vector<ll> l(n);
     for (int i = 0; i < n; i++) {
-        for (int j = 0; j < i; j++) {
-            d.push_back(l[i] - l[j]);
-        }
+        cin >> l[i];
     }
-    UNIQUE(d);
-    sort(ALL(d));
-    map<pair<ll, int>, int> dp;
-    int ans = 0;
-    for (int i = n - 1; i >= 0; i--) {
-
-        for (int j = 0; j < d.size(); j++) {
-            if(i == n - 1){
-                dp[{l[i],j}] = 1;
+    int ans = 1;
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if (n - i - 1 <= ans)
+                continue;
+            if (n - j + 1 <= ans)
+                continue;
+            int cnt = 1;
+            ll dif = l[j] - l[i];
+            int aux = i;
+            while (aux < n) {
+                ll prox = l[aux] + dif;
+                auto it = lower_bound(ALL(l), prox);
+                if (it == l.end() || (*it) != prox) break;
+                cnt++;
+                aux = it - l.begin();
             }
-
-            if (l[i] + d[j] > l[n - 1]) break;
-            dp[{l[i], j}] = max(dp[{l[i], j}], dp[{l[i] + d[j], j}] + 1);
-            ans = max(ans, dp[{l[i], j}]);
+            ans = max(ans, cnt);
         }
+
     }
     cout << ans << endl;
     return 0;
 }
-

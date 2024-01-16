@@ -1,3 +1,6 @@
+//
+// Created by Luis on 15/01/2024.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -31,8 +34,21 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
+ll MDC(ll a, ll b)
+{
+    return __gcd(a, b);
 
+    // OU
 
+    if (b == 0) return a;
+    return MDC(b, a % b);
+}
+
+// O(log(min(a, b)))
+ll MMC(ll a, ll b)
+{
+    return a * b / MDC(a, b);
+}
 
 
 int main() {

@@ -31,13 +31,40 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
+vector<ll> primos;
+vector<int> crivo(ll N)
+{
+    vector<int> eh_primo(N + 1, 1);
 
+    eh_primo[0] = eh_primo[1] = 0;
+
+    int pos = 1;
+
+    // O(N * log N)
+    for (ll i = 2; i <= N; i++)
+    {
+        if (!eh_primo[i]) continue;
+
+        eh_primo[i] = pos++;
+
+        // i é primo
+        primos.push_back(i);
+
+        for (ll j = i * i; j <= N; j += i)
+            eh_primo[j] = 0;
+    }
+
+    return eh_primo;
+}
 
 
 
 int main() {
     optimize;
-
+    auto a = crivo(56);
+    for(auto x : a){
+        cout << x << " ";
+    }
     return 0;
 }
 

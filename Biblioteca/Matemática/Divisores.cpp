@@ -1,3 +1,6 @@
+//
+// Created by Luis on 15/01/2024.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -31,9 +34,50 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
+// O( sqrt(N) )
+vector<ll> get_divisores(ll N)
+{
+    vector<ll> divisores;
 
+    for (ll i = 1; i * i <= N; i++)
+    {
+        if (N % i != 0) continue;
 
+        divisores.push_back(i);
 
+        if (i * i != N)
+            divisores.push_back(N / i);
+    }
+
+    return divisores;
+}
+// fatora o numero em fatores primos
+// cada indice é um par {numero,quantidade}
+vii fatora(ll N)
+{
+    vii ans;
+
+    // O(sqrt(N))
+    for (ll i = 2; i * i <= N; i++)
+    {
+        if (N % i != 0) continue;
+
+        int qtd = 0;
+
+        while (N % i == 0)
+        {
+            qtd++;
+            N /= i;
+        }
+
+        ans.push_back({i, qtd});
+    }
+
+    if (N != 1)
+        ans.push_back({N, 1});
+
+    return ans;
+}
 
 int main() {
     optimize;

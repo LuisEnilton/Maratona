@@ -35,6 +35,8 @@ using namespace __gnu_pbds;
 ll q;
 
 
+
+
 bool crivo(ll N)
 {
     vector<int> eh_primo( (int) floor(sqrt(N)) + 1, 1);

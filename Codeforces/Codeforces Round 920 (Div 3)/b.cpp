@@ -1,3 +1,9 @@
+//
+// Created by Luis on 15/01/2024.
+//
+//
+// Created by Luis on 15/01/2024.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -31,13 +37,39 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-
-
+void solve(){
+    int n; cin >> n;
+    string s,t; cin >> s >> t;
+    int need = 0;
+    int sobra = 0;
+    for(int i = 0; i < n;i++){
+        if(s[i] == '0' && t[i] == '1'){
+            need++;
+        }
+        if(s[i] == '1' && t[i] == '0'){
+            sobra++;
+        }
+    }
+    int ans = 0;
+    if(need <= sobra){
+        ans+= need;
+        sobra-=need;
+        ans+=sobra;
+    }else{
+        ans+=sobra;
+        need-= sobra;
+        ans+=need;
+    }
+    cout << ans << endl;
+}
 
 
 int main() {
     optimize;
-
+    int t; cin >> t;
+    while(t--){
+        solve();
+    }
     return 0;
 }
 

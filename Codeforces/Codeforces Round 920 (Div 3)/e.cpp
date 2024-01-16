@@ -1,5 +1,11 @@
 //
-// Created by Luis on 14/12/2023.
+// Created by Luis on 15/01/2024.
+//
+//
+// Created by Luis on 15/01/2024.
+//
+//
+// Created by Luis on 15/01/2024.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
@@ -26,7 +32,7 @@
 #define PRIME 101
 #define MAXN 1010101
 #define MAXL 23
-#define EPS 1e-6
+#define EPS 1e-9
 #define endl '\n'
 
 using namespace std;
@@ -34,41 +40,55 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-int n, k;
-vector<double> acc;
-
-bool check(double energy) {
-    double giving = 0, receving = 0;
-    for (int r = 0; r < n; r++) {
-        if (acc[r] > energy) {
-            giving += abs(acc[r] - energy);
-        } else {
-            receving += abs(acc[r] - energy);
-        }
+int xa,ya,xb,yb;
+int h,w;
+int fuga(bool a){
+    if(a){
+        if(yb > ya) return w - yb;
+        else return yb - 1;
+    }else{
+        if(ya > yb) return w -ya;
+        else return ya - 1;
     }
-    return giving * ( (double) (100-k) /  100) >= receving;
+}
+
+void solve() {
+     cin >> h >> w;
+    cin >> xa >> ya >> xb >> yb;
+    int x_dif = abs(xa - xb);
+    int y_dif = abs(ya - yb);
+    bool ans;
+    if(xa >= xb){
+         cout << "Draw" << endl;
+         return;
+    }
+    if(x_dif & 1){
+        auto d = min(fuga(true),x_dif/2);
+        if(x_dif/2 + 1 >= y_dif + d) ans = true;
+        else ans = false;
+        cout << (ans?"Alice":"Draw") << endl;
+    }else{
+        auto d = min(fuga(false),x_dif/2);
+        if(x_dif/2  >= y_dif + d) ans = true;
+        else ans = false;
+        cout << (ans?"Bob":"Draw") << endl;
+    }
+
 }
 
 
 int main() {
     optimize;
-    cin >> n >> k;
-    acc.resize(n);
-    for (auto &x: acc) cin >> x;
-    sort(ALL(acc));
-    double ans = 0;
-    double l = 0.0, r = 10e9;
-    while (abs(l - r) > EPS) {
-        double m = (l + r) / 2.0;
-        if (check(m)) {
-            ans = m;
-            l = m ;
-        } else {
-            r = m;
-        }
+    int t;
+    cin >> t;
+    while (t--) {
+        solve();
     }
-
-    cout << setprecision(9)  << fixed << ans << endl;
     return 0;
 }
 
+/*
+ *
+ 5 5 1 4 5 2
+ *
+ * */

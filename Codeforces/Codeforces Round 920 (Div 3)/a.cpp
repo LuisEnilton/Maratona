@@ -1,3 +1,6 @@
+//
+// Created by Luis on 15/01/2024.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -31,13 +34,26 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
+void solve(){
+    int xMax = -2000;
+    int xMin = 2000;
 
-
+    for(int i = 0; i < 4;i++){
+        int x,y; cin >> x >> y;
+        xMax = max(xMax,x);
+        xMin = min(xMin,x);
+    }
+    auto d = xMax - xMin;
+    cout << d * d << endl;
+}
 
 
 int main() {
     optimize;
-
+    int t; cin >> t;
+    while(t--){
+        solve();
+    }
     return 0;
 }
 
