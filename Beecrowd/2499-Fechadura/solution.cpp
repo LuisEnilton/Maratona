@@ -1,5 +1,5 @@
 //
-// Created by Luis on 11/12/2023.
+// Created by luise on 12/12/2023.
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
@@ -34,38 +34,32 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-void solve() {
-    int n;
-    cin >> n;
-    vector<ll> nums(n);
-    for (auto &x: nums) cin >> x;
-    pair<int,ll> neg = {0,0};
-    pair<int,ll> pos = {0,0};
-    for(int i = 0 ; i < n;i++){
-        if(nums[i] > 0){
-            pair<int,ll> aux;
-            aux.first = neg.first + 1;
-            aux.second = neg.second + nums[i];
-            pos = max(pos,aux);
-        }else{
-            pair<int,ll> aux;
-            aux.first = pos.first + 1;
-            aux.second = pos.second + nums[i];
-            neg = max(neg,aux);
-        }
-    }
-    pair<int,ll> ans = max(pos,neg);
-    cout << ans.second << endl;
-}
-
 
 int main() {
     optimize;
-    int t;
-    cin >> t;
-    while (t--) {
-        solve();
+    int n, m;
+    cin >> n >> m;
+    vi nums(n);
+    for (auto &x: nums) cin >> x;
+    //Balancear avançando pelas duas pontas
+    int l = 0, r = n - 1;
+    if(n == 1){
+        cout << abs(m - nums[0]) << endl;
+        return 0;
     }
+    int ans = 0;
+    while (l < r) {
+        int val = m - nums[l];
+        nums[l] += val;
+        nums[l + 1] += val;
+        ans += abs(val);
+        val = m - nums[r];
+        nums[r] += val;
+        nums[r - 1] += val;
+        ans += abs(val);
+        l++, r--;
+    }
+    cout << ans << endl;
     return 0;
 }
 
