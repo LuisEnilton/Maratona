@@ -1,4 +1,7 @@
 //
+// Created by Luis on 16/01/2024.
+//
+//
 // Created by Luis on 14/01/2024.
 //
 //Template By eduardocesb
@@ -36,18 +39,50 @@ using namespace __gnu_pbds;
 
 const int MAX = 1e5 + 10;
 
+struct Count {
+    vector<vi > oc;
+
+    Count() {
+
+    }
+
+    Count(int n) {
+        oc.resize(n + 2);
+    }
+
+    void build(int n, vi &v) {
+        for (int i = 0; i < n; i++) {
+            oc[v[i]].PB(i);
+        }
+    }
+
+    int query(int l, int r, int x) {
+        return upper_bound(ALL(oc[x]), r)
+               - lower_bound(ALL(oc[x]), l);
+    }
+};
 
 
-
-template<int SZ> struct HLD {
+struct HLD {
     vector<vi > g;
-    int sz[SZ], h[SZ], pai[SZ]; // tamanho da subarvore, altura e pai de cada nó
-    int pos[SZ];
+    vi sz, h, pai; // tamanho da subarvore, altura e pai de cada nó
+    vi pos;
     int t = 0; // posição de cada vertice no array , o msm que passa pra seg tree
-    int val[SZ]; // Valor associado a cada vértice
-    int v[SZ];
+    vi val; // Valor associado a cada vértice
+    vi v;
+    Count cnt;
 
+    explicit HLD(int n) {
+        g.resize(n + 2);
+        sz.resize(n + 2);
+        h.resize(n + 2);
+        pai.resize(n + 2);
+        pos.resize(n + 2);
+        val.resize(n + 2);
+        v.resize(n + 2);
+        cnt = Count(n);
 
+    }
 
     void dfs(int i, int p = -1) {
         sz[i] = 1;
@@ -55,7 +90,7 @@ template<int SZ> struct HLD {
             if (j != p) {
                 dfs(j, i);
                 sz[i] += sz[j];
-                if (sz[j] > sz[g[i][0]]) swap(j, g[i][0]);
+                if (sz[j] > sz[g[i][0]] or g[i][0] == p) swap(j, g[i][0]);
             }
     }
 
@@ -76,7 +111,7 @@ template<int SZ> struct HLD {
         h[0] = 0;
         dfs(0);
         build_hld(0);
-
+        cnt.build(t, v);
     }
 
 
@@ -84,14 +119,36 @@ template<int SZ> struct HLD {
         if (pos[a] < pos[b]) swap(a, b);
         return h[a] == h[b] ? b : lca(pai[h[a]], b);
     }
+
+    bool query(int a) {
+        if (val[a]) return false;
+        bool ans = true;
+        for (auto u: g[a]) {
+            if (pai[a] == u) {
+                auto x = cnt.query(pos[u], pos[u] + sz[u] - 1, 1) - cnt.query(pos[a], pos[a] + sz[a] - 1, 1);
+                ans &= (x > 0);
+            }else{
+                auto x = cnt.query(pos[u], pos[u] + sz[u] - 1, 1);
+                ans &= (x > 0);
+            }
+        }
+        return ans;
+    }
 };
 
 int main() {
     //optimize;
-    int n, q;
-    HLD<MAX> hld;
+    int n, k;
+    cin >> n >> k;
 
-    for (int i = 0; i < n; i++) cin >> hld.val[i];
+    HLD hld(n);
+
+    for (int i = 0; i < k; i++) {
+        int pos;
+        cin >> pos;
+        pos--;
+        hld.val[pos] = 1;
+    }
 
     for (int i = 0; i < n - 1; i++) {
         int u, v;
@@ -101,25 +158,21 @@ int main() {
         hld.g[v].PB(u);
     }
     hld.build();
-    while (q--) {
-
+    set<int> ans;
+    for (int i = 0; i < n; i++) {
+        if (hld.query(i)) ans.insert(i + 1);
     }
-
-
+    cout << ans.size() << endl;
+    for (auto x: ans) cout << x << " ";
+    cout << endl;
     return 0;
 }
 
 /*
- 5 5
-1 2 3 4 5
-1 2
-1 3
-3 4
-3 5
-2 3 4
-2 4 3
-2 4 5
-4 5 1
-4 5 3
+ 4 1
+3
+1 4
+2 3
+2 4
  * */
 

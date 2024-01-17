@@ -1,17 +1,19 @@
+//
+// Created by Luis on 16/01/2024.
+//
 //Feito por SamuellH12
 
 #include <bits/stdc++.h>
-
+#define MAXN  100010
+#define MAXLG  20
 using namespace std;
-
-const int MAXN = 1e4 + 5;
-const int MAXLG = 16;
+#define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
+
 vector<pair<int, int>> grafo[MAXN];
 
 int bl[MAXLG][MAXN], lvl[MAXN], dp1[MAXLG][MAXN], dp2[MAXLG][MAXN];
 int n;
-int val[MAXN]; // Cada filho guarda o valor da aresta que vai pro pai
 
 void dfs(int u, int p = -1, int l = 0) {
     lvl[u] = l;
@@ -28,15 +30,15 @@ void dfs(int u, int p = -1, int l = 0) {
 
 void buildBL() {
     for (int i = 1; i < MAXLG; i++)
-        for (int u = 0; u < N; u++) {
+        for (int u = 1; u <= n; u++) {
             bl[i][u] = bl[i - 1][bl[i - 1][u]];
-            dp1[i][u] = min(dp1[i - 1][bl[i - 1][u]], dp1[i][u]);
-            dp2[i][u] = max(dp2[i - 1][bl[i - 1][u]], dp2[i][u]);
+            dp1[i][u] = min(dp1[i - 1][bl[i - 1][u]], dp1[i - 1][u]);
+            dp2[i][u] = max(dp2[i - 1][bl[i - 1][u]], dp2[i - 1][u]);
         }
 }
 
 void precalc() {
-    memset(bl,-1,sizeof bl);
+    memset(bl, -1, sizeof bl);
     dfs(1);
     buildBL();
 }
@@ -58,44 +60,43 @@ int lca(int u, int v) {
     return bl[0][u];
 }
 
-int dist(int u, int v) {
-    auto l = lca(u, v);
-    return (lvl[l] - lvl[u]) + (lvl[l] - lvl[v]);
-}
 
 
 
-pair<int,int> query(int a, int b) {
+pair<int, int> query(int a, int b) {
     pair<int, int> ans;
     auto l = lca(a, b);
-    auto k = lvl[a] - l;
-    int mini = INF,maxi = 0;
+    auto k = lvl[a] - lvl[l];
+    int mini = INF, maxi = 0;
     int u = a;
-    for (int i = MAXLG - 1; i >= 0; i++) {
-        if (k & (1 << i)) {
+    for (int i = MAXLG - 1; i >= 0; i--) {
+        if (k & (1 << i) && u != -1) {
             mini = min(mini, dp1[i][u]);
-            maxi = max(maxi,dp2[i][u]);
+            maxi = max(maxi, dp2[i][u]);
             u = bl[i][u];
         }
     }
 
-    k = lvl[b] - l;
+    k = lvl[b] - lvl[l];
     u = b;
-    for (int i = MAXLG - 1; i >= 0; i++) {
-        if (k & (1 << i)) {
+    for (int i = MAXLG - 1; i >= 0; i--) {
+        if (k & (1 << i) && u != -1) {
             mini = min(mini, dp1[i][u]);
-            maxi = max(maxi,dp2[i][u]);
+            maxi = max(maxi, dp2[i][u]);
             u = bl[i][u];
         }
     }
-    return make_pair(mini,maxi);
+    return make_pair(mini, maxi);
 }
 
 
 int main() {
+    optimize;
     int t;
     cin >> t;
-    while (t--) {
+    for (int k = 1; k <= t; k++) {
+        cout << "Case " << k << ":" << endl;
+        //cout << endl;
         cin >> n;
         for (int i = 1; i <= n; i++) grafo[i].clear();
         for (int i = 0; i < n - 1; i++) {
@@ -110,6 +111,8 @@ int main() {
         while (q--) {
             int x, y;
             cin >> x >> y;
+            auto ans = query(x, y);
+            cout << ans.first << " " << ans.second << endl;
         }
     }
     return 0;

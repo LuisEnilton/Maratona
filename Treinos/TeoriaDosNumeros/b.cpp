@@ -34,57 +34,39 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
+pair<ll,ll> get_divisores(ll N)
+{
+    pair<ll,ll> divisores;
 
-struct Jedi {
-    ll maior;
-    ll soma; // soma
-    int id;
-    Jedi() {
-        this->maior = 0;
-        this->soma = 0;
+    for (ll i = 1; i * i <= N; i++)
+    {
+        if (N % i != 0) continue;
+
+
+
+        if (i * i != N && gcd(i, N/i) == 1)
+            divisores = {i,N/i};
     }
 
-    Jedi(ll maior,ll soma,int id){
-        this->maior = maior;
-        this->soma = soma;
-        this->id = id;
-    }
-
-    bool operator<(const Jedi &j) const {
-        return (this->soma - this->maior) < (j.soma - j.maior);
-    }
-};
-
-
-
-int bb(vector<ll> &v, ll p){
-    auto it = upper_bound(ALL(v),p) ;
-    return it - v.begin();
+    return divisores;
 }
 
-int main() {
-    optimize;
-    int n; cin >> n;
-    vector<Jedi> v;
-    for (int i = 0; i < n; i++) {
-        ll soma = 0;
-        ll a,b,c; cin >> a >> b >> c;
-        soma = a+ b + c;
-        ll maior;
-        maior = max({a,b,c});
-        v.emplace_back(maior,soma,i);
-    }
-    vector<Jedi> sla = v;
-    sort(ALL(v));
-    vector<ll> aux;
-    for(auto x : v){
-        aux.EB(x.soma - x.maior + 2);
 
+int main() {
+    //optimize;
+    int t; cin >> t;
+    while(t--) {
+        int num;
+        cin >> num;
+        if (num & 1) {
+            auto [a, b] = get_divisores(num - 1);
+            cout << a << " " << b << endl;
+        } else {
+            int a = num/2;
+            int b = a;
+            cout << b << " " << a << endl;
+        }
     }
-    for(auto x : sla){
-        cout << bb(aux,x.soma ) - 1  << " ";
-    }
-    cout << endl;
     return 0;
 }
 

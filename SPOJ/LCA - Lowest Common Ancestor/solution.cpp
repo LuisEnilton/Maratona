@@ -1,4 +1,7 @@
 //
+// Created by Luis on 15/01/2024.
+//
+//
 // Created by Luis on 14/01/2024.
 //
 //Template By eduardocesb
@@ -34,20 +37,28 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-const int MAX = 1e5 + 10;
+const int MAX = 100000;
 
 
 
 
-template<int SZ> struct HLD {
-    vector<vi > g;
-    int sz[SZ], h[SZ], pai[SZ]; // tamanho da subarvore, altura e pai de cada nó
-    int pos[SZ];
+struct HLD {
+    vector<vi> g;
+    vi sz, h, pai; // tamanho da subarvore, altura e pai de cada nó
+    vi pos;
     int t = 0; // posição de cada vertice no array , o msm que passa pra seg tree
-    int val[SZ]; // Valor associado a cada vértice
-    int v[SZ];
+    vi val; // Valor associado a cada vértice
+    vi v;
 
-
+    explicit HLD(int n){
+        g.resize(n+2);
+        sz.resize(n + 2);
+        h.resize(n+2);
+        pai.resize(n+2);
+        pos.resize(n+2);
+        val.resize(n+2);
+        v.resize(n+2);
+    }
 
     void dfs(int i, int p = -1) {
         sz[i] = 1;
@@ -80,32 +91,43 @@ template<int SZ> struct HLD {
     }
 
 
+
     int lca(int a, int b) {
         if (pos[a] < pos[b]) swap(a, b);
         return h[a] == h[b] ? b : lca(pai[h[a]], b);
     }
 };
 
+
 int main() {
-    //optimize;
-    int n, q;
-    HLD<MAX> hld;
+    optimize;
+    int t;
+    cin >> t;
+    for(int j = 1; j <=t;j++) {
+        cout << "Case " << j << ":" << endl;
+        int n;
+        cin >> n;
+        HLD hld(n);
+        for (int i = 0; i < n; i++) {
+            string s;
+            int m; cin >> m;
+            while(m--){
+                int u; cin >> u;u--;
+                hld.g[i].EB(u);
+                hld.g[u].EB(i);
+            }
 
-    for (int i = 0; i < n; i++) cin >> hld.val[i];
 
-    for (int i = 0; i < n - 1; i++) {
-        int u, v;
-        cin >> u >> v;
-        u--, v--;
-        hld.g[u].PB(v);
-        hld.g[v].PB(u);
+        }
+        hld.build();
+        int q;
+        cin >> q;
+        while (q--) {
+            int u, b;
+            cin >> u >> b; u--,b--;
+            cout << hld.lca(u,b) + 1 << endl;
+        }
     }
-    hld.build();
-    while (q--) {
-
-    }
-
-
     return 0;
 }
 

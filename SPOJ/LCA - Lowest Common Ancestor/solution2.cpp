@@ -1,42 +1,38 @@
+//
+// Created by Luis on 16/01/2024.
+//
 //Feito por SamuellH12
-
+#define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #include <bits/stdc++.h>
 
 using namespace std;
 
 const int MAXN = 1e4 + 5;
 const int MAXLG = 16;
-#define INF 1000000010
-vector<pair<int, int>> grafo[MAXN];
 
-int bl[MAXLG][MAXN], lvl[MAXN], dp1[MAXLG][MAXN], dp2[MAXLG][MAXN];
-int n;
-int val[MAXN]; // Cada filho guarda o valor da aresta que vai pro pai
+vector<int> grafo[MAXN];
+
+int bl[MAXLG][MAXN], lvl[MAXN];
+int N;
+
 
 void dfs(int u, int p = -1, int l = 0) {
     lvl[u] = l;
     bl[0][u] = p;
 
-    for (auto [v, c]: grafo[u])
-        if (v != p) {
-            dp1[0][v] = c;
-            dp2[0][v] = c;
+    for (auto v: grafo[u])
+        if (v != p)
             dfs(v, u, l + 1);
-        }
 }
 
 
 void buildBL() {
     for (int i = 1; i < MAXLG; i++)
-        for (int u = 0; u < N; u++) {
+        for (int u = 1; u <= N; u++)
             bl[i][u] = bl[i - 1][bl[i - 1][u]];
-            dp1[i][u] = min(dp1[i - 1][bl[i - 1][u]], dp1[i][u]);
-            dp2[i][u] = max(dp2[i - 1][bl[i - 1][u]], dp2[i][u]);
-        }
 }
 
 void precalc() {
-    memset(bl,-1,sizeof bl);
     dfs(1);
     buildBL();
 }
@@ -63,54 +59,36 @@ int dist(int u, int v) {
     return (lvl[l] - lvl[u]) + (lvl[l] - lvl[v]);
 }
 
-
-
-pair<int,int> query(int a, int b) {
-    pair<int, int> ans;
-    auto l = lca(a, b);
-    auto k = lvl[a] - l;
-    int mini = INF,maxi = 0;
-    int u = a;
-    for (int i = MAXLG - 1; i >= 0; i++) {
-        if (k & (1 << i)) {
-            mini = min(mini, dp1[i][u]);
-            maxi = max(maxi,dp2[i][u]);
-            u = bl[i][u];
-        }
-    }
-
-    k = lvl[b] - l;
-    u = b;
-    for (int i = MAXLG - 1; i >= 0; i++) {
-        if (k & (1 << i)) {
-            mini = min(mini, dp1[i][u]);
-            maxi = max(maxi,dp2[i][u]);
-            u = bl[i][u];
-        }
-    }
-    return make_pair(mini,maxi);
-}
-
-
 int main() {
+    optimize;
     int t;
     cin >> t;
-    while (t--) {
+    for (int k = 1; k <= t; k++) {
+        cout << "Case " << k << ": " << endl;
+        int n;
         cin >> n;
+        N = n;
         for (int i = 1; i <= n; i++) grafo[i].clear();
-        for (int i = 0; i < n - 1; i++) {
-            int u, v, c;
-            cin >> u >> v >> c;
-            grafo[u].emplace_back(v, c);
-            grafo[v].emplace_back(u, c);
+        for (int i = 1; i <= n; i++) {
+            int q;
+            cin >> q;
+            while (q--) {
+                int v;
+                cin >> v;
+                grafo[i].emplace_back(v);
+                grafo[v].emplace_back(i);
+            }
         }
         precalc();
         int q;
         cin >> q;
+
         while (q--) {
-            int x, y;
-            cin >> x >> y;
+            int u, v;
+            cin >> u >> v;
+            cout << lca(u, v) << endl;
         }
+
     }
     return 0;
 }

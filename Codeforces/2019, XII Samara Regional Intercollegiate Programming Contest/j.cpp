@@ -50,16 +50,15 @@ struct Jedi {
         this->id = id;
     }
 
-    bool operator<(const Jedi &j) const {
+    bool operator<(const Jedi &j) {
         return (this->soma - this->maior) < (j.soma - j.maior);
     }
 };
 
 
 
-int bb(vector<ll> &v, ll p){
-    auto it = upper_bound(ALL(v),p) ;
-    return it - v.begin();
+int bb(vector<ll> v, ll p){
+    return upper_bound(ALL(v),p) - v.begin();
 }
 
 int main() {
@@ -68,21 +67,20 @@ int main() {
     vector<Jedi> v;
     for (int i = 0; i < n; i++) {
         ll soma = 0;
-        ll a,b,c; cin >> a >> b >> c;
-        soma = a+ b + c;
-        ll maior;
-        maior = max({a,b,c});
-        v.emplace_back(maior,soma,i);
+         ll a,b,c; cin >> a >> b >> c;
+         ll maior = max({a,b,c});
+         v.emplace_back(soma,maior,i);
     }
     vector<Jedi> sla = v;
     sort(ALL(v));
     vector<ll> aux;
+    vi ordem;
     for(auto x : v){
-        aux.EB(x.soma - x.maior + 2);
+        aux.EB(x.soma - x.maior);
 
     }
     for(auto x : sla){
-        cout << bb(aux,x.soma ) - 1  << " ";
+        cout << bb(aux,x.soma)  << " ";
     }
     cout << endl;
     return 0;
