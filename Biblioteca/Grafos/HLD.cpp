@@ -23,6 +23,7 @@
 #define PB push_back
 #define EB emplace_back
 #define MOD 1000000007
+#define MAX 100010
 #define PRIME 101
 #define MAXN 1010101
 #define MAXL 23
@@ -34,19 +35,17 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-const int MAX = 1e5 + 10;
 
 
 
 
-template<int SZ> struct HLD {
-    vector<vi > g;
-    int sz[SZ], h[SZ], pai[SZ]; // tamanho da subarvore, altura e pai de cada nó
-    int pos[SZ];
+namespace hld {
+    vi g[MAX];
+    int sz[MAX], h[MAX], pai[MAX]; // tamanho da subarvore, altura e pai de cada nó
+    int pos[MAX];
     int t = 0; // posição de cada vertice no array , o msm que passa pra seg tree
-    int val[SZ]; // Valor associado a cada vértice
-    int v[SZ];
-
+    int val[MAX]; // Valor associado a cada vértice
+    int v[MAX];
 
 
     void dfs(int i, int p = -1) {
@@ -55,7 +54,7 @@ template<int SZ> struct HLD {
             if (j != p) {
                 dfs(j, i);
                 sz[i] += sz[j];
-                if (sz[j] > sz[g[i][0]]) swap(j, g[i][0]);
+                if (sz[j] > sz[g[i][0]] or g[i][0] == p) swap(j, g[i][0]);
             }
     }
 
@@ -76,9 +75,7 @@ template<int SZ> struct HLD {
         h[0] = 0;
         dfs(0);
         build_hld(0);
-
     }
-
 
     int lca(int a, int b) {
         if (pos[a] < pos[b]) swap(a, b);
@@ -87,25 +84,25 @@ template<int SZ> struct HLD {
 };
 
 int main() {
-    //optimize;
+    optimize;
     int n, q;
-    HLD<MAX> hld;
+    while(cin >> n >> q){
+        for (int i = 0; i < n; i++) hld::g[i].clear();
+        for (int i = 0; i < n; i++) cin >> hld::val[i];
 
-    for (int i = 0; i < n; i++) cin >> hld.val[i];
+        for (int i = 0; i < n - 1; i++) {
+            int u, v;
+            cin >> u >> v;
+            u--, v--;
+            hld::g[u].PB(v);
+            hld::g[v].PB(u);
+        }
+        hld::build();
+        while (q--) {
+            
+        }
 
-    for (int i = 0; i < n - 1; i++) {
-        int u, v;
-        cin >> u >> v;
-        u--, v--;
-        hld.g[u].PB(v);
-        hld.g[v].PB(u);
     }
-    hld.build();
-    while (q--) {
-
-    }
-
-
     return 0;
 }
 

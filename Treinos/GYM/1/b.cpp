@@ -37,7 +37,7 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-const int MAX = 1e5 + 10;
+const int MAX = 2 * 10e5 + 10;
 
 struct Count {
     vector<vi > oc;
@@ -51,7 +51,7 @@ struct Count {
     }
 
     void build(int n, vi &v) {
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i <n; i++) {
             oc[v[i]].PB(i);
         }
     }

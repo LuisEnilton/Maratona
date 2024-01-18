@@ -1,7 +1,4 @@
 //
-// Created by Luis on 16/01/2024.
-//
-//
 // Created by Luis on 14/01/2024.
 //
 //Template By eduardocesb
@@ -26,6 +23,7 @@
 #define PB push_back
 #define EB emplace_back
 #define MOD 1000000007
+#define MAX 100010
 #define PRIME 101
 #define MAXN 1010101
 #define MAXL 23
@@ -37,20 +35,15 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-const int MAX = 1e5 + 10;
 
-struct Count {
-    vector<vi > oc;
+namespace count {
+    vi oc[MAX];
 
-    Count() {
+    void build(int n, int *v) {
+        for (int i = 0; i <= n; i++) {
+            oc[i].clear();
+        }
 
-    }
-
-    Count(int n) {
-        oc.resize(n + 2);
-    }
-
-    void build(int n, vi &v) {
         for (int i = 0; i < n; i++) {
             oc[v[i]].PB(i);
         }
@@ -63,26 +56,14 @@ struct Count {
 };
 
 
-struct HLD {
-    vector<vi > g;
-    vi sz, h, pai; // tamanho da subarvore, altura e pai de cada nó
-    vi pos;
+namespace hld {
+    vi g[MAX];
+    int sz[MAX], h[MAX], pai[MAX]; // tamanho da subarvore, altura e pai de cada nó
+    int pos[MAX];
     int t = 0; // posição de cada vertice no array , o msm que passa pra seg tree
-    vi val; // Valor associado a cada vértice
-    vi v;
-    Count cnt;
+    int val[MAX]; // Valor associado a cada vértice
+    int v[MAX];
 
-    explicit HLD(int n) {
-        g.resize(n + 2);
-        sz.resize(n + 2);
-        h.resize(n + 2);
-        pai.resize(n + 2);
-        pos.resize(n + 2);
-        val.resize(n + 2);
-        v.resize(n + 2);
-        cnt = Count(n);
-
-    }
 
     void dfs(int i, int p = -1) {
         sz[i] = 1;
@@ -111,7 +92,13 @@ struct HLD {
         h[0] = 0;
         dfs(0);
         build_hld(0);
-        cnt.build(t, v);
+        count::build(t, v);
+    }
+
+    int query(int a, int b, int c) {
+        if (pos[a] < pos[b]) swap(a, b);
+        if (h[a] == h[b]) return count::query(pos[b], pos[a], c);
+        return count::query(pos[h[a]], pos[a], c) + query(pai[h[a]], b, c);
     }
 
 
@@ -119,39 +106,30 @@ struct HLD {
         if (pos[a] < pos[b]) swap(a, b);
         return h[a] == h[b] ? b : lca(pai[h[a]], b);
     }
-
-    int query(int a, int b, int c) {
-        if (pos[a] < pos[b]) swap(a, b);
-        if (h[a] == h[b])
-            return cnt.query(pos[b], pos[a], c);
-        auto aux = cnt.query(pos[h[a]], pos[a], c);
-        return aux + query(pai[h[a]], b, c);
-    }
 };
 
 int main() {
-    //optimize;
+    optimize;
     int n, q;
-    while (cin >> n >> q) {
-
-        HLD hld(n);
-
-        for (int i = 0; i < n; i++) cin >> hld.val[i];
+    while(cin >> n >> q){
+        for (int i = 0; i < n; i++) hld::g[i].clear();
+        for (int i = 0; i < n; i++) cin >> hld::val[i];
 
         for (int i = 0; i < n - 1; i++) {
             int u, v;
             cin >> u >> v;
             u--, v--;
-            hld.g[u].PB(v);
-            hld.g[v].PB(u);
+            hld::g[u].PB(v);
+            hld::g[v].PB(u);
         }
-        hld.build();
+        hld::build();
         while (q--) {
             int a, b, c;
             cin >> a >> b >> c;
             a--, b--;
-            if (hld.query(a, b, c)) cout << "Find" << endl;
+            if (hld::query(a, b, c)) cout << "Find" << endl;
             else cout << "NotFind" << endl;
+
         }
 
     }
