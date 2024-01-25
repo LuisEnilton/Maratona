@@ -39,50 +39,66 @@ using namespace __gnu_pbds;
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
 // from brunomaletta
-
+const int LOG = ceil((log2(MAX)));
 // Responde https://cses.fi/problemset/task/1138/
 namespace seg {
-    ll seg[4 * MAX], lazy[4 * MAX];
-    int n, *v;
+    ll seg[2*MAX], lazy[2*MAX];
+    int n;
 
-    ll build(int p = 1, int l = 0, int r = n - 1) {
-        lazy[p] = 0;
-        if (l == r) return seg[p] = v[l];
-        int m = (l + r) / 2;
-        return seg[p] = build(2 * p, l, m) + build(2 * p + 1, m + 1, r);
+    ll junta(ll a, ll b) {
+        return a+b;
     }
 
-    void build(int n2, int *v2) {
-        n = n2, v = v2;
-        build();
+    // soma x na posicao p de tamanho tam
+    void poe(int p, ll x, int tam, bool prop=1) {
+        seg[p] = x*tam;
+        if (prop and p < n) lazy[p] = x;
     }
 
-    void prop(int p, int l, int r) {
-        if (lazy[p] == 0) return;
-        seg[p] = lazy[p] * (r - l + 1);
-        if (l != r) lazy[2 * p] += lazy[p], lazy[2 * p + 1] += lazy[p];
-        lazy[p] = 0;
-    }
-
-    ll query(int a, int b, int p = 1, int l = 0, int r = n - 1) {
-        prop(p, l, r);
-        if (a <= l and r <= b) return seg[p];
-        if (b < l or r < a) return 0;
-        int m = (l + r) / 2;
-        return query(a, b, 2 * p, l, m) + query(a, b, 2 * p + 1, m + 1, r);
-    }
-
-    ll update(int a, int b, ll x, int p = 1, int l = 0, int r = n - 1) {
-        prop(p, l, r);
-        if (a <= l and r <= b) {
-            lazy[p] = x;
-            prop(p, l, r);
-            return seg[p];
+    // atualiza todos os pais da folha p
+    void sobe(int p) {
+        for (int tam = 2; p /= 2; tam *= 2) {
+            seg[p] = junta(seg[2*p], seg[2*p+1]);
+            poe(p, lazy[p], tam, 0);
         }
-        if (b < l or r < a) return seg[p];
-        int m = (l + r) / 2;
-        return seg[p] = update(a, b, x, 2 * p, l, m) +
-                        update(a, b, x, 2 * p + 1, m + 1, r);
+    }
+
+    // propaga o caminho da raiz ate a folha p
+    void prop(int p) {
+        int tam = 1 << (LOG-1);
+        for (int s = LOG; s; s--, tam /= 2) {
+            int i = p >> s;
+            if (lazy[i]) {
+                poe(2*i, lazy[i], tam);
+                poe(2*i+1, lazy[i], tam);
+                lazy[i] = 0;
+            }
+        }
+    }
+
+    void build(int n2, int* v) {
+        n = n2;
+        for (int i = 0; i < n; i++) seg[n+i] = v[i];
+        for (int i = n-1; i; i--) seg[i] = junta(seg[2*i], seg[2*i+1]);
+        for (int i = 0; i < 2*n; i++) lazy[i] = 0;
+    }
+
+    ll query(int a, int b) {
+        ll ret = 0;
+        for (prop(a+=n), prop(b+=n); a <= b; ++a/=2, --b/=2) {
+            if (a%2 == 1) ret = junta(ret, seg[a]);
+            if (b%2 == 0) ret = junta(ret, seg[b]);
+        }
+        return ret;
+    }
+
+    void update(int a, int b, int x) {
+        int a2 = a += n, b2 = b += n, tam = 1;
+        for (; a <= b; ++a/=2, --b/=2, tam *= 2) {
+            if (a%2 == 1) poe(a, x, tam);
+            if (b%2 == 0) poe(b, x, tam);
+        }
+        sobe(a2), sobe(b2);
     }
 };
 

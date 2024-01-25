@@ -39,17 +39,20 @@ using namespace __gnu_pbds;
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
 // from brunomaletta
-
+vii edges;
 // Responde https://cses.fi/problemset/task/1138/
 namespace seg {
     ll seg[4 * MAX], lazy[4 * MAX];
     int n, *v;
 
+    ll join(ll a, ll b){
+        return max(a,b);
+    }
+
     ll build(int p = 1, int l = 0, int r = n - 1) {
-        lazy[p] = 0;
         if (l == r) return seg[p] = v[l];
         int m = (l + r) / 2;
-        return seg[p] = build(2 * p, l, m) + build(2 * p + 1, m + 1, r);
+        return seg[p] = max(build(2 * p, l, m) , build(2 * p + 1, m + 1, r));
     }
 
     void build(int n2, int *v2) {
@@ -57,38 +60,29 @@ namespace seg {
         build();
     }
 
-    void prop(int p, int l, int r) {
-        if (lazy[p] == 0) return;
-        seg[p] = lazy[p] * (r - l + 1);
-        if (l != r) lazy[2 * p] += lazy[p], lazy[2 * p + 1] += lazy[p];
-        lazy[p] = 0;
-    }
-
     ll query(int a, int b, int p = 1, int l = 0, int r = n - 1) {
-        prop(p, l, r);
+
         if (a <= l and r <= b) return seg[p];
         if (b < l or r < a) return 0;
         int m = (l + r) / 2;
-        return query(a, b, 2 * p, l, m) + query(a, b, 2 * p + 1, m + 1, r);
+        return max(query(a, b, 2 * p, l, m) ,query(a, b, 2 * p + 1, m + 1, r));
     }
 
     ll update(int a, int b, ll x, int p = 1, int l = 0, int r = n - 1) {
-        prop(p, l, r);
         if (a <= l and r <= b) {
-            lazy[p] = x;
-            prop(p, l, r);
+            seg[p] = x;
             return seg[p];
         }
         if (b < l or r < a) return seg[p];
         int m = (l + r) / 2;
-        return seg[p] = update(a, b, x, 2 * p, l, m) +
-                        update(a, b, x, 2 * p + 1, m + 1, r);
+        return seg[p] = max(update(a, b, x, 2 * p, l, m) ,
+                        update(a, b, x, 2 * p + 1, m + 1, r));
     }
 };
 
 
 namespace hld {
-    vi g[MAX];
+    vii g[MAX];
     int sz[MAX], h[MAX], pai[MAX]; // tamanho da subarvore, altura e pai de cada nó
     int pos[MAX];
     int t = 0; // posição de cada vertice no array , o msm que passa pra seg tree
@@ -98,22 +92,25 @@ namespace hld {
 
     void dfs(int i, int p = -1) {
         sz[i] = 1;
-        for (int &j: g[i])
+        for (auto &pa: g[i]) {
+            auto [j, c] = pa;
             if (j != p) {
+                val[j] = c;
                 dfs(j, i);
                 sz[i] += sz[j];
-                if (sz[j] > sz[g[i][0]] or g[i][0] == p) swap(j, g[i][0]);
+                if (sz[j] > sz[g[i][0].first] or g[i][0].first == p) swap(pa, g[i][0]);
             }
+        }
     }
 
     void build_hld(int i, int p = -1) {
         pos[i] = t++;
         v[pos[i]] = val[i];
-        for (int j: g[i])
+        for (auto [j, c]: g[i])
             if (j != p) {
                 pai[j] = i;
                 // se j for igual ao filho mais pesado ele fica na msm chain
-                h[j] = (j == g[i][0] ? h[i] : j);
+                h[j] = (j == g[i][0].first ? h[i] : j);
                 build_hld(j, i);
             }
     }
@@ -131,7 +128,7 @@ namespace hld {
         if (pos[a] < pos[b]) swap(a, b);
         if (h[a] == h[b])
             return seg::query(pos[b], pos[a]);
-        return seg::query(pos[h[a]], pos[a]) + query_path(pai[h[a]], b);
+        return max(seg::query(pos[h[a]], pos[a]),  query_path(pai[h[a]], b));
     }
 
     void update_path(int a, int b, ll x) {
@@ -145,34 +142,52 @@ namespace hld {
         if (pos[a] < pos[b]) swap(a, b);
         return h[a] == h[b] ? b : lca(pai[h[a]], b);
     }
+
+    void update_edge(int i, int x) {
+        auto [a, b] = edges[i];
+        if (pai[b] == a) swap(a, b);
+        seg::update(pos[a], pos[a], x);
+    }
 };
 
-// Responde https://cses.fi/problemset/task/1138/
-int main() {
-    optimize;
+
+void solve() {
     int n, q;
-    cin >> n >> q;
-    for (int i = 0; i < n; i++) cin >> hld::val[i];
+    cin >> n;
+    for (int i = 0; i <= n; i++) hld::g[i].clear();
     for (int i = 0; i < n - 1; i++) {
-        int u, v;
-        cin >> u >> v;
-        u--, v--;
-        hld::g[u].PB(v);
-        hld::g[v].PB(u);
+        int u, z, c;
+        cin >> u >> z >> c;
+        u--, z--;
+        edges.EB(u, z);
+        hld::g[u].EB(z, c);
+        hld::g[z].EB(u, c);
     }
     hld::build();
-    while (q--) {
-        int op, s;
-        cin >> op >> s;
-        s--;
-        if (op == 1) {
-            ll x;
-            cin >> x;
-            hld::update_path(s, s, x);
+    while (true) {
+        string op;
+        cin >> op;
+        if(op == "DONE") break;
+        if (op == "CHANGE") {
+            int i, x;
+            cin >> i >> x;
+            i--;
+            hld::update_edge(i, x);
         } else {
-            auto ans = hld::query_path(0, s);
+            int a, b;
+            cin >> a >> b;a--,b--;
+            auto ans = hld::query_path(a, b);
             cout << ans << endl;
         }
+    }
+}
+
+int main() {
+    optimize;
+    int te;
+    cin >> te;
+    while (te--) {
+        solve();
     }
 
     return 0;

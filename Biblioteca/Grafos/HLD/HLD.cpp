@@ -99,7 +99,7 @@ int main() {
         }
         hld::build();
         while (q--) {
-            
+
         }
 
     }

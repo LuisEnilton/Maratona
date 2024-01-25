@@ -39,128 +39,68 @@ using namespace __gnu_pbds;
 
 const int MAX = 2 * 10e5 + 10;
 
-struct Count {
-    vector<vi > oc;
+vi grafo[MAX];
+int ps[MAX];
+int pai[MAX];
+vi val;
+int sum = 0, t = 0;
+int sz[MAX];
+int pos[MAX];
 
-    Count() {
+void dfs(int u, int p = -1) {
+    pai[u] = p;
+    sz[u] = 1;
+    sum += val[u];
+    pos[u] = t;
+    ps[t++] = sum;
+    for (auto v: grafo[u])
+        if (v != p) {
+            dfs(v, u);
+            sz[u] += sz[v];
+            
+        }
+}
 
-    }
+void solve() {
+    dfs(1);
+}
 
-    Count(int n) {
-        oc.resize(n + 2);
-    }
-
-    void build(int n, vi &v) {
-        for (int i = 0; i <n; i++) {
-            oc[v[i]].PB(i);
+int query(int u) {
+    int ans = 0;
+    for (auto v: grafo[u]) {
+        if (v == pai[u]) {
+            ans += (ps[pos[v] + sz[v]] - ps[pos[v]]) - (ps[pos[u] + sz[u]] - ps[pos[u]]);
+        } else {
+            ans += ps[pos[v] + sz[v]] - ps[pos[v]];
         }
     }
 
-    int query(int l, int r, int x) {
-        return upper_bound(ALL(oc[x]), r)
-               - lower_bound(ALL(oc[x]), l);
-    }
-};
-
-
-struct HLD {
-    vector<vi > g;
-    vi sz, h, pai; // tamanho da subarvore, altura e pai de cada nó
-    vi pos;
-    int t = 0; // posição de cada vertice no array , o msm que passa pra seg tree
-    vi val; // Valor associado a cada vértice
-    vi v;
-    Count cnt;
-
-    explicit HLD(int n) {
-        g.resize(n + 2);
-        sz.resize(n + 2);
-        h.resize(n + 2);
-        pai.resize(n + 2);
-        pos.resize(n + 2);
-        val.resize(n + 2);
-        v.resize(n + 2);
-        cnt = Count(n);
-
-    }
-
-    void dfs(int i, int p = -1) {
-        sz[i] = 1;
-        for (int &j: g[i])
-            if (j != p) {
-                dfs(j, i);
-                sz[i] += sz[j];
-                if (sz[j] > sz[g[i][0]] or g[i][0] == p) swap(j, g[i][0]);
-            }
-    }
-
-    void build_hld(int i, int p = -1) {
-        pos[i] = t++;
-        v[pos[i]] = val[i];
-        for (int j: g[i])
-            if (j != p) {
-                pai[j] = i;
-                // se j for igual ao filho mais pesado ele fica na msm chain
-                h[j] = (j == g[i][0] ? h[i] : j);
-                build_hld(j, i);
-            }
-    }
-
-    void build() {
-        t = 0;
-        h[0] = 0;
-        dfs(0);
-        build_hld(0);
-        cnt.build(t, v);
-    }
-
-
-    int lca(int a, int b) {
-        if (pos[a] < pos[b]) swap(a, b);
-        return h[a] == h[b] ? b : lca(pai[h[a]], b);
-    }
-
-    bool query(int a) {
-        if (val[a]) return false;
-        bool ans = true;
-        for (auto u: g[a]) {
-            if (pai[a] == u) {
-                auto x = cnt.query(pos[u], pos[u] + sz[u] - 1, 1) - cnt.query(pos[a], pos[a] + sz[a] - 1, 1);
-                ans &= (x > 0);
-            }else{
-                auto x = cnt.query(pos[u], pos[u] + sz[u] - 1, 1);
-                ans &= (x > 0);
-            }
-        }
-        return ans;
-    }
-};
+}
 
 int main() {
     //optimize;
     int n, k;
     cin >> n >> k;
-
-    HLD hld(n);
+    val.resize(n + 2);
 
     for (int i = 0; i < k; i++) {
-        int pos;
-        cin >> pos;
-        pos--;
-        hld.val[pos] = 1;
+        int p;
+        cin >> p;
+        val[p] = 1;
     }
 
     for (int i = 0; i < n - 1; i++) {
         int u, v;
         cin >> u >> v;
-        u--, v--;
-        hld.g[u].PB(v);
-        hld.g[v].PB(u);
+        grafo[u].EB(v);
+        grafo[v].EB(u);
     }
-    hld.build();
+    solve();
     set<int> ans;
-    for (int i = 0; i < n; i++) {
-        if (hld.query(i)) ans.insert(i + 1);
+    for (int i = 1; i <= n; i++) {
+        if (val[i]) continue;
+        auto a = query(i);
+        if (a == k) ans.insert(i);
     }
     cout << ans.size() << endl;
     for (auto x: ans) cout << x << " ";

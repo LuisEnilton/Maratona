@@ -60,7 +60,7 @@ namespace seg {
     void prop(int p, int l, int r) {
         if (lazy[p] == 0) return;
         seg[p] = lazy[p] * (r - l + 1);
-        if (l != r) lazy[2 * p] += lazy[p], lazy[2 * p + 1] += lazy[p];
+        if (l != r) lazy[2 * p] = lazy[p], lazy[2 * p + 1] = lazy[p];
         lazy[p] = 0;
     }
 
@@ -140,6 +140,16 @@ namespace hld {
         seg::update(pos[h[a]], pos[a], x);
         update_path(pai[h[a]], b, x);
     }
+    //soma de todos os valores na subtree de a
+    ll query_subtree(int a) {
+        ll ans = seg::query(pos[a], pos[a] + sz[a] - 1);
+        return ans;
+    }
+
+    // update de todos os valores na subtree, todos estão num range[l,r] no vetor v
+    void update_subtree(int a, ll x) {
+        seg::update(pos[a], pos[a] + sz[a] - 1, x);
+    }
 
     int lca(int a, int b) {
         if (pos[a] < pos[b]) swap(a, b);
@@ -170,7 +180,7 @@ int main() {
             cin >> x;
             hld::update_path(s, s, x);
         } else {
-            auto ans = hld::query_path(0, s);
+            auto ans = hld::query_subtree(s);
             cout << ans << endl;
         }
     }
