@@ -31,12 +31,65 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
+int n,q;
+
+void update(ll BIT[], int x, int v){
+    for(; x <= n; x += x&-x) BIT[x] += v;
+}
+
+ll query(ll BIT[], int x){
+    ll sum = 0;
+    for(; x > 0; x -= x&-x) sum += BIT[x];
+    return sum;
+}
+
+
+void convert(vector<ll> &v){
+    //compressão de coordenadas
+    vector<ll> temp(n);
+
+    for(int i = 0; i < n; i++) temp[i] = v[i];
+    sort(ALL(temp));
+
+    for(int i = 0; i < n; i++) v[i] = POS(temp, v[i]) + 1;
+}
+
+
+ll inversion_count(vector<ll> &v) {
+
+    ll inv = 0;
+    convert(v);
+
+    n = v.size();
+    ll BIT[n+1]; // 1 indexado
+
+    for(int i = 0; i <= 3; i++) BIT[i] = 0;
+
+    for(int i = n-1; i >= 0; i--){
+        inv += query(BIT, v[i]-1);
+        update(BIT, v[i], 1);
+    }
+
+    return inv;
+
+}
 
 
 
 
 int main() {
     optimize;
+    string s; cin >> s;
+    vector<ll> v;
+    for(auto c : s){
+        v.push_back(int(c) - '0' + 1);
+    }
+    cout << inversion_count(v) << endl;
     return 0;
 }
 
+/*
+ * 221100
+ *
+ *
+ * */

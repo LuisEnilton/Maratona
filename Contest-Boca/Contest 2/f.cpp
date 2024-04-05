@@ -37,6 +37,28 @@ using namespace __gnu_pbds;
 
 int main() {
     optimize;
+    ll n,c; cin >> n >> c;
+    vector<ll> v(n);
+    for(auto &x : v) cin >> x;
+    ll ans = -1;
+    ll sum = 0;
+    ll curr = INF;
+    for(int i = 0; i < n;i++){
+        ll x = v[i];
+        sum+=x;
+        ll q = sum/c;
+        if(q + i < n && q < curr){
+            ans = i;
+            curr = q;
+        }
+        sum= max(sum - c,(ll) 0);
+    }
+    if(ans == -1){
+       cout << "impossible" << endl;
+    }else{
+        cout << ans << endl;
+    }
+
     return 0;
 }
 

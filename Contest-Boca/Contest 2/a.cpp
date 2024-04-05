@@ -37,6 +37,7 @@ using namespace __gnu_pbds;
 
 int main() {
     optimize;
+
     return 0;
 }
 

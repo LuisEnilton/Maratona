@@ -32,11 +32,39 @@ using namespace __gnu_pbds;
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
 
-
+void solve(){
+    int n; cin >> n;
+    vector<ll> b(n);
+    for(auto &x : b) cin >> x;
+    int l = 0, r=  n -1;
+    bool ans = true;
+    while(l < r){
+        ll q = b[l];
+        if(b[l+1] < 2 * q || b[l + 2] < q ){
+            ans = false;
+            break;
+        }
+        b[l] = 0, b[l+1] -= 2 * q,b[l+2] -=q;
+        l++;
+        q = b[r];
+        if(b[r-1] < 2*q || b[r-2] < q){
+            ans = false;
+            break;
+        }
+        b[r] = 0, b[r-1] -= 2 * q,b[r-2] -=q;
+        r--;
+    }
+    for(auto x : b) if(x!=0) ans = false;
+    cout << (ans?"YES":"NO") << endl;
+}
 
 
 int main() {
     optimize;
+    int t; cin >> t;
+    while(t--){
+        solve();
+    }
     return 0;
 }
 

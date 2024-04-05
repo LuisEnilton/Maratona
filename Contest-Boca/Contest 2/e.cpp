@@ -37,6 +37,14 @@ using namespace __gnu_pbds;
 
 int main() {
     optimize;
+    int n; cin >> n;
+    vector<ll> s(n),p(n),e(n),a(n);
+    for(int i = 0; i < n;i++){
+        cin >>s[i];
+        cin >>p[i];
+        cin >>e[i];
+        cin >>a[i];
+    }
     return 0;
 }
 

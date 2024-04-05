@@ -1,3 +1,9 @@
+//
+// Created by Luis on 04/03/2024.
+//
+//
+// Created by Luis on 04/03/2024.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -31,12 +37,45 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
+vii fatora(ll N)
+{
+    vii ans;
 
+    // O(sqrt(N))
+    for (ll i = 2; i * i <= N; i++)
+    {
+        if (N % i != 0) continue;
 
+        int qtd = 0;
 
+        while (N % i == 0)
+        {
+            qtd++;
+            N /= i;
+        }
+
+        ans.push_back({i, qtd});
+    }
+
+    if (N != 1)
+        ans.push_back({N, 1});
+
+    return ans;
+}
+
+void solve() {
+    int l, a, b;
+    cin  >> a >> b >> l;
+
+}
 
 int main() {
     optimize;
+    int t;
+    cin >> t;
+    while (t--) {
+        solve();
+    }
     return 0;
 }
 

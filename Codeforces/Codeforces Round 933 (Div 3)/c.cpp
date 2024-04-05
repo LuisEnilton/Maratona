@@ -31,12 +31,52 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
+vi Zfunction(string &s)
+{
+    int n = s.size();
+    vi z (n, 0);
 
+    for(int i=1, l=0, r=0; i<n;  i++)
+    {
+        if(i <= r) z[i] = min(z[i-l], r-i+1);
 
+        while(z[i] + i < n && s[z[i]] == s[i+z[i]]) z[i]++;
+
+        if(r < i+z[i]-1) l = i, r = i+z[i]-1;
+    }
+
+    return z;
+}
+
+void solve(){
+    int n; cin >> n;
+    string s; cin >> s;
+    string aux = "pie" + s;
+    auto z = Zfunction(aux);
+    int ans = 0;
+    for(int i = 3; i < n + 3; i++){
+        if(z[i] >= 3) ans++;
+    }
+    aux = "map" + s;
+    z = Zfunction(aux);
+    for(int i = 3; i < n + 3; i++){
+        if(z[i] >= 3) ans++;
+    }
+    aux = "mapie" + s;
+    z = Zfunction(aux);
+    for(int i = 5; i < n + 5; i++){
+        if(z[i] >= 5) ans--;
+    }
+    cout << ans << endl;
+}
 
 
 int main() {
     optimize;
+    int t; cin >> t;
+    while(t--){
+        solve();
+    }
     return 0;
 }
 

@@ -37,6 +37,13 @@ using namespace __gnu_pbds;
 
 int main() {
     optimize;
+    ll n;
+    //7
+    cin >> n;
+    n = 1000000000000000000;
+    ll a = ceil(log2(n));
+    cout << 65 - __builtin_clzll(n) << endl;
+    cout << a + 1 << endl;
     return 0;
 }
 
