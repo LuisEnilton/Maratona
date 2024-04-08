@@ -35,25 +35,42 @@ using namespace __gnu_pbds;
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
 
+int solve(int a){
+    if(a < 1) return 0;
+    if(a == 1) return 1;
+    return a + solve(a-1);
+}
+
+int m1[3][3] = {{1,2,3},{1,2,3},{1,2,3}};
+int m2[3][3] = {{1,2,3},{1,2,3},{1,2,3}};
+
 int main() {
     optimize;
-    int n;
-    cin >> n;
-    vector<ll> l(n);
-    map<ll,int> sla;
-    for (int i = 0; i < n; i++) {
-        cin >> l[i];
-        sla[l[i]] = 1;
-    }
-    int ans = 1;
-    for (int i = 0; i < n - 1; i++) {
-        for(int j = i + 1;j < n;j++){
-            ll dif = l[j] -  l[i];
-            sla[l[i] + dif] = max(sla[l[i] + dif],sla[l[i]] +  1);
+    int x,z;
+    for(x = 0; x <3;x++){
+        for(z = 0; z <3;z++){
+            m1[x][z] = x + 2 * z;
         }
     }
-    for()
-    cout << ans << endl;
+
+     for(x = 0; x <3;x++){
+        for(z = 0; z <3;z++){
+            m2[x][z] = m1[z][x];
+        }
+     }
+    for(int i = 0; i < 3;i++){
+        for(int j = 0; j < 3;j++){
+            cout << m1[i][j] << " ";
+        }
+        cout << endl;
+    }
+
+    for(int i = 0; i < 3;i++){
+        for(int j = 0; j < 3;j++){
+            cout << m2[i][j] << " ";
+        }
+        cout << endl;
+    }
     return 0;
 }
 

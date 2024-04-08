@@ -15,7 +15,6 @@
 #define ld long double
 #define pii pair<int,int>
 #define vi vector<int>
-#define vb vector<bool>
 #define vii vector<pii>
 #define os_type int
 #define PB push_back

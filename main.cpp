@@ -1,5 +1,13 @@
+<<<<<<< Updated upstream
 // C++ program for solving exact cover problem
 // using DLX (Dancing Links) technique
+=======
+//Template By eduardocesb
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+#include <cmath>
+>>>>>>> Stashed changes
 
 #include <bits/stdc++.h>
 
@@ -8,6 +16,7 @@
 
 using namespace std;
 
+<<<<<<< Updated upstream
 struct Node
 {
 public:
@@ -117,6 +126,48 @@ Node *createToridolMatrix()
 void cover(struct Node *targetNode)
 {
     struct Node *row, *rightNode;
+=======
+#define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
+
+int n,m;
+vi grafo[MAXN];
+vector<int> c;
+int cnt = 0;
+int ans = 0;
+void dfs(int u,int p = -1){
+    int val;
+    if(c[u]) cnt++;
+    else{
+        val = cnt;
+        cnt = 0;
+    } 
+    //cout << u << " - " << cnt <<   " - " << c[u] << endl;
+    if(cnt > m){
+        cnt--;
+        return;
+    } 
+    for(auto v : grafo[u]) if(v!=p){
+        dfs(v,u);
+    }
+    if(grafo[u].size() == 1 && u != 1){
+        ans++;
+    }
+    if(c[u]) cnt--;
+    else cnt = val;
+}
+
+int main() {
+    optimize;
+    cin >> n >> m;
+    c.resize(n+1);
+    for(int i = 1; i <=n;i++){
+        cin >> c[i];
+    } 
+    for(int i = 0; i < n-1;i++){
+        int u,v; cin >> u >> v;
+        grafo[u].PB(v);
+        grafo[v].PB(u);
+>>>>>>> Stashed changes
 
     // get the pointer to the header of column
     // to which this node belong
@@ -141,6 +192,7 @@ void cover(struct Node *targetNode)
             Matrix[0][rightNode->colID].nodeCount -= 1;
         }
     }
+<<<<<<< Updated upstream
 }
 
 // Uncover the given node completely
@@ -301,5 +353,9 @@ int main()
     createToridolMatrix();
 
     search(0);
+=======
+    dfs(1);
+    cout << ans << endl;
+>>>>>>> Stashed changes
     return 0;
 }

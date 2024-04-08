@@ -15,7 +15,6 @@
 #define ld long double
 #define pii pair<int,int>
 #define vi vector<int>
-#define vb vector<bool>
 #define vii vector<pii>
 #define os_type int
 #define PB push_back
@@ -32,9 +31,43 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
+int sz[MAXN],pai[MAXN];
+int n,m;
+int find(int u){
+    return (u == pai[u]? u: pai[u] = find(pai[u]));
+}
+
+void join(int u, int v){
+    u = find(u), v = find(v);
+    if(u == v) return;
+
+    if(sz[v] > sz[u]) swap(u,v);
+
+    pai[v] = u;
+    sz[u]+=sz[v];
+}
+
+
+void resetDSU(){
+    for(int i = 0; i < MAXN;i++){
+        sz[i] = 1,pai[i] = i;
+    }
+}
+
+
 
 int main() {
     optimize;
+    resetDSU();
+    cin >> n >> m;
+    int comp = n,l = 1 ;
+    while(m--){
+        int u,v; cin >> u >> v;
+        if(find(u) != find(v) ) comp--;
+        join(u,v);
+        l = max({l,sz[find(u)],sz[find(v)]});
+        cout << comp << " " << l << endl;
+    }
     return 0;
 }
 
