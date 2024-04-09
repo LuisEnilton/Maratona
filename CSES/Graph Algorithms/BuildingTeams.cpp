@@ -8,7 +8,6 @@
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
 #define ALL(x) x.begin(), x.end()
-#define int long long
 #define UNIQUE(c) (c).resize(unique(ALL(c)) - (c).begin())
 #define REP(i, a, b) for(int i = (a); i <= (b); i++)
 #define POS(n, x) (lower_bound(ALL(n), x) - (n).begin())
@@ -23,7 +22,7 @@
 #define EB emplace_back
 #define MOD 1000000007
 #define PRIME 101
-#define MAXN 502
+#define MAXN 1010101
 #define MAXL 23
 #define EPS 1e-9
 #define endl '\n'
@@ -33,39 +32,49 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-int n;
-int d[MAXN][MAXN] = {{INFLL}};
+int n,m;
+vi grafo[MAXN];
 
-bool floyd_warshall(){
-    for(int k = 1; k <= n;k++)
-        for(int i = 1; i <= n;i++)
-            for(int j = 1; j <= n;j++)
-                d[i][j] = min(d[i][j],d[i][k] + d[k][j]);
+vi color;
+bool ans = true;
+void dfs(int u,int p = -1){
 
-    for(int i = 1; i <= n;i++){
-        if(d[i][i] < 0) return 1;
+    for(auto v : grafo[u]){
+        if(v == p) continue;
+        if(color[v] != -1  ){
+            if(color[v] == color[u])
+                ans = false;
+            continue;
+        }
+        color[v] = (color[u] == 1?2:1);
+        dfs(v,u);
+
     }
-    return 0;
 }
 
-
-signed main() {
+int main() {
     optimize;
-
-    int m,q; cin >> n >> m >> q;
-    fill_n(&d[0][0],MAXN * MAXN,INFLL);
-    for(int i = 1; i <=n;i++){
-        d[i][i] = 0;
-    }
+    cin >> n >> m;
+    color.resize(n+1);
+    fill(ALL(color),-1);
     while(m--){
-        int u,v,c; cin >> u >> v >> c;
-        d[u][v] = min(c,d[u][v]);
-        d[v][u] = d[u][v];
-    }
-    floyd_warshall();
-    while(q--){
         int u,v; cin >> u >> v;
-        cout << (d[u][v] == INFLL?-1:d[u][v]) << endl;
+        grafo[u].EB(v);
+        grafo[v].EB(u);
+    }
+    for(int i = 1; i <=n;i++){
+        if(color[i] == -1){
+            color[i] = 1;
+            dfs(i);
+        }
+    }
+    if(ans){
+        for(int i = 1; i <=n;i++){
+            cout << color[i] << " ";
+        }
+        cout << endl;
+    }else{
+        cout << "IMPOSSIBLE" << endl;
     }
     return 0;
 }

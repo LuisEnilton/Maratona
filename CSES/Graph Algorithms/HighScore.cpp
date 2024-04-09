@@ -8,7 +8,6 @@
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
 #define ALL(x) x.begin(), x.end()
-#define int long long
 #define UNIQUE(c) (c).resize(unique(ALL(c)) - (c).begin())
 #define REP(i, a, b) for(int i = (a); i <= (b); i++)
 #define POS(n, x) (lower_bound(ALL(n), x) - (n).begin())
@@ -23,7 +22,7 @@
 #define EB emplace_back
 #define MOD 1000000007
 #define PRIME 101
-#define MAXN 502
+#define MAXN 1010101
 #define MAXL 23
 #define EPS 1e-9
 #define endl '\n'
@@ -33,40 +32,9 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-int n;
-int d[MAXN][MAXN] = {{INFLL}};
 
-bool floyd_warshall(){
-    for(int k = 1; k <= n;k++)
-        for(int i = 1; i <= n;i++)
-            for(int j = 1; j <= n;j++)
-                d[i][j] = min(d[i][j],d[i][k] + d[k][j]);
-
-    for(int i = 1; i <= n;i++){
-        if(d[i][i] < 0) return 1;
-    }
-    return 0;
-}
-
-
-signed main() {
+int main() {
     optimize;
-
-    int m,q; cin >> n >> m >> q;
-    fill_n(&d[0][0],MAXN * MAXN,INFLL);
-    for(int i = 1; i <=n;i++){
-        d[i][i] = 0;
-    }
-    while(m--){
-        int u,v,c; cin >> u >> v >> c;
-        d[u][v] = min(c,d[u][v]);
-        d[v][u] = d[u][v];
-    }
-    floyd_warshall();
-    while(q--){
-        int u,v; cin >> u >> v;
-        cout << (d[u][v] == INFLL?-1:d[u][v]) << endl;
-    }
     return 0;
 }
 
