@@ -12,6 +12,7 @@
 #include <iostream>
 #include <ranges>
 #include <string_view>
+
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -33,39 +34,57 @@
 #define MAXL 23
 #define EPS 1e-9
 #define endl '\n'
-
 using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
+typedef pair<pii, int> rng;
 
 
-
-int main()
-{
+int main() {
     optimize;
-    int n,m;
-    cin >> n ;
-    vi ans(n);
-    priority_queue<pair<int,pii>> pq;
-    for(int i = 0; i < n;i++){
-        int arrival; cin >> arrival;
-        pq.push({-arrival,{0,i}});
-        int leaving; cin >> leaving;
-        pq.push({-leaving,{1,i}});
+    int n, m;
+    cin >> n;
+    vector<bool> ans(n);
+    vector<rng> v(n),v2(n);
+    ordered_set aux;
+    for (int i = 0; i < n; i++) {
+        int x, y;
+        cin >> x >> y;
+        v[i] = {{y, -x}, i};
+        v2[i] = {{x,-y},i};
     }
-    int cnt = 0;
-    while(!pq.empty()){
-        auto atual = pq.top();
-        if(atual.second.first == 1){
-            cnt++;
-        }else{
+    sort(ALL(v));
+    sort(ALL(v2));
 
-            cnt--;
-        }
-        pq.pop();
+    for(int i = n - 1; i>=0;i--){
+        auto [x,id] = v2[i];
+        auto [start,end] = x;
+        end = -end;
+        auto q = aux.order_of_key(end + 1);
+        ans[id] = (q >0?1:0);
+        aux.insert(end);
     }
+    aux.clear();
+    for(int i = 0; i < n;i++){
+        cout << ans[i] << " ";
+    }
+    cout << endl;
+    for (int i = n - 1; i >= 0; i--) {
+        auto [x,id] = v[i];
+        auto [end, start] = x;
+        start = -start;
+
+        auto q = aux.order_of_key(start + 1);
+        ans[id] = (q >0?1:0);
+        aux.insert(start);
+
+    }
+    for(int i = 0; i < n;i++){
+        cout << ans[i] << " ";
+    }
+    cout << endl;
     return 0;
 }
 
