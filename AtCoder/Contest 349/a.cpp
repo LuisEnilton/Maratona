@@ -35,32 +35,13 @@ using namespace __gnu_pbds;
 
 int main() {
     optimize;
-    int t; cin >> t;
-    for(int i =1;i<=t;i++){
-        cout << "Case " << i << ": ";
-        deque<string> hand,pile;
-        for(int j = 0; j < 52;j++){
-            string s; cin >> s;
-            if(j < 27)
-                pile.emplace_front(s);
-            else
-                hand.emplace_front(s);
-        }
-        int y = 0;
-        for(int j = 0; j < 3;j++){
-            auto tx = pile.front();
-            int x = (tx[0] >= '2' && tx[0] <= '9' ?tx[0] - '0' :10);
-            y+=x;
-            pile.pop_front();
-            for(int k = 0; k < 10-x;k++)
-                pile.pop_front();
-        }
-        for(int j = 0; j < hand.size();j++){
-            pile.emplace_front(hand.back());
-            hand.pop_back();
-        }
-        cout << pile[pile.size() - y] << endl;
+    int n; cin >> n;
+    int sum = 0;
+    for(int i = 0; i < n - 1;i++){
+        int num; cin >> num;
+        sum+=num;
     }
+    cout << sum * -1 << endl;
     return 0;
 }
 
