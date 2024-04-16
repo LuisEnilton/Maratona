@@ -3,7 +3,7 @@
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
 #include <cmath>
-
+#define int long long
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -31,61 +31,46 @@ using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
-bool ans = true;
-vector<int> arestaCor;
-vector<pii> arestas;
-void dfs(int u, vi &color, vector<vii > &grafo) {
 
-    for (auto [v,id]: grafo[u]) {
-        if (color[v] != -1) {
-            if (color[v] == color[u])
-                ans = false;
-            continue;
+void solve(){
+    int n,k ; cin >> n >> k;
+    vi nums(n);
+    for(auto & x : nums) cin >> x;
+    int l = 0, r = n-1;
+    bool side = true;
+    int ans = 0;
+    while(l <= r && k > 0){
+        if(side){
+            if(nums[l] > nums[r]){
+                k-= (2 * nums[r]);
+                nums[l] -= nums[r];
+            }else{
+                k-= (nums[l] + nums[l] - 1);
+                nums[r] -=(nums[l] - 1);
+                side = !side;
+            }
+        }else{
+            if(nums[r] > nums[l]){
+                k-= (2 * nums[l]);
+                nums[r] -= nums[l];
+            }else{
+                k-= (nums[r] + nums[r] - 1);
+                nums[l] -=(nums[r] - 1);
+                side = !side;
+            }
         }
-        color[v] = (color[u] == 1 ?0: 1);
-        arestaCor[id] = (u == arestas[id].first ?color[u] :color[v]);
-        dfs(v, color, grafo);
+        if(k >=0) ans++;
+        cout << "Lado : " << side << " " << k << endl;   
     }
+    cout << ans  << endl;
 }
 
-
-
-void solve(int sc) {
-    int n, m;
-    cin >> n >> m;
-    vector<vii > grafo(n + 2);
-    vi color(n + 2, -1);
-    arestaCor.resize(n+2);
-    ans = true;
-    for (int i = 0; i <m;i++) {
-        int u, v;
-        cin >> u >> v;
-        grafo[u].EB(v,i);
-        grafo[v].EB(u,i);
-        arestas.EB(u,v);
-    }
-    for (int i = 1; i <= n; i++) {
-        if (color[i] == -1) {
-            color[i] = 1;
-            dfs(i, color, grafo);
-        }
-    }
-    if(ans){
-        cout << "YES" << endl;
-        for(int i=0;i<m;i++){
-            cout << arestaCor[i];
-        }
-        cout << endl;
-    }else{
-        cout << "NO" << endl;
-    }
-}
-
-int main() {
+signed main() {
     optimize;
-    int t;
-    t = 1;
-    for (int i = 1; i <= t; i++) solve(i);
+    int t; cin >> t;
+    while(t--){
+        solve();
+    }
     return 0;
 }
 
