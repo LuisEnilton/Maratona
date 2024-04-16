@@ -33,49 +33,125 @@ using namespace __gnu_pbds;
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 typedef pair<pii, int> rng;
 
+int bit[MAXN];
+int arr[MAXN];
+
+void upd(int x, ll v){
+    while(x < MAXN){
+        bit[x] += v;
+        x += (x & -x);
+    }
+}
+
+ll qry(int x){
+    ll ret = 0;
+
+    while(x > 0){
+        ret += bit[x];
+        x -= (x & -x);
+    }
+    return ret;
+}
+
+map<int,ll> mapa;
+void compressor(vector<int>& a){
+    int n = a.size();
+    vector<pair<int, int>> pairs(n);
+    for(int i = 0; i < n; ++i) {
+        pairs[i] = {a[i], i};
+    }
+    sort(pairs.begin(), pairs.end());
+    int nxt = 1;
+    for(int i = 0; i < n; ++i) {
+        if(i > 0 && pairs[i-1].first != pairs[i].first) nxt++;
+        a[pairs[i].second] = nxt;
+        mapa[pairs[i].first] = nxt;
+    }
+}
+
 
 int main() {
-    optimize;
+    //optimize;
     int n;
     cin >> n;
     vector<rng> v(n), v2(n);
     vi ans(n);
     ordered_set aux;
+    vi a;
     for (int i = 0; i < n; i++) {
         int x, y;
         cin >> x >> y;
+        a.PB(x);
+        a.PB(y);
         v[i] = {{x,-y},i};
         v2[i] = {{y, -x },i};
     }
+    for(auto x : a){
+        cout << x << " ";
+    }
+    cout << endl;
+    UNIQUE(a);
+    for(auto x : a){
+        cout << x << " ";
+    }
+    cout << endl;
+    compressor(a);
+    for(auto x : a){
+        cout << x << " ";
+    }
+    cout << endl;
     sort(ALL(v));
     sort(ALL(v2));
+    
 
+    for(auto &[pa , id] : v){
+        auto &[x,y] = pa;
+        y = -y;
+        //cout << x << " " << mapa[x] << endl;
+        //cout << y << " " << mapa[y] << endl;
+        x = mapa[x];
+        y = mapa[y];
+
+    }
+
+    for(auto &[pa , id] : v2){
+        auto &[x,y] = pa;
+        y = -y;
+        //cout << x << " " << mapa[x] << endl;
+        //cout << y << " " << mapa[y] << endl;
+        x = mapa[x];
+        y = mapa[y];
+
+    }
+    //for(auto x : v){    cout << x.first.first << " " << x.first.second << endl;}
     for(int i = n-1;i>=0;i--){
         auto [x,id] = v[i];
         auto [start,end] = x;
-        end = -end;
+        end = end;
 
-        auto q = aux.order_of_key(end + 1);
+        auto q  = qry(end );
         ans[id] = q;
 
-        aux.insert(end);
+        upd(end,1);
     }
+
+
 
     for(int i = 0; i < n;i++){
         cout << ans[i] << " ";
     }
     aux.clear();
     cout << endl;
-
+    fill(bit,bit + MAXN,0);
     for(int i = n-1; i >=0;i--){
         auto [x,id] = v2[i];
         auto [end,start] = x;
-        start = -start;
+        start = start;
 
-        auto q = aux.order_of_key(start + 1);
+        auto q = qry(start );
         ans[id] = q;
 
-        aux.insert(start);
+        upd(start,1);
     }
 
     for(int i = 0; i < n;i++){

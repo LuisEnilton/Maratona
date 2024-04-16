@@ -1,6 +1,3 @@
-//
-// Created by Luis on 15/01/2024.
-//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -18,6 +15,7 @@
 #define ld long double
 #define pii pair<int,int>
 #define vi vector<int>
+#define vb vector<bool>
 #define vii vector<pii>
 #define os_type int
 #define PB push_back
@@ -34,31 +32,32 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-// 0 até n-1
-map<int,ll> mapa;
-void compressor(vector<int>& a){
-    int n = a.size();
-    vector<pair<int, int>> pairs(n);
-    for(int i = 0; i < n; ++i) {
-        pairs[i] = {a[i], i};
+struct machine{
+    ll k;
+    int id;
+    ll t;
+
+    machine(ll k, int id, ll t) : k(k), id(id), t ( t){}
+
+    bool operator<(machine m) const{
+        if(t == m.t)
+            return k < m.k;
+        return t < m.t;
     }
-    sort(pairs.begin(), pairs.end());
-    int nxt = 0;
-    for(int i = 0; i < n; ++i) {
-        if(i > 0 && pairs[i-1].first != pairs[i].first) nxt++;
-        a[pairs[i].second] = nxt;
-        //mapa[nxt] = pairs[i].first;
-    }
-}
-
-
-
+};
 
 int main() {
     optimize;
-    vi a = {1,5,3,7,2};
-    compressor(a);
-    for(auto x : a) cout << x << " ";
+    int n,t; cin >> n >> t;
+    priority_queue<machine> pq;
+    for(int i = 0 ; i < n;i++){
+        int k; cin >> k;
+        machine m(k,i,0);
+        pq.push(m);
+    }
+    while(!pq.empty()){
+        cout << pq
+    }
     return 0;
 }
 

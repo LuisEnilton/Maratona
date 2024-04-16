@@ -44,27 +44,24 @@ int main()
     optimize;
     int x,n;
     cin >> x >> n;
-    set<int> nums;
+    multiset<int> difs;
+    difs.insert(x);
+    set<int> nums = {0,x};
     for(int i = 0; i < n; i ++){
-        int val; cin >> val;
-        int sup,inf;
-        auto it = nums.upper_bound(val);
-        if(it == nums.end()){
-            sup = (x - val);
-        }else{
-            sup = (*it - val);
-        }
-        it = nums.lower_bound(val);
-        if(it == nums.begin() ){
-            inf = val;
-        }else{
-            it--;
-            inf = val - *it;
-        }
-        nums.insert(val);
-        cout << max(sup,inf) << " ";
+        int p; cin >> p;
+        auto it = nums.lower_bound(p);
+        it--;
+        auto it2 = nums.upper_bound(p);
+        int low = *it, up = *it2;
+        //cout << low << " " << up << endl;
+        auto dif = up - low;
+        difs.erase(difs.find(dif));
+        difs.insert(abs(p - low));
+        difs.insert(abs(p - up));
+        nums.insert(p);
+        cout << *difs.rbegin() << " ";
     }
-
+    cout << endl;
     return 0;
 }
 
