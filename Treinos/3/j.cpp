@@ -3,7 +3,7 @@
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
 #include <cmath>
-#define int long long
+
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -31,37 +31,38 @@ using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
-void solve(){
-    string s,t; cin >> s >> t;
-    int n = s.size(), m = t.size();
-    int dp[n+1][m+1];
-    REP(i,0,n) dp[i][0] = 0;
-    REP(i,0,m) dp[0][i] = 0;
-    REP(i,1,n){
-        REP(j,1,m){
-            if(s[i-1] == t[j-1]) dp[i][j] = dp[i-1][j-1] + 1;
-            else dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
-        }
-    }
 
-    string ans = "";
-    int i = n, j = m;
-    cout << setprecision
-    while(i > 0 && j > 0){
-        if(s[i-1] == t[j-1]){
-            ans += s[i-1];
-            i--; j--;
-        }else if(dp[i-1][j] > dp[i][j-1]) i--;
-        else j--;
-    }
+int capacidade,n;
 
-    reverse(ALL(ans));
-    cout << ans << endl;
+vi peso[MAXN], valor[MAXN];
+
+int dp[MAXN][MAXN];
+
+int solve(int i, int pesoAtual){
+    if(i == n)
+        return 0;
+
+    if(pesoAtual + peso[i] > capacidade)
+        return solve(i+1, pesoAtual);
+    if(dp[i][pesoAtual] != -1)
+        return dp[i][pesoAtual];
+    dp[i][pesoAtual] = max(solve(i+1, pesoAtual), solve(i+1, pesoAtual + peso[i]) + valor[i]);
+    return dp[i][pesoAtual];
 }
 
-signed main() {
+
+int main() {
     optimize;
-    cout << "hello world" << endl;
+    memset(dp,-1,sizeof dp);
+    cin >> n >> capacidade;
+    for (int i = 0; i < n; i++) {
+        int en,va,q; cin >> en >> va >> q;
+        while(q--){
+            peso.EB(en);
+            valor.EB(va);
+        }
+
+    }
     return 0;
 }
 

@@ -13,6 +13,7 @@ int pre[MAXN], low[MAXN], clk=0;
 vector<pair<int, int>> pontes;
 vector<int> cut;
 
+// pre[u] marca o tempo que u foi descoberto
 
 void tarjan(int u, int p = -1){
     pre[u] = low[u] = clk++;
@@ -28,7 +29,7 @@ void tarjan(int u, int p = -1){
             tarjan(v, u);
 
             low[u] = min(low[v], low[u]);
-
+            //Se o mais alto que eu consigo subir com back-edge no v é menor que o u então não dá de voltar
             if(low[v] >  pre[u]) pontes.emplace_back(u, v);
             if(low[v] >= pre[u]) any = true;
 

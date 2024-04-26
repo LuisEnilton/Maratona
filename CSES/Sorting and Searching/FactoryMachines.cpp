@@ -32,32 +32,49 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-struct machine{
+struct machine {
     ll k;
     int id;
     ll t;
 
-    machine(ll k, int id, ll t) : k(k), id(id), t ( t){}
+    machine(ll k, int id, ll t) : k(k), id(id), t(t) {}
 
-    bool operator<(machine m) const{
-        if(t == m.t)
-            return k < m.k;
-        return t < m.t;
+    bool operator<(machine m) const {
+        if (t == m.t)
+            return k > m.k;
+        return t > m.t;
     }
 };
 
+vector<ll> nums;
+ll n, x;
+
+bool check(ll t) {
+    ll tot = 0;
+    for (auto num: nums) {
+        tot += (t / num);
+        if(tot >=x) return true;
+    }
+    return false;
+}
+
 int main() {
     optimize;
-    int n,t; cin >> n >> t;
-    priority_queue<machine> pq;
-    for(int i = 0 ; i < n;i++){
-        int k; cin >> k;
-        machine m(k,i,0);
-        pq.push(m);
+    cin >> n >> x;
+    nums.resize(n);
+    for (auto &k: nums) cin >> k;
+    ll l = 0, r = INFLL;
+    ll ans = 0;
+    while (l <= r) {
+        ll mid = (l + r) / 2;
+        if (check(mid)) {
+            r = mid - 1;
+            ans = mid;
+        } else {
+            l = mid + 1;
+        }
     }
-    while(!pq.empty()){
-        cout << pq
-    }
+    cout << ans << endl;
     return 0;
 }
 

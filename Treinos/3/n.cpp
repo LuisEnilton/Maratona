@@ -1,9 +1,12 @@
+//
+// Created by Luis on 21/04/2024.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
 #include <cmath>
-#define int long long
+
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -31,37 +34,28 @@ using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
-void solve(){
-    string s,t; cin >> s >> t;
-    int n = s.size(), m = t.size();
-    int dp[n+1][m+1];
-    REP(i,0,n) dp[i][0] = 0;
-    REP(i,0,m) dp[0][i] = 0;
-    REP(i,1,n){
-        REP(j,1,m){
-            if(s[i-1] == t[j-1]) dp[i][j] = dp[i-1][j-1] + 1;
-            else dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
-        }
-    }
 
-    string ans = "";
-    int i = n, j = m;
-    cout << setprecision
-    while(i > 0 && j > 0){
-        if(s[i-1] == t[j-1]){
-            ans += s[i-1];
-            i--; j--;
-        }else if(dp[i-1][j] > dp[i][j-1]) i--;
-        else j--;
-    }
 
-    reverse(ALL(ans));
-    cout << ans << endl;
-}
-
-signed main() {
+int main() {
     optimize;
-    cout << "hello world" << endl;
+    int n,m; cin >> n >> m;
+    int qtd5 , qtd2;
+    if(m & 1){
+        qtd5 = m/5;
+        if(qtd5 % 2 == 0) qtd5 = max(0 , qtd5-1);
+        qtd2 = m - (5 * qtd5);
+        qtd2/=2;
+    }else{
+        qtd5 = m/5;
+        if(qtd5 & 1) qtd5--;
+        qtd2 = m - (5 * qtd5);
+        qtd2/=2;
+    }
+    if(5 * qtd5 + 2 * qtd2 != m){
+        cout << -1 << endl;
+    }else{
+        cout << qtd2 + qtd5 << endl;
+    }
     return 0;
 }
 

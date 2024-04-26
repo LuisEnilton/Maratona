@@ -28,7 +28,7 @@ void dfs(int u, int p = -1, int l = 0) {
 
 void buildBL() {
     for (int i = 1; i < MAXLG; i++)
-        for (int u = 0; u < N; u++) {
+        for (int u = 1; u <= n; u++) {
             bl[i][u] = bl[i - 1][bl[i - 1][u]];
             dp1[i][u] = min(dp1[i - 1][bl[i - 1][u]], dp1[i][u]);
             dp2[i][u] = max(dp2[i - 1][bl[i - 1][u]], dp2[i][u]);
@@ -60,36 +60,10 @@ int lca(int u, int v) {
 
 int dist(int u, int v) {
     auto l = lca(u, v);
-    return (lvl[l] - lvl[u]) + (lvl[l] - lvl[v]);
+    return abs(lvl[l] - lvl[u]) + abs(lvl[l] - lvl[v]);
 }
 
 
-
-pair<int,int> query(int a, int b) {
-    pair<int, int> ans;
-    auto l = lca(a, b);
-    auto k = lvl[a] - l;
-    int mini = INF,maxi = 0;
-    int u = a;
-    for (int i = MAXLG - 1; i >= 0; i++) {
-        if (k & (1 << i)) {
-            mini = min(mini, dp1[i][u]);
-            maxi = max(maxi,dp2[i][u]);
-            u = bl[i][u];
-        }
-    }
-
-    k = lvl[b] - l;
-    u = b;
-    for (int i = MAXLG - 1; i >= 0; i++) {
-        if (k & (1 << i)) {
-            mini = min(mini, dp1[i][u]);
-            maxi = max(maxi,dp2[i][u]);
-            u = bl[i][u];
-        }
-    }
-    return make_pair(mini,maxi);
-}
 
 
 int main() {

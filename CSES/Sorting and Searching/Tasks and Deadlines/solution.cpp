@@ -40,13 +40,13 @@ int main()
 {
     optimize;
     int n; cin >> n;
-    vii tasks(n);
+    vector<pair<ll,ll>> tasks(n);
     for(auto &x : tasks) {
         cin >> x.first;
         cin >> x.second;
     }
     sort(ALL(tasks));
-    int ans = 0;
+    ll ans = 0;
     ll time = 0;
     for(int i = 0 ; i < n ; i ++){
         time+=tasks[i].first;

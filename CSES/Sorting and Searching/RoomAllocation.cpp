@@ -32,25 +32,30 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
-typedef pair<pii,int> cust;
+struct cust{
 
-struct CompareItems {
-    bool operator()(const cust& a, const cust& b) const {
-        if(a.first.first == b.first.first){
-            return a.first.second < b.first.second;
+    int t,op,id;
+
+    cust(int t, int op , int id) : t(t), op (op) , id (id) {}
+
+    bool operator<(cust c) const{
+        if(this->t == c.t){
+            return op < c.op;
         }
-        return a.first.first > b.first.first;
+        return this->t > c.t;
     }
 };
+
+
 
 int main() {
     optimize;
     int n; cin >> n;
-    priority_queue<cust,vector<cust>,CompareItems> pq;
+    priority_queue<cust> pq;
     for(int i =0; i < n;i++){
         int a,b; cin >> a >> b;
-        pq.push({{a,0},i});
-        pq.push({{b,1},i});
+        pq.emplace(a,0,i);
+        pq.emplace(b,1,i);
     }
     int curr = 0;
     int ans = 0;
@@ -58,9 +63,7 @@ int main() {
     rooms.flip();
     unordered_map<int,int> w;
     while(!pq.empty()){
-        auto [x,id] = pq.top();
-        auto [t,op] = x;
-        t = -t;
+        auto [x,op,id] = pq.top();
         pq.pop();
         if(op == 1){
             int r = w[id];
