@@ -1,10 +1,8 @@
-//
-// Created by Luis on 06/09/2023.
-//
 //Template By eduardocesb
-#include <bits/stdc++.h>
+#include <iostream>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
+#include <cmath>
 
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
@@ -17,6 +15,7 @@
 #define ld long double
 #define pii pair<int,int>
 #define vi vector<int>
+#define vb vector<bool>
 #define vii vector<pii>
 #define os_type int
 #define PB push_back
@@ -34,9 +33,30 @@ using namespace __gnu_pbds;
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
 
-int main(int argc, char **argv) {
-    //optimize;
-
+int main() {
+    optimize;
+    int n, q;
+    cin >> n >> q;
+    vi nums(n);
+    for (auto &x: nums) cin >> x;
+    while (q--) {
+        int val;
+        cin >> val;
+        int l = 0, r = n - 1;
+        int ans = -1;
+        while (l <= r) {
+            int m = (l + r) / 2;
+            if (val == nums[m]) {
+                ans = m;
+                r = m - 1;
+            } else if (val > nums[m]) {
+                l = m + 1;
+            } else {
+                r = m - 1;
+            }
+        }
+        cout << ans << endl;
+    }
     return 0;
 }
 
