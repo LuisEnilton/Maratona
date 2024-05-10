@@ -32,11 +32,50 @@ using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
-
+string s;
+int n;
+vector<vi > ps;
+bool check(int m){
+    for(int i = 0 ; i < 26;i++){
+        bool ok = true;
+        //0abc
+        for(int j = 1; j - 1<= n -m ;j++){
+            int q = ps[i][j + m - 1] - ps[i][j - 1];
+            if(q == 0){
+                ok = false;
+                break;
+            }
+        }
+        if(ok) return true;
+    }
+    return false;
+}
 
 int main() {
     optimize;
+    cin >> s;
+    n = s.size();
+    ps = vector<vi >(26, vi(n + 1));
 
+    for (int i = 1; i <= n; i++) {
+        int idx = s[i - 1] - 'a';
+        ps[idx][i] = 1;
+        for (int j = 0; j < 26; j++) {
+            ps[j][i]+= ps[j][i - 1];
+        }
+    }
+    int ans;
+    int l = 1 , r = n;
+    while(l<=r){
+        int m = (l+r)/2;
+        if(check(m)){
+            ans = m;
+            r = m-1;
+        }else{
+           l =  m + 1;
+        }
+    }
+    cout << ans << endl;
     return 0;
 }
 

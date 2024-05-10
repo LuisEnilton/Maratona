@@ -6,6 +6,7 @@
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
 
+#define int long long
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
@@ -33,10 +34,35 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
+int n, t;
+vi ma;
 
-int main() {
+bool check(int m){
+    int total = 0;
+    for(auto x : ma){
+        total += (m/x);
+        if (total >=t) return true;
+    }
+    return false;
+}
+
+signed main() {
     optimize;
-
+    cin >> n >> t;
+    ma.resize(n);
+    for (auto &x: ma) cin >> x;
+    int l = 0, r = INFLL;
+    int ans = 0;
+    while (l <= r) {
+        auto m = (l + r)/2;
+        if(check(m)){
+            ans = m;
+            r = m-1;
+        }else{
+            l = m + 1;
+        }
+    }
+    cout << ans << endl;
     return 0;
 }
 
