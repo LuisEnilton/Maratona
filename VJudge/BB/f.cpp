@@ -32,10 +32,48 @@ using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
+int n, c;
+vi nums;
 
+bool check(ll m) {
+    int q = 1; // eu sempre coloco no primeiro
+    auto curr = nums.begin();
+    while (true) {
+        auto it = lower_bound(ALL(nums), *curr + m);
+        if (it == nums.end()) return false; // n consegui achar
+        q++;
+        if (q == c) return true;
+        curr = it;
+    }
+    return false;
+}
+
+void solve() {
+    cin >> n >> c;
+    nums = vi(n);
+    for (auto &x: nums) cin >> x;
+    sort(ALL(nums));
+    ll l = 1, r = 10e9 + 10;
+    ll ans;
+    while (l <= r) {
+        auto m = (l + r) / 2;
+        if (check(m)) {
+            ans = m;
+            l = m + 1;
+        } else {
+            r = m - 1;
+        }
+    }
+    cout << ans << endl;
+}
 
 int main() {
     optimize;
+    int t;
+    cin >> t;
+    while (t--) {
+        solve();
+    }
     return 0;
 }
 

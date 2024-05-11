@@ -36,6 +36,26 @@ using namespace __gnu_pbds;
 
 int main() {
     optimize;
+    freopen("maxcross.in", "r", stdin);
+    freopen("maxcross.out", "w", stdout);
+    int n,k,b; cin >> n >> k >> b;
+    vector<bool> ac(n,true);
+    while(b--){
+        int pos; cin >> pos;
+        ac[pos] = false;
+    }
+    vi ps(n + 1);
+    ps[0] = 0;
+    for(int i = 1; i <=n;i++){
+        ps[i] += ac[i];
+        ps[i] += ps[i - 1];
+    }
+    int ans = INF;
+    for(int i = 1; i + k - 1 <= n;i++){
+        int q = ps[i + k -1] - ps[i - 1];
+        ans = min(ans , (k) - q);
+    }
+    cout << ans << endl;
     return 0;
 }
 

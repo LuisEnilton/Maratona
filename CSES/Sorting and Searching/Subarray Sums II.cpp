@@ -36,6 +36,18 @@ using namespace __gnu_pbds;
 
 int main() {
     optimize;
+    int n,x; cin >> n >> x;
+    ll sum = 0;
+    map<ll,int> freq;
+    freq[0] = 1;
+    ll ans = 0;
+    for(int i = 0; i < n;i++){
+        ll val; cin >> val;
+        sum+=val;
+        ans+= freq[sum - x];
+        freq[sum]++;
+    }
+    cout << ans << endl;
     return 0;
 }
 

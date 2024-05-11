@@ -36,6 +36,37 @@ using namespace __gnu_pbds;
 
 int main() {
     optimize;
+    int n;
+    cin >> n;
+    map<ll,int> freq, q;
+    ll sum = 0;
+    freq[0] = 1;
+    ll ans = 0;
+    for (int i = 1; i <= n; i++) {
+        ll x; cin >> x;
+        sum+=x;
+        ll mod;
+        if(sum < 0){
+            //((a%n)+n)%n
+            mod = ((sum % n) + n) %n;
+        }else{
+            mod = sum % n;
+        }
+        ans+= freq[mod];
+        freq[mod]++;
+        q[sum]++;
+    }
+    cout << ans << endl;
     return 0;
 }
 
+/*
+  5
+  5 3 7 -3 -7
+0 5 8 15 12 5
+
+ 5
+ 0 0 0 0 0
+ 6
+ 2 1 -3 2 -7 7
+ * */
