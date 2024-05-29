@@ -5,7 +5,7 @@
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-
+#define int long long
 #define optimize                 \
     ios::sync_with_stdio(false); \
     cin.tie(NULL);               \
@@ -36,34 +36,24 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type, less<os_type>, rb_tree_tag, tree_order_statistics_node_update>
 
-int main()
+signed main()
 {
     optimize;
-    int n; cin >> n;
-    vi nums(n);
-    int sum = 0;
-    for(auto &x : nums){
-        cin >> x;
-        sum+=x;
-    } 
-    int dif = sum/n;
-    sort(ALL(nums));
-    //cout << dif << endl;
-    int d = 0,r = 0;
-    for(auto x : nums){
-        if(x < dif){
-            r += abs(x - dif);
-        }else{
-            d+= abs(x - dif);
+    ll k;
+    int n; cin >> n >> k;
+    vector<bool> marked(n + 1,false);
+    vi ans;
+    for(int i = n;i>0;i--){
+        if(i -1 <= k){
+            k-= (i - 1);
+            marked[i] = true;
+            ans.PB(i);
         }
     }
-    //cout << d << " " << r << endl;
-    cout << min(d,r) << endl;
+    for(int i = 1; i <=n;i++){
+        if(!marked[i]) ans.PB(i);
+    }
+    for(auto x : ans) cout << x << " ";
+    cout << endl;
     return 0;
 }
-
-// 1 2 3 4 5
-// 2 5 1 4 3 - 11
-// 3 5 2 4 1 -
-
-// 1 2 3 2 3 4 3 1 4
