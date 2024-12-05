@@ -35,7 +35,7 @@ using namespace __gnu_pbds;
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
 // 0 até n-1
-map<int,ll> mapa;
+unordered_map<int,ll> mapa;
 void compressor(vector<int>& a){
     int n = a.size();
     vector<pair<int, int>> pairs(n);
@@ -43,11 +43,11 @@ void compressor(vector<int>& a){
         pairs[i] = {a[i], i};
     }
     sort(pairs.begin(), pairs.end());
-    int nxt = 0;
+    int nxt = 0; // MUDAR PRA 1 pra ficar 1-Indexado
     for(int i = 0; i < n; ++i) {
         if(i > 0 && pairs[i-1].first != pairs[i].first) nxt++;
         a[pairs[i].second] = nxt;
-        //mapa[nxt] = pairs[i].first;
+        mapa[nxt] = pairs[i].first;
     }
 }
 
