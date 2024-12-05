@@ -30,35 +30,55 @@
 #define MAXL 23
 #define EPS 1e-9
 #define endl '\n'
-
+#define int ll
 using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type, less<os_type>, rb_tree_tag, tree_order_statistics_node_update>
 
-int main()
-{
-    optimize;
-    int n; cin >> n;
-    vi nums(n);
-    int sum = 0;
-    for(auto &x : nums){
-        cin >> x;
-        sum+=x;
-    } 
-    int dif = sum/n;
-    sort(ALL(nums));
-    //cout << dif << endl;
-    int d = 0,r = 0;
-    for(auto x : nums){
-        if(x < dif){
-            r += abs(x - dif);
-        }else{
-            d+= abs(x - dif);
+int m[MAXN][MAXL];
+
+// Funciona pra Min, Max e GCD
+
+int n;
+
+void precalc(vi &a) {
+    int n = a.size();
+    // O primeiro nivel são os numeros lidos no input
+    for (int i = 0; i < n; i++)
+        m[i][0] = a[i];
+
+    for (int k = 1; k < MAXL; k++) {
+        for (int i = 0; i + (1 << k) - 1 < n; i++) {
+            m[i][k] = gcd(m[i][k - 1], m[i + (1 << (k - 1))][k - 1]);
         }
     }
-    //cout << d << " " << r << endl;
-    cout << min(d,r) << endl;
+}
+
+int query(int l, int r) {
+    if (l == n || r ==  -1) return 0;
+    // RODAR O PRECALC
+    int j = __builtin_clz(1) - __builtin_clz(r - l + 1);
+
+    return gcd(m[l][j], m[r - (1 << j) + 1][j]);
+}
+
+
+signed main() {
+    optimize;
+    cin >> n;
+    vi a(n);
+    for (auto &x: a) cin >> x;
+    precalc(a);
+    int ans = 0;
+    for (int i = 0; i < n; i++) {
+        int gcdLeft = query(0, i - 1);
+        int gcdRight = query(i + 1, n - 1);
+        ans = max(ans, gcd(gcdLeft, gcdRight));
+    }
+
+    cout << ans << endl;
+
     return 0;
 }
 

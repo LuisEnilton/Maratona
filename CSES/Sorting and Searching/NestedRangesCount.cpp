@@ -26,138 +26,138 @@
 #define MAXL 23
 #define EPS 1e-9
 #define endl '\n'
-
+#define int ll
 using namespace std;
 using namespace __gnu_pbds;
 
 #define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 typedef pair<pii, int> rng;
 
+struct Range {
+    int l{}, r{}, id{};
+
+    Range(int l, int r, int id) {
+        this->l = l;
+        this->r = r;
+        this->id = id;
+    }
+
+    Range() {
+    };
+
+    bool operator<(const Range &rng) const {
+        if (r == rng.r) {
+            return l > rng.l;
+        }
+        return r < rng.r;
+    }
+};
+
+bool pred(Range &a, Range &b) {
+    if (a.r == b.r) {
+        return a.l < b.l;
+    }
+    return a.r > b.r;
+}
+
+
 int bit[MAXN];
 int arr[MAXN];
 
-void upd(int x, ll v){
-    while(x < MAXN){
+void upd(int x, ll v) {
+    while (x < MAXN) {
         bit[x] += v;
         x += (x & -x);
     }
 }
 
-ll qry(int x){
+ll qry(int x) {
     ll ret = 0;
 
-    while(x > 0){
+    while (x > 0) {
         ret += bit[x];
         x -= (x & -x);
     }
     return ret;
 }
 
-map<int,ll> mapa;
-void compressor(vector<int>& a){
+unordered_map<int,ll> mapa;
+
+void compressor(vector<int> &a) {
     int n = a.size();
-    vector<pair<int, int>> pairs(n);
-    for(int i = 0; i < n; ++i) {
+    vector<pair<int, int> > pairs(n);
+    for (int i = 0; i < n; ++i) {
         pairs[i] = {a[i], i};
     }
     sort(pairs.begin(), pairs.end());
     int nxt = 1;
-    for(int i = 0; i < n; ++i) {
-        if(i > 0 && pairs[i-1].first != pairs[i].first) nxt++;
+    for (int i = 0; i < n; ++i) {
+        if (i > 0 && pairs[i - 1].first != pairs[i].first) nxt++;
         a[pairs[i].second] = nxt;
         mapa[pairs[i].first] = nxt;
     }
 }
 
 
-int main() {
+signed main() {
     //optimize;
     int n;
     cin >> n;
-    vector<rng> v(n), v2(n);
+    vector<Range> rngs;
     vi ans(n);
-    ordered_set aux;
     vi a;
     for (int i = 0; i < n; i++) {
         int x, y;
         cin >> x >> y;
         a.PB(x);
         a.PB(y);
-        v[i] = {{x,-y},i};
-        v2[i] = {{y, -x },i};
+        rngs.EB(x, y, i);
     }
-    for(auto x : a){
+
+    /*for (auto x: a) {
         cout << x << " ";
     }
-    cout << endl;
+    cout << endl;*/
     UNIQUE(a);
-    for(auto x : a){
+    /*for (auto x: a) {
         cout << x << " ";
     }
-    cout << endl;
+    cout << endl;*/
     compressor(a);
-    for(auto x : a){
+    /*for (auto x: a) {
         cout << x << " ";
     }
-    cout << endl;
-    sort(ALL(v));
-    sort(ALL(v2));
-    
+    cout << endl;*/
 
-    for(auto &[pa , id] : v){
-        auto &[x,y] = pa;
-        y = -y;
-        //cout << x << " " << mapa[x] << endl;
-        //cout << y << " " << mapa[y] << endl;
-        x = mapa[x];
-        y = mapa[y];
-
+    for (auto &[l,r,id]: rngs) {
+        l = mapa[l];
+        r = mapa[r];
     }
 
-    for(auto &[pa , id] : v2){
-        auto &[x,y] = pa;
-        y = -y;
-        //cout << x << " " << mapa[x] << endl;
-        //cout << y << " " << mapa[y] << endl;
-        x = mapa[x];
-        y = mapa[y];
-
-    }
-    //for(auto x : v){    cout << x.first.first << " " << x.first.second << endl;}
-    for(int i = n-1;i>=0;i--){
-        auto [x,id] = v[i];
-        auto [start,end] = x;
-        end = end;
-
-        auto q  = qry(end );
+    sort(ALL(rngs));
+    // Ordena pelo menor R, para uma posição i. Os ranges contidos neles são os que tem l maior ou =  do que o atual
+    for (auto [l,r,id]: rngs) {
+        int q = qry(r) - qry(l - 1);
         ans[id] = q;
-
-        upd(end,1);
+        upd(l, 1);
     }
 
-
-
-    for(int i = 0; i < n;i++){
-        cout << ans[i] << " ";
-    }
-    aux.clear();
+    for (auto x: ans) cout << x << " ";
     cout << endl;
-    fill(bit,bit + MAXN,0);
-    for(int i = n-1; i >=0;i--){
-        auto [x,id] = v2[i];
-        auto [end,start] = x;
-        start = start;
 
-        auto q = qry(start );
-        ans[id] = q;
+    sort(ALL(rngs), pred);
 
-        upd(start,1);
+    fill(bit, bit + MAXN, 0);
+
+    // Ordena pelo maior R, para uma posição i.
+    // Os ranges que contém ele são os que tem l menor do que o atual
+    for (auto [l,r,id]: rngs) {
+        ans[id] = qry(l);
+
+        upd(l, 1);
     }
 
-    for(int i = 0; i < n;i++){
-        cout << ans[i] << " ";
-    }
+    for (auto x: ans) cout << x << " ";
     cout << endl;
     return 0;
 }
-

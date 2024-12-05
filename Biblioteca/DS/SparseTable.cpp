@@ -26,6 +26,7 @@ void precalc(vi &a)
 
 int query(int l, int r)
 {
+   // RODAR O PRECALC
     int j = __builtin_clz(1) - __builtin_clz(r - l + 1);
 
     return min(m[l][j], m[r - (1 << j) + 1][j]);
