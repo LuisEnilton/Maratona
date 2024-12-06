@@ -7,9 +7,9 @@
 #include <ext/pb_ds/tree_policy.hpp>
 
 #define optimize                 \
-    ios::sync_with_stdio(false); \
-    cin.tie(NULL);               \
-    cout.tie(NULL)
+ios::sync_with_stdio(false); \
+cin.tie(NULL);               \
+cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
 #define ALL(x) x.begin(), x.end()
@@ -21,7 +21,6 @@
 #define pii pair<int, int>
 #define vi vector<int>
 #define vii vector<pii>
-#define vb vector<bool>
 #define os_type int
 #define PB push_back
 #define EB emplace_back
