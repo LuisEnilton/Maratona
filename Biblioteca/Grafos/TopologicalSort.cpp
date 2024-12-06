@@ -2,7 +2,7 @@
 // Created by Luis on 14/11/2023.
 //
 #include <bits/stdc++.h>
-#define ll lowng lowng
+#define ll long long
 #define pii pair<int,int>
 #define INF 0x3f3f3f3f
 #define MAXN 10e5 + 10
