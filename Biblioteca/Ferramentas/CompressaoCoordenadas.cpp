@@ -52,8 +52,6 @@ void compressor(vector<int>& a){
 }
 
 
-
-
 int main() {
     optimize;
     vi a = {1,5,3,7,2};

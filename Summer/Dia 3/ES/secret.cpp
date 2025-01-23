@@ -18,7 +18,7 @@ void precalc(vi &a) {
 
     for (int k = 1; k < MAXL; k++) {
         for (int i = 0; i + (1 << k) - 1 < n; i++) {
-            m[i][k] = (m[i][k - 1] + m[i + (1 << (k - 1))][k - 1]);
+            m[i][k] = min(m[i][k - 1], m[i + (1 << (k - 1))][k - 1]);
         }
     }
 }
@@ -30,20 +30,15 @@ signed query(int l, int r) {
     return min(m[l][j], m[r - (1 << j) + 1][j]);
 }
 
-// O(log)
-int sum_query(int l, int r) {
-    // 0-indexed
-    int ans = 0;
-    for (int j = MAXL - 1; j >= 0; j--) {
-        if (l + (1 << j) - 1 <= r) {
-            ans = ans + m[l][j];
 
-            // instead of having L', we
-            // increment L directly
-            l += 1 << j;
+int sum_query(int l, int r) {
+    int sum = 0;
+    for (int i = MAXL; i >= 0; i--) {
+        if ((1 << i) <= r - l + 1) {
+            sum += m[i][l];
+            l += (1 << i);
         }
     }
-    return ans;
 }
 
 signed main() {
@@ -58,7 +53,7 @@ signed main() {
     while (q--) {
         int l, r;
         cin >> l >> r;
-        cout << sum_query(l, r) << endl;
+        cout << query(l, r) << endl;
     }
 
     return 0;

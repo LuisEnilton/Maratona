@@ -1,8 +1,10 @@
+//
+// Created by Luis on 06/09/2023.
+//
 //Template By eduardocesb
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-#include <cmath>
 
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
@@ -34,6 +36,7 @@ using namespace __gnu_pbds;
 
 int main() {
     optimize;
+    int n; cin >> n;
     return 0;
 }
 

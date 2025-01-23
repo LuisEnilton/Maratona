@@ -40,5 +40,15 @@ include_directories("LeetCode/931. Minimum Falling Path Sum")
 add_executable(new_targetj a.cpp)
 add_executable(new_target1 "Codeforces/4C - Registration system/solution.cpp")
 
-add_executable(a Codeforces/Div4-971/g.cpp)
-add_executable(b "CSES/Sorting and Searching/NestedRangesCount.cpp")
+add_executable(a Codeforces/Div4-971/g.cpp
+        "Summer/Dia 2/f.cpp"
+        "Summer/Dia 2/g.cpp"
+        "Summer/Dia 2/h.cpp"
+        Summer/Dia1/j.cpp
+        Summer/Dia1/c.cpp
+        Summer/Dia1/d.cpp
+        "Summer/Dia 3/l.cpp"
+        "Summer/Dia 3/ES/secret.cpp"
+        Biblioteca/DS/DisjointSparseTable.cpp)
+add_executable(b "CSES/Sorting and Searching/NestedRangesCount.cpp"
+        "CSES/Sorting and Searching/SlidingWindowMedian.cpp")
