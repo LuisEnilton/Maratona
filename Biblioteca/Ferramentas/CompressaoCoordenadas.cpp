@@ -5,7 +5,6 @@
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-#include <cmath>
 
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
@@ -48,6 +47,7 @@ void compressor(vector<int>& a){
         if(i > 0 && pairs[i-1].first != pairs[i].first) nxt++;
         a[pairs[i].second] = nxt;
         mapa[nxt] = pairs[i].first;
+        //mapa[pairs[i].first] = nxt; - Se tiver convertendo mais de um array usa isso
     }
 }
 
@@ -55,6 +55,8 @@ void compressor(vector<int>& a){
 int main() {
     optimize;
     vi a = {1,5,3,7,2};
+    sort(ALL(a));
+    UNIQUE(a);
     compressor(a);
     for(auto x : a) cout << x << " ";
     return 0;
