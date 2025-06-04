@@ -1,93 +1,70 @@
+//
+// Created by Luis on 06/09/2023.
+//
+//Template By eduardocesb
 #include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+
+#define optimize ios::sync_with_stdio(false); cin.tie(NULL);cout.tie(NULL);
+#define INF 1000000010
+#define ALL(x) x.begin(), x.end()
+#define ll long long
+#define pii pair<int,int>
+#define vi vector<int>
+#define PB push_back
+#define MAXN 3001
+#define int ll
+#define endl '\n'
+
 using namespace std;
-
-const int MAXN = 5*1e3 + 5;
-int memo[MAXN][MAXN];
-// memo é a tabela que guarda o maior LCS possivel naquele estado da dp
-// o estado é representado pela posição dos 2 ponteiros
-// o i e o j são dois ponteiros um pra cada string
-string s, t;
-
-// A ideia do algoritmo é que não importa o que aconteceu antes, dado os dois indices eu tenho que calcular o LCS
- // só daquele estado,
- // o resultado final é feito combinando os subproblemas
- // Repara que ele começa no indice 0, mas ele vai ser o ultimo a ser calculado pq é recursivo
+using namespace __gnu_pbds;
 
 
-inline int LCS(int i, int j)
-{
-    // se algum dos ponteiros passou do tamanho da string n da de fzer mais nada retorna 0
-    if(i == s.size() || j == t.size()) return 0;
 
-    // Se esse caso já foi calculado retorna
-    if(memo[i][j] != -1) return memo[i][j];
+pair<int,string> find_lcs(string & s, string & t){
+    int n = s.size();
+    int m = t.size();
 
-    //Se as duas letras forem iguais eu ando com os dois ponteiros ao msm tempo
-    // eu somo 1 pq eu aumentei o tamanho da substring
-    if(s[i] == t[j]) return memo[i][j] = 1 + LCS(i+1, j+1);
-    // Se as duas letras não forem iguais eu tenho que testar
-    // andar com as duas letras e pegar o maximo de cada uma
-    return memo[i][j] = max(LCS(i+1, j), LCS(i, j+1));
-}
+    vector<vi> dp(n + 1,vi(m + 1));
 
+    for(int i = 1; i <=n;i++){
+        for(int j = 1; j <=m;j++){
+            if(s[i - 1] == t[j - 1]){
+                dp[i][j] = dp[i - 1][j - 1] + 1;
+            }else{
+                dp[i][j] = max(dp[i - 1][j],dp[i][j - 1]);
+            }
 
-inline int LCS_It()
-{
-
-    for(int i=s.size()-1; i>=0; i--)
-        for(int j=t.size()-1; j>=0; j--)
-        {
-            if(s[i] == t[j])
-                memo[i][j] = 1 + memo[i+1][j+1];
-            else
-                memo[i][j] = max( memo[i+1][j], memo[i][j+1] );
         }
+    }
 
-    return memo[0][0];
+    int i = n ,j = m;
+    string ans;
+    while(i > 0 && j > 0){
+        if(s[i - 1] == t[j - 1]){
+            ans.PB(s[i - 1]);
+            i--;
+            j--;
+        }else if( dp[i - 1][j] >= dp[i][j - 1]){
+            i--;
+        }else{
+            j--;
+        }
+    }
+    reverse(ALL(ans));
+    return {dp[n][m],ans};
 }
 
 
-inline string RecoverLCS(int i, int j)
-{
-    if(i == s.size() || j == t.size()) return "";
-
-    if(s[i] == t[j]) return s[i] + RecoverLCS(i+1, j+1);
-
-    if(memo[i+1][j] > memo[i][j+1]) return RecoverLCS(i+1, j);
-
-    return RecoverLCS(i, j+1);
-}
-
-
-int main(){
+signed main() {
+    optimize;
+    string s,t;
     cin >> s >> t;
-
-    cerr << "Max size: " << LCS_It() << endl;
-
-    cout << RecoverLCS(0, 0) << endl;
+    
+    auto [val,ans] = find_lcs(s,t);
+    cout << ans << endl;
 
     return 0;
 }
 
-
-/****************************
-
-LCS - Longest Common Subsequence
-
-Complexity: O(N^2)
-
-* Recursive:
-memset(memo, -1, sizeof memo);
-LCS(0, 0);
-
-* Iterative:
-LCS_It();
-
-
-* RecoverLCS
-  Complexity: O(N)
-  Recover one of all the possible longest 
-  common subsequence.
-  Return a String.
-
-*****************************/
