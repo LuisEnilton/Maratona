@@ -35,7 +35,7 @@ using namespace __gnu_pbds;
 
 struct SegTree {
     int n;
-    vector<ll> nums;
+    vector<ll> arr;
     vector<ll> seg;
     ll NEUTRO = 0;
     //  vetor 0- indexado
@@ -43,7 +43,7 @@ struct SegTree {
     SegTree(vector<ll> &nums) {
         n = nums.size();
         seg.resize(4 * n);
-        this->nums = nums;
+        this->arr = nums;
 
         build(1, 1, n);
     }
@@ -54,7 +54,7 @@ struct SegTree {
 
     void build(int no, int l, int r) {
         if (l == r) {
-            seg[no] = nums[l-1];
+            seg[no] = arr[l-1];
             return;
         }
 
@@ -108,19 +108,19 @@ int main(int argc, char **argv) {
     for(auto &x: nums){
         cin >> x;
     }
-    auto *seg = new SegTree(nums);
+    auto seg = SegTree(nums);
     while(m--){
         int op; cin >> op;
         if(op == 1){
             int pos; cin >> pos;
             pos++;
             ll val; cin >> val;
-            seg->update(1,1,n,pos,val);
+            seg.update(1,1,n,pos,val);
         }else{
             int l,r;
             cin >> l >> r;
             l++, r++;
-            cout << seg->query(1,1,n,l,r-1) << endl;
+            cout << seg.query(1,1,n,l,r-1) << endl;
         }
     }
     return 0;
