@@ -3,44 +3,28 @@
 //
 //Template By eduardocesb
 #include <bits/stdc++.h>
-#include <ext/pb_ds/assoc_container.hpp>
-#include <ext/pb_ds/tree_policy.hpp>
-
 #define optimize ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define INF 1000000010
 #define INFLL 1000000000000000010LL
 #define ALL(x) x.begin(), x.end()
-#define UNIQUE(c) (c).resize(unique(ALL(c)) - (c).begin())
-#define REP(i, a, b) for(int i = (a); i <= (b); i++)
-#define POS(n, x) (lower_bound(ALL(n), x) - (n).begin())
 #define ll long long
-#define ld long double
-#define pii pair<int,int>
 #define vi vector<int>
-#define vii vector<pii>
-#define os_type int
 #define PB push_back
 #define EB emplace_back
-#define MOD 1000000007
-#define PRIME 101
 #define MAXN 1010101
-#define MAXL 23
-#define EPS 1e-9
 #define endl '\n'
-
+#define int ll
 using namespace std;
-using namespace __gnu_pbds;
 
-#define ordered_set tree<os_type, null_type,less<os_type>, rb_tree_tag,tree_order_statistics_node_update>
 
 struct SegTree {
     int n;
-    vector<ll> arr;
-    vector<ll> seg;
-    ll NEUTRO = 0;
+    vi arr;
+    vi seg;
+    int NEUTRO = 0;
     //  vetor 0- indexado
     // querie 1 indexado
-    SegTree(vector<ll> &nums) {
+    SegTree(vi &nums) {
         n = nums.size();
         seg.resize(4 * n);
         this->arr = nums;
@@ -48,7 +32,7 @@ struct SegTree {
         build(1, 1, n);
     }
 
-    ll join(ll a, ll b) {
+    int join(int a, int b) {
         return a + b;
     }
 
@@ -66,7 +50,7 @@ struct SegTree {
         seg[no] = join(seg[e], seg[d]);
     }
 
-    void update(int no, int l, int r, int pos, ll val) {
+    void update(int no, int l, int r, int pos, int val) {
         if (r < pos || l > pos) {
             return;
         }
@@ -85,7 +69,7 @@ struct SegTree {
         seg[no] = join(seg[e], seg[d]);
     }
 
-    ll query(int no, int l, int r, int a, int b) {
+    int query(int no, int l, int r, int a, int b) {
         if (r < a || l > b) {
             return NEUTRO;
         }
@@ -104,7 +88,7 @@ struct SegTree {
 int main(int argc, char **argv) {
     optimize;
     int n,m; cin >> n >> m;
-    vector<ll> nums(n);
+    vi nums(n);
     for(auto &x: nums){
         cin >> x;
     }
