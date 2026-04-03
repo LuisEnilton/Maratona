@@ -14,7 +14,6 @@
 #define pii pair<int,int>
 #define vi vector<int>
 #define vb vector<bool>
-#define BT bitset<500> 
 #define vii vector<pii>
 #define os_type int
 #define PB push_back
@@ -22,6 +21,7 @@
 #define MOD 1000000007
 #define MAXN 1010101
 #define int ll
+#define dbg(x) cout << #x << " " << x << endl;
 #define endl '\n'
 
 using namespace std;
