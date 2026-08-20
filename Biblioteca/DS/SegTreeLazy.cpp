@@ -1,137 +1,145 @@
 // By SamuellH12
 #include <bits/stdc++.h>
-
+#define optimize                 \
+    ios::sync_with_stdio(false); \
+    cin.tie(NULL);               \
+    cout.tie(NULL)
 using namespace std;
 #define vi vector<int>
 #define ll long long
 const int MAXN = 1e6 + 5;
+#define int ll
 
-
-struct SegTree {
-
-    vector<ll> seg, lazy, nums;
-    int n;
-    ll NEUTRO = 0;
-
-    SegTree(vector<ll> &nums) {
-        n = nums.size();
-        seg.resize(4 * n);
-        lazy.resize(4 * n);
-
-        this->nums = nums;
-
-        build(1, 1, n, nums);
-    }
-
-    ll join(ll a, ll b) {
-        return a + b;
-    }
-
-    void unlazy(int no, int l, int r) {
-        if (lazy[no] == 0) return;
-
-        int m = (l + r) >> 1, e = no * 2, d = no * 2 + 1;
-
-        seg[no] += (r - l + 1) * lazy[no];
-
-        if (l != r) {
-            lazy[e] += lazy[no];
-            lazy[d] += lazy[no];
+struct Tag {
+    int val = 0;
+    bool op = false;
+    
+    Tag() {}
+    
+    Tag(int _val, bool _op) : val(_val), op(_op) {}
+    
+    void compose(const Tag& t) {
+        if (t.op) {
+            op = 1;
+            val = t.val;
+        }else{
+            val += t.val;
         }
-
-        lazy[no] = NEUTRO;
-    }
-
-    ll query(int no, int l, int r, int a, int b) {
-        unlazy(no, l, r);
-        if (b < l || r < a) return NEUTRO;
-        if (a <= l && r <= b) return seg[no];
-
-        int m = (l + r) >> 1, e = no * 2, d = no * 2 + 1;
-
-        return query(e, l, m, a, b) + query(d, m + 1, r, a, b);
-    }
-
-    void update(int no, int l, int r, int a, int b, ll v) {
-        unlazy(no, l, r);
-        if (b < l || r < a) return;
-        if (a <= l && r <= b) {
-            lazy[no] += v;
-            unlazy(no, l, r);
-            return;
-        }
-
-        int m = (l + r) >> 1, e = no * 2, d = no * 2 + 1;
-
-        update(e, l, m, a, b, v);
-        update(d, m + 1, r, a, b, v);
-
-        seg[no] = join(seg[e], seg[d]);
-    }
-
-
-    void build(int no, int l, int r, vector<ll> &lista) {
-        if (l == r) {
-            seg[no] = lista[l - 1];
-            return;
-        }
-
-        int m = (l + r) >> 1, e = no * 2, d = no * 2 + 1;
-
-        build(e, l, m, lista);
-        build(d, m + 1, r, lista);
-
-        seg[no] = join(seg[e], seg[d]);
     }
 };
 
+struct Node {
+    ll val = 0;
+    
+    Node(ll v = 0) : val(v) {}
+    
+    static Node join(const Node& l, const Node& r) {
+        return Node(l.val + r.val); 
+    }
+    
+    void apply(const Tag& t, int l, int r) {
+        ll len = r - l + 1;
+        if (t.op) {
+            val = t.val * len;
+            return; 
+        }
+        val += t.val * len; 
+    }
+};
 
-int main() {
-    //https://codeforces.com/edu/course/2/lesson/5/1/practice/contest/279634/problem/A
-    int n, m;
-    cin >> n >> m;
-    vector<ll> nums(n, 0);
-    SegTree seg(nums);
-    while (m--) {
+template <typename NODE, typename TAG>
+struct SegTreeLazy {
+    int N; vector<NODE> seg; vector<TAG> lazy;
+    
+    template <typename T>
+    SegTreeLazy(const vector<T>& arr) : N(arr.size()), seg(4 * N), lazy(4 * N) { build(1, 1, N, arr); }
+
+    template <typename T>
+    void build(int p, int l, int r, const vector<T>& arr) {
+        if (l == r) return void(seg[p] = NODE(arr[l - 1]));
+        int m = (l + r) >> 1;
+        build(p << 1, l, m, arr); build(p << 1 | 1, m + 1, r, arr);
+        seg[p] = NODE::join(seg[p << 1], seg[p << 1 | 1]);
+    }
+
+    void push(int p, int l, int r) {
+        int m = (l + r) >> 1, e = p << 1, d = e | 1;
+        seg[e].apply(lazy[p], l, m); lazy[e].compose(lazy[p]);
+        seg[d].apply(lazy[p], m + 1, r); lazy[d].compose(lazy[p]);
+        lazy[p] = TAG();
+    }
+
+    void update(int p, int l, int r, int a, int b, const TAG& v) {
+        if (b < l || r < a) return;
+        if (a <= l && r <= b) { seg[p].apply(v, l, r); lazy[p].compose(v); return; }
+        push(p, l, r); int m = (l + r) >> 1;
+        update(p << 1, l, m, a, b, v); update(p << 1 | 1, m + 1, r, a, b, v);
+        seg[p] = NODE::join(seg[p << 1], seg[p << 1 | 1]);
+    }
+
+    NODE query(int p, int l, int r, int a, int b) {
+        if (b < l || r < a) return NODE();
+        if (a <= l && r <= b) return seg[p];
+        push(p, l, r); int m = (l + r) >> 1;
+        return NODE::join(query(p << 1, l, m, a, b), query(p << 1 | 1, m + 1, r, a, b));
+    }
+
+    void update(int l, int r, const TAG& v) { update(1, 1, N, l, r, v); }
+    NODE query(int l, int r) { return query(1, 1, N, l, r); }
+};
+
+
+void solve()
+{
+    // https://cses.fi/problemset/task/1735
+    int n, q;
+    cin >> n >> q;
+    vi a(n);
+    for (auto &x : a)
+        cin >> x;
+    SegTreeLazy<Node, Tag> seg(a);
+
+    while (q--)
+    {
         int op;
         cin >> op;
-        if (op == 1) {
+        // dbg(op);
+        if (op == 1)
+        {
+            int l, r, v;
+            cin >> l >> r >> v;
+            auto tag = Tag(v,0);
+            seg.update(l, r, tag);
+        }
+        if (op == 2)
+        {
+            int l, r, v;
+            cin >> l >> r >> v;
+
+            auto tag = Tag(v,1);
+
+            seg.update(l, r, tag);
+        }
+        if (op == 3)
+        {
             int l, r;
             cin >> l >> r;
-            l++;
-            ll x;
-            cin >> x;
-            seg.update(1, 1, n, l, r, x);
-        } else {
-            int pos;
-            cin >> pos;
-            pos++;
-            cout << seg.query(1, 1, n, pos, pos) << endl;
+            int ans = seg.query(l, r).val;
+            cout << ans << endl;
         }
+    }
+}
+
+signed main()
+{
+    optimize;
+
+    int t = 1;
+    // cin >> t;
+    for (int i = 1; i <= t; i++)
+    {
+
+        solve();
     }
     return 0;
 }
-
-/******************************************************
-
--> Segment Tree - Lazy Propagation com:
-	- Query em Range
-	- Update em Range
-
--> Chamadas padrão:
-	build(1, 1, n, lista);
-	query(1, 1, n, a, b);
-	update(1, 1, n, a, b, x);
-
--> Em que:
-|   n    | o tamanho máximo da lista
-| [a, b] | o intervalo da busca ou update
-|   x    | o novo valor a ser somada no intervalo [a, b]
-| lista  | o array de elementos originais
-
-Build:  O(N)
-Query:  O(log N)
-Update: O(log N)
-Unlazy: O(1)
-
-*******************************************************/
